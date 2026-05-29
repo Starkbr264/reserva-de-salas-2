@@ -96,6 +96,7 @@
 @media (max-width: 768px) {
   .stats.s4, .stats.s3 { grid-template-columns: 1fr 1fr; }
 }
+<<<<<<< HEAD
 
 /* ── Dark mode: component icon + badge contrast ────────────── */
 [data-theme="dark"] .stat-icon,
@@ -199,3 +200,5 @@
     justify-content: flex-start;
   }
 }
+=======
+>>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4

@@ -209,7 +209,11 @@ function renderTabelaReservas() {
     const turma = r.turmaId ? turmas.find(t => t.id === r.turmaId) : null;
     const diasStr = r.diasSemana.map(d => d.toUpperCase()).join(', ');
     const isAtiva = r.status === 'ATIVA';
+<<<<<<< HEAD
     const turmaLabel = r.avulsa ? '<span class="badge badge-warning">Sem turma</span>' : (turma ? escapeHtml(turma.nome) : '<em>Turma removida</em>');
+=======
+    const turmaLabel = r.avulsa ? '<span class="badge badge-warning">Avulsa</span>' : (turma ? escapeHtml(turma.nome) : '<em>Turma removida</em>');
+>>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
 
     return `
       <tr>
@@ -268,7 +272,11 @@ function _renderTabelaReservasFiltrada() {
     const turma = r.turmaId ? turmas.find(t => t.id === r.turmaId) : null;
     const diasStr = r.diasSemana.map(d => d.toUpperCase()).join(', ');
     const isAtiva = r.status === 'ATIVA';
+<<<<<<< HEAD
     const turmaLabel = r.avulsa ? '<span class="badge badge-warning">Sem turma</span>' : (turma ? escapeHtml(turma.nome) : '<em>Turma removida</em>');
+=======
+    const turmaLabel = r.avulsa ? '<span class="badge badge-warning">Avulsa</span>' : (turma ? escapeHtml(turma.nome) : '<em>Turma removida</em>');
+>>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
     return `
       <tr>
         <td><strong>${sala ? escapeHtml(sala.nome) : '<em>Sala removida</em>'}</strong></td>

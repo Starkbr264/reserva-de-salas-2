@@ -31,6 +31,7 @@
 .btn-warning:hover { background: var(--amber); color: #fff; }
 
 .btn-ghost   { background: transparent; border: 1px solid var(--border2); color: var(--text2); }
+<<<<<<< HEAD
 .btn-ghost:hover   { background: var(--surface2); color: var(--text); border-color: var(--primary); }
 
 /* Botão de atualizar — estilo dedicado */
@@ -70,6 +71,9 @@
 @keyframes refresh-spin {
   to { transform: rotate(360deg); }
 }
+=======
+.btn-ghost:hover   { background: var(--surface2); color: var(--text); }
+>>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
 
 /* Tamanhos */
 .btn-sm { padding: 5px 12px; font-size: .78rem; }

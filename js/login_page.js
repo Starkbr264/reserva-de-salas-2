@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 window.addEventListener('DOMContentLoaded', async function() {
   await initDados();
   if (typeof initTema === 'function') initTema();
+=======
+window.addEventListener('DOMContentLoaded', function() {
+  initDados();
+  initTema();
+>>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
   seJaLogado();
   initLogo();
 
@@ -22,7 +28,11 @@ window.addEventListener('DOMContentLoaded', async function() {
     }
   })();
 
+<<<<<<< HEAD
   document.getElementById('fLogin').addEventListener('submit', async function(ev) {
+=======
+  document.getElementById('fLogin').addEventListener('submit', function(ev) {
+>>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
     ev.preventDefault();
     var email = document.getElementById('inpEmail').value.trim();
     var senha = document.getElementById('inpSenha').value;
@@ -35,6 +45,7 @@ window.addEventListener('DOMContentLoaded', async function() {
 
     if (!email || !senha) { erro('Preencha e-mail e senha.'); return; }
 
+<<<<<<< HEAD
     var u;
     try {
       u = await loginUser(email, senha);
@@ -44,6 +55,9 @@ window.addEventListener('DOMContentLoaded', async function() {
       document.getElementById('inpSenha').focus();
       return;
     }
+=======
+    var u = loginUser(email, senha);
+>>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
     if (!u) {
       erro('E-mail ou senha incorretos.');
       document.getElementById('inpSenha').value = '';

@@ -31,6 +31,7 @@
 .ch-info { flex: 1; }
 .ch-nome { font-weight: 600; color: var(--text);  font-size: .9rem; }
 .ch-det  { font-size: .78rem; color: var(--text2); margin-top: 2px; }
+<<<<<<< HEAD
 
 /* ── Estado com/sem responsável ── */
 .ch-com  { color: var(--warning, #e67e22) !important; font-weight: 500; }
@@ -53,3 +54,5 @@
 /* borda colorida lateral por estado */
 .chave-card.pega       { border-left: 4px solid var(--warning, #e67e22); }
 .chave-card.disponivel { border-left: 4px solid var(--success, #27ae60); }
+=======
+>>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4

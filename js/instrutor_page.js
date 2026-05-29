@@ -39,6 +39,7 @@ function _dataLiberacaoPorTurnos(salaId, data, turnos) {
   return fmtData(liberacao);
 }
 
+<<<<<<< HEAD
 function _turnosDaSalaSolic(salaId) {
   var sala = salaId ? getSalaById(parseInt(salaId)) : null;
   var turnos = sala ? (sala.turnos || sala.turnosDisponiveis || []) : [];
@@ -80,6 +81,12 @@ var _sess;
 
 window.addEventListener('DOMContentLoaded', async function() {
   await initDados(); requirePerfil('instrutor'); _sess = getSessao();
+=======
+var _sess;
+
+window.addEventListener('DOMContentLoaded', function() {
+  initDados(); requirePerfil('instrutor'); _sess = getSessao();
+>>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
   initSidebar(); initLogo(); ir('turmas'); _atualizarBadge();
 });
 
@@ -90,12 +97,21 @@ function ir(aba) {
   var pg=document.getElementById('pg-'+aba); if(pg){pg.classList.add('ativa');pg.style.display='block';}
   document.querySelectorAll('.sb-btn').forEach(function(b){b.classList.remove('ativo');});
   var btn=document.getElementById('nav-'+aba); if(btn)btn.classList.add('ativo');
+<<<<<<< HEAD
   var meta={turmas:{t:'Minhas Turmas',s:'Turmas atribuídas a você'},salas:{t:'Solicitar Sala',s:'Solicite uma sala disponível'},notifs:{t:'Notificações',s:'Avisos e respostas'},calendario:{t:'Calendário de Reservas',s:'Visualize suas reservas por data e turno'}};
   var m=meta[aba]||{}; document.getElementById('tbTitle').textContent=m.t||aba; document.getElementById('tbSub').textContent=m.s||'';
   if(aba==='turmas') rdTurmas();
   if(aba==='salas')  rdSalas();
   if(aba==='notifs') rdNotifs();
   if(aba==='calendario')  rdCalendario();
+=======
+  var meta={turmas:{t:'Minhas Turmas',s:'Turmas atribuídas a você'},salas:{t:'Solicitar Sala',s:'Solicite uma sala disponível'},chaves:{t:'Chaves',s:'Sinalizar retirada e devolução de chaves'},notifs:{t:'Notificações',s:'Avisos e respostas'}};
+  var m=meta[aba]||{}; document.getElementById('tbTitle').textContent=m.t||aba; document.getElementById('tbSub').textContent=m.s||'';
+  if(aba==='turmas') rdTurmas();
+  if(aba==='salas')  rdSalas();
+  if(aba==='chaves') rdChaves();
+  if(aba==='notifs') rdNotifs();
+>>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
 }
 
 function rdTurmas() {
@@ -155,6 +171,7 @@ function rdSalas() {
 }
 
 function abrirSolic(salaId) {
+<<<<<<< HEAD
   document.getElementById('slSalaId').value = salaId;
   var s = getSalaById(salaId);
   document.getElementById('slNome').textContent = s ? s.nome : '';
@@ -330,18 +347,67 @@ function verificarDisponibilidadeSolic() {
 
   var turnosVerif = turnos.length ? turnos : turnosSala;
   var conflitos = [], livres = [];
+=======
+  document.getElementById('slSalaId').value=salaId;
+  var s=getSalaById(salaId);
+  document.getElementById('slNome').textContent=s?s.nome:'';
+  document.getElementById('slData').value='';
+  document.getElementById('slMotivo').value='';
+  // Pré-seleciona os turnos disponíveis da sala
+  var turnsSala = s ? (s.turnos||s.turnosDisponiveis||[]) : [];
+  document.querySelectorAll('#slTurnosChips .chip').forEach(function(c){
+    c.classList.remove('ativo');
+    // se a sala tem turnos definidos, pré-marca os disponíveis
+    if(turnsSala.length && turnsSala.includes(c.dataset.v)) c.classList.add('ativo');
+  });
+  var erEl=document.getElementById('slTurnoErro');
+  if(erEl) erEl.style.display='none';
+  var divDisp = document.getElementById('slDisponibilidade');
+  if(divDisp) divDisp.style.display='none';
+  modalAbrir('modalSolic');
+}
+
+/* Verifica disponibilidade em tempo real ao selecionar data/turno */
+function verificarDisponibilidadeSolic() {
+  var salaId  = parseInt(document.getElementById('slSalaId').value);
+  var data    = document.getElementById('slData').value;
+  var divDisp = document.getElementById('slDisponibilidade');
+  var erEl    = document.getElementById('slTurnoErro');
+  if(!divDisp) return;
+  if(!data || !salaId) { divDisp.style.display='none'; return; }
+
+  var turnos = [].slice.call(document.querySelectorAll('#slTurnosChips .chip.ativo'))
+    .map(function(c){ return c.dataset.v; });
+
+  var p = data.split('-').map(Number);
+  var diaSem = ['dom','seg','ter','qua','qui','sex','sab'][new Date(p[0],p[1]-1,p[2]).getDay()];
+
+  // Verificar cada turno selecionado (ou todos se nenhum selecionado)
+  var turnosVerif = turnos.length ? turnos : ['Matutino','Vespertino','Noturno'];
+  var conflitos = [];
+  var livres    = [];
+>>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
 
   turnosVerif.forEach(function(turno) {
     var rs = getReservas().filter(function(r) {
       return r.salaId === salaId && r.turno === turno
+<<<<<<< HEAD
           && r.dataInicio <= dataFim && r.dataFim >= data
           && r.diasSemana && r.diasSemana.some(function(dia){ return diasVerif.indexOf(dia) !== -1; });
+=======
+          && r.dataInicio <= data && r.dataFim >= data
+          && r.diasSemana.includes(diaSem);
+>>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
     });
     var ocupado = rs.some(function(r) {
       var t = r.turmaId ? getTurmaById(r.turmaId) : null;
       return r.avulsa || (t && calcStatus(t) !== 'encerrada');
     });
     if (ocupado) {
+<<<<<<< HEAD
+=======
+      // Busca quando vai liberar
+>>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
       var maxFim = null;
       getReservas().filter(function(r){
         return r.salaId === salaId && r.turno === turno && r.dataFim >= data;
@@ -350,6 +416,7 @@ function verificarDisponibilidadeSolic() {
         if(t && calcStatus(t)==='encerrada') return;
         if(!maxFim || r.dataFim > maxFim) maxFim = r.dataFim;
       });
+<<<<<<< HEAD
       var lib = '';
       if (maxFim) {
         var pp = maxFim.split('-').map(Number);
@@ -357,12 +424,26 @@ function verificarDisponibilidadeSolic() {
         lib = ' \u2014 livre a partir de <strong>' + fmtData(dtF.toISOString().split('T')[0]) + '</strong>';
       }
       conflitos.push({ turno: turno, lib: lib });
+=======
+      var liberacaoStr = '';
+      if(maxFim) {
+        var dtFim = new Date(maxFim.split('-').map(Number).reduce(function(acc,v,i){
+          return i===0?new Date(v,0,1):acc; // placeholder
+        }, null));
+        var pp = maxFim.split('-').map(Number);
+        dtFim = new Date(pp[0], pp[1]-1, pp[2]);
+        dtFim.setDate(dtFim.getDate()+1);
+        liberacaoStr = ' &mdash; livre a partir de <strong>' + fmtData(dtFim.toISOString().split('T')[0]) + '</strong>';
+      }
+      conflitos.push({ turno: turno, liberacao: liberacaoStr });
+>>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
     } else {
       livres.push(turno);
     }
   });
 
   if (!conflitos.length && !livres.length) { divDisp.style.display='none'; return; }
+<<<<<<< HEAD
   var html = '';
   if (conflitos.length) {
     html += '<div style="color:var(--red);font-weight:600;margin-bottom:4px"><i class="ph ph-warning-circle"></i> Turno(s) ocupado(s):</div>';
@@ -372,6 +453,18 @@ function verificarDisponibilidadeSolic() {
   }
   if (livres.length && turnos.length) {
     html += '<div style="color:var(--green);font-weight:600;margin-top:'+(conflitos.length?'8px':'0')+'"><i class="ph ph-check-circle"></i> Dispon\xedvel:</div>';
+=======
+
+  var html = '';
+  if (conflitos.length) {
+    html += '<div style="color:var(--red);font-weight:600;margin-bottom:4px"><i class="ph ph-warning-circle"></i> Turno(s) ocupado(s) nesta data:</div>';
+    conflitos.forEach(function(c){
+      html += '<div style="margin-left:8px;color:var(--text2)"><i class="ph ph-lock"></i> <strong>'+c.turno+'</strong>'+c.liberacao+'</div>';
+    });
+  }
+  if (livres.length && turnos.length) {
+    html += '<div style="color:var(--green);font-weight:600;margin-top:'+(conflitos.length?'8px':'0')+'"><i class="ph ph-check-circle"></i> Disponível:</div>';
+>>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
     livres.forEach(function(t){
       html += '<div style="margin-left:8px;color:var(--text2)"><i class="ph ph-check"></i> <strong>'+t+'</strong></div>';
     });
@@ -382,6 +475,7 @@ function verificarDisponibilidadeSolic() {
     divDisp.style.cssText = 'display:block;padding:10px 14px;border-radius:8px;font-size:.83rem;line-height:1.7;background:var(--green-l);border:1px solid rgba(5,150,105,.25)';
   }
   divDisp.innerHTML = html;
+<<<<<<< HEAD
   if (erEl) erEl.style.display='none';
 }
 
@@ -546,6 +640,103 @@ function rdNotifs() {
       + '</div>';
   }).join('');
   marcarTodasLidas('instrutor', _uid()); _atualizarBadge();
+=======
+  if(erEl) erEl.style.display='none';
+}
+function _getTurnosSolic() {
+  return [].slice.call(document.querySelectorAll('#slTurnosChips .chip.ativo'))
+    .map(function(c){return c.dataset.v;});
+}
+function enviarSolic() {
+  var salaId=parseInt(document.getElementById('slSalaId').value);
+  var data=document.getElementById('slData').value;
+  var turnos=_getTurnosSolic();
+  var motivo=document.getElementById('slMotivo').value.trim();
+  var erEl=document.getElementById('slTurnoErro');
+  if(!data){toast('Selecione uma data.','aviso');return;}
+  if(!turnos.length){
+    if(erEl){erEl.textContent='Selecione ao menos um turno.';erEl.style.display='block';}
+    return;
+  }
+  if(erEl) erEl.style.display='none';
+
+  // Verificar se algum turno já está reservado nessa data
+  var p=data.split('-').map(Number);
+  var diaSem=['dom','seg','ter','qua','qui','sex','sab'][new Date(p[0],p[1]-1,p[2]).getDay()];
+  var conflitos=[];
+  turnos.forEach(function(turno){
+    var rs=getReservas().filter(function(r){
+      return r.salaId===salaId && r.turno===turno && r.dataInicio<=data && r.dataFim>=data && r.diasSemana.includes(diaSem);
+    });
+    rs.forEach(function(r){
+      var t=r.turmaId?getTurmaById(r.turmaId):null;
+      var ativo=r.avulsa||(t&&calcStatus(t)!=='encerrada');
+      if(ativo) conflitos.push(turno);
+    });
+  });
+
+  if(conflitos.length){
+    if(erEl){
+      var liberacao = _dataLiberacaoPorTurnos(salaId, data, conflitos);
+      var msgConflito = 'Sala já reservada no(s) turno(s): '+conflitos.join(', ')+'.';
+      if(liberacao) msgConflito += ' Será liberada em: '+liberacao+'.';
+      else msgConflito += ' Escolha outro turno ou data.';
+      erEl.innerHTML = '<i class="ph ph-warning"></i> '+msgConflito;
+      erEl.style.display='block';
+    }
+    return;
+  }
+
+  addSolic({salaId:salaId,instrutorId:_sess.id,data:data,turnos:turnos,turno:turnos[0],motivo:motivo,unidadeId:_uid()});
+  var sala=getSalaById(salaId);
+  var turnosStr=turnos.join(', ');
+  addNotif({para:'coordenador',paraId:_uid(),tipo:'solicit',titulo:'Nova solicitação de sala',
+    msg:_sess.nome+' solicitou '+(sala?sala.nome:'sala')+' em '+fmtData(data)+' ('+turnosStr+').'});
+  toast('Solicitação enviada ao coordenador!','ok'); modalFechar('modalSolic'); rdSalas();
+}
+
+function rdChaves() {
+  var list=getChaves().filter(function(c){return c.unidadeId===_uid();}); var cont=document.getElementById('listaChaves');
+  if(!list.length){cont.innerHTML='<p class="txt2">Nenhuma chave cadastrada na unidade.</p>';return;}
+  cont.innerHTML=list.map(function(c){
+    var sala=getSalaById(c.salaId); var pega=c.status==='pega'; var minha=c.instrutorId===_sess.id;
+    var quem=pega&&c.instrutorId?getUserById(c.instrutorId):null;
+    return '<div class="chave-card '+(c.status||'disponivel')+'">'
+      +'<div class="ch-icon">'+(pega?'<i class="ph ph-key"></i>':'<i class="ph ph-key"></i>️')+'</div>'
+      +'<div class="ch-info"><div class="ch-nome">'+esc(sala?sala.nome:'—')+' — '+esc(c.codigo||'Chave')+'</div>'
+      +'<div class="ch-det">Andar: '+esc(c.andar||'—')+' · '+(pega?'Retirada':'Disponível')+'</div>'
+      +(quem?'<div class="ch-det">Retirada por: '+esc(quem.nome)+(c.pegaEm?' em '+fmtDateTime(c.pegaEm):'')+'</div>':'')
+      +'</div>'
+      +(!pega?'<button class="btn btn-warning btn-sm" onclick="pegarChave('+c.id+')">Retirar</button>':
+         minha?'<button class="btn btn-success btn-sm" onclick="devolverChave('+c.id+')">Devolver</button>':'')
+      +'</div>';
+  }).join('');
+}
+function pegarChave(id) {
+  updChave(id,{status:'pega',instrutorId:_sess.id,pegaEm:new Date().toISOString()});
+  var c=getChaveById(id); var sala=getSalaById(c?c.salaId:null);
+  addNotif({para:'recepcao',paraId:_uid(),tipo:'chave',titulo:'Chave retirada',msg:_sess.nome+' retirou a chave de "'+(sala?sala.nome:'sala')+'"'+(c?' ('+c.codigo+')':'')+'.'});
+  toast('Chave retirada. Recepção notificada.','ok'); rdChaves();
+}
+function devolverChave(id) {
+  updChave(id,{status:'disponivel',instrutorId:null,pegaEm:null});
+  var c=getChaveById(id); var sala=getSalaById(c?c.salaId:null);
+  addNotif({para:'recepcao',paraId:_uid(),tipo:'chave',titulo:'Chave devolvida',msg:_sess.nome+' devolveu a chave de "'+(sala?sala.nome:'sala')+'".'});
+  toast('Chave devolvida!','ok'); rdChaves();
+}
+
+function rdNotifs() {
+  var list=getNotifsPara('instrutor',_uid()).filter(function(n){return !n.paraId||n.paraId===_sess.id||n.paraId===_uid();});
+  var cont=document.getElementById('listaNotifs');
+  if(!list.length){cont.innerHTML='<p class="txt2">Sem notificações.</p>';return;}
+  cont.innerHTML=list.map(function(n){
+    return '<div class="notif-item tipo-'+(n.tipo||'info')+(n.lida?'':' nao-lida')+'">'
+      +'<div class="ni-title">'+esc(n.titulo||'Notificação')+'</div>'
+      +'<div class="ni-msg">'+esc(n.msg)+'</div>'
+      +'<div class="ni-time">'+fmtDateTime(n.criadaEm)+'</div>'+'</div>';
+  }).join('');
+  marcarTodasLidas('instrutor',_uid()); _atualizarBadge();
+>>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
 }
 
 function _atualizarBadge(){var n=countNaoLidas('instrutor',_uid());var b=document.getElementById('badgeNotif');if(b){b.textContent=n;b.style.display=n?'':'none';}}

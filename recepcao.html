@@ -20,7 +20,10 @@
     <nav class="sb-nav">
       <span class="sb-section">Painel</span>
       <button class="sb-btn" id="nav-mapa"   onclick="ir('mapa')">   <span class="ic">M</span>Mapa de Salas</button>
+<<<<<<< HEAD
       <button class="sb-btn" id="nav-calendario" onclick="ir('calendario')"><span class="ic"><i class="ph ph-calendar"></i></span>Calendário</button>
+=======
+>>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
       <button class="sb-btn" id="nav-chaves" onclick="ir('chaves')"> <span class="ic">C</span>Chaves</button>
       <button class="sb-btn" id="nav-notifs" onclick="ir('notifs')"> <span class="ic">N</span>Notificações
         <span class="sb-notif" id="badgeNotif" style="display:none">0</span></button>
@@ -46,7 +49,11 @@
             <div class="card-title">Ocupação das Salas — Hoje</div>
             <div id="mapaRecLegenda" class="mapa-legenda"></div>
           </div>
+<<<<<<< HEAD
           <button type="button" class="btn-refresh" onclick="return atualizarSecao('rdMapa', this)"><i class="ph ph-arrows-clockwise"></i> Atualizar</button>
+=======
+          <button class="btn btn-ghost btn-sm" onclick="rdMapa()"><i class="ph ph-arrows-clockwise"></i> Atualizar</button>
+>>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
         </div>
         <!-- Filtros -->
         <div class="mapa-filtros">
@@ -70,8 +77,12 @@
         <div id="mapaRec" style="margin-top:8px"></div>
       </div>
       <div class="card">
+<<<<<<< HEAD
         <div class="card-head"><div class="card-title">Próximas Reservas (próximos 14 dias)</div>
           <button type="button" class="btn-refresh" onclick="return atualizarSecao('rdMapa', this)"><i class="ph ph-arrows-clockwise"></i> Atualizar</button></div>
+=======
+        <div class="card-title">Próximas Reservas (próximos 14 dias)</div>
+>>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
         <div class="tw"><table class="tbl">
           <thead><tr><th>Sala</th><th>Turma</th><th>Instrutor</th><th>Período</th><th>Dias · Turno</th></tr></thead>
           <tbody id="tbFuturas"></tbody>
@@ -84,17 +95,24 @@
       <div class="card">
         <div class="card-head">
           <div class="card-title">Gestão de Chaves <span class="count-badge" id="countChavRec"></span></div>
+<<<<<<< HEAD
           <div style="display:flex;gap:8px;align-items:center">
             <button type="button" class="btn-refresh" onclick="return atualizarSecao('rdChaves', this)"><i class="ph ph-arrows-clockwise"></i> Atualizar</button>
             <button class="btn btn-primary" onclick="abrirChave(0)">+ Nova Chave</button>
           </div>
         </div>
         <p class="txt2" style="margin-bottom:14px">Crie as chaves, veja com quem está cada uma e atribua a instrutores ou coordenadores.</p>
+=======
+          <button class="btn btn-primary" onclick="abrirChave(0)">+ Nova Chave</button>
+        </div>
+        <p class="txt2" style="margin-bottom:14px">Crie as chaves e controle quem as retirou.</p>
+>>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
         <div id="searchChavRec"></div>
         <div id="listaChaves"></div>
       </div>
     </div>
 
+<<<<<<< HEAD
     <!-- CALENDÁRIO DE RESERVAS -->
     <div class="pg" id="pg-calendario">
       <div class="card">
@@ -141,6 +159,18 @@
 
 
             <!-- MODAL CHAVE -->
+=======
+    <!-- NOTIFS -->
+    <div class="pg" id="pg-notifs">
+      <div class="card"><div class="card-title">Notificações</div>
+        <div id="listaNotifs"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL CHAVE -->
+>>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
 <div class="modal-overlay" id="modalChave" style="display:none">
   <div class="modal-box">
     <div class="modal-title">
@@ -156,6 +186,7 @@
     <div class="modal-foot">
       <button class="btn btn-ghost" onclick="modalFechar('modalChave')">Cancelar</button>
       <button class="btn btn-primary" onclick="salvarChave()">Salvar</button>
+<<<<<<< HEAD
 
     
     </div>
@@ -185,16 +216,22 @@
       <button class="btn btn-ghost" onclick="modalFechar('modalAtribuir')">Cancelar</button>
       <button class="btn btn-warning btn-sm" id="mABtnDevolver" onclick="devolverChaveRec()" style="display:none">Liberar (devolvida à recepção)</button>
       <button class="btn btn-primary" onclick="confirmarAtribuir()">Atribuir</button>
+=======
+>>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
     </div>
   </div>
 </div>
 
 <div id="toasts"></div>
+<<<<<<< HEAD
     </div>
   </div>
 </div>
 <script src="js/storage.js"></script>
     <script src="js/calendario_page.js"></script>
+=======
+<script src="js/storage.js"></script>
+>>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
 <script src="js/auth.js"></script>
 <script src="js/search.js"></script>
 <script src="js/recepcao_page.js"></script>

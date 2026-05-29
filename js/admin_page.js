@@ -5,8 +5,13 @@
 var _editUserId = null;
 var _editUnidId = null;
 
+<<<<<<< HEAD
 window.addEventListener('DOMContentLoaded', async function() {
   await initDados(); requirePerfil('admin'); initSidebar(); initLogo(); ir('dashboard');
+=======
+window.addEventListener('DOMContentLoaded', function() {
+  initDados(); requirePerfil('admin'); initSidebar(); initLogo(); ir('dashboard');
+>>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
 });
 
 var _META = {
@@ -17,7 +22,10 @@ var _META = {
   turmas:    { t:'Turmas',          s:'Todas as turmas do sistema' },
   reservas:  { t:'Reservas',        s:'Todas as reservas do sistema' },
   chaves:    { t:'Chaves',          s:'Todas as chaves do sistema' },
+<<<<<<< HEAD
   calendario:{ t:'Calendário de Reservas', s:'Visualize todas as reservas por data e turno' },
+=======
+>>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
 };
 
 function ir(aba) {
@@ -36,7 +44,10 @@ function ir(aba) {
   if (aba==='turmas')    rdTodasTurmas();
   if (aba==='reservas')  rdTodasReservas();
   if (aba==='chaves')    rdTodasChaves();
+<<<<<<< HEAD
   if (aba==='calendario')  rdCalendario();
+=======
+>>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
 }
 
 /* ── DASHBOARD ── */
@@ -328,7 +339,11 @@ function _renderTbResAdmin(){
   if(!list.length){tb.innerHTML='<tr class="empty-row"><td colspan="6">Nenhuma reserva encontrada.</td></tr>';return;}
   tb.innerHTML=list.map(function(r){
     var sala=getSalaById(r.salaId); var turma=r.turmaId?getTurmaById(r.turmaId):null; var unid=getUnidadeById(r.unidadeId);
+<<<<<<< HEAD
     var turmaLabel = r.avulsa ? '<span class="bdg bdg-amber">Sem turma</span>' : esc(turma?turma.nome:'—');
+=======
+    var turmaLabel = r.avulsa ? '<span class="bdg bdg-amber">Avulsa</span>' : esc(turma?turma.nome:'—');
+>>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
     return '<tr><td><strong>'+esc(sala?sala.nome:'—')+'</strong></td>'
       +'<td class="mono">'+turmaLabel+'</td>'
       +'<td>'+esc(unid?unid.nome:'—')+'</td>'
@@ -375,3 +390,14 @@ function _renderTbChavAdmin(){
       +'<td><span class="bdg '+(c.status==='disponivel'?'bdg-green':'bdg-amber')+'">'+(c.status==='disponivel'?'Disponível':'Retirada por '+(quem?quem.nome:'?'))+'</span></td></tr>';
   }).join('');
 }
+<<<<<<< HEAD
+=======
+
+/* ── RESET ── */
+function resetarTodosDados(){
+  if(!confirm('<i class="ph ph-warning"></i>️ Isso vai apagar TODOS os dados e restaurar o padrão.\n\nTem certeza?'))return;
+  if(!confirm('Confirme: apagar TUDO e voltar ao estado inicial?'))return;
+  localStorage.clear(); toast('Dados resetados! Recarregando…','aviso');
+  setTimeout(function(){window.location.reload();},800);
+}
+>>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
