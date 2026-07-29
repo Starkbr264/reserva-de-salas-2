@@ -1,7 +1,3 @@
-/* ============================================================
-   js/recepcao.js — Painel da Recepção
-   ============================================================ */
-
 let _sessR;
 
 function initRecepcao() {
@@ -28,7 +24,7 @@ function irR(aba) {
   if(fn[aba])fn[aba]();
 }
 
-/* ── MAPA RECEPÇÃO ─────────────────────────────────────── */
+
 function rdMapaR() {
   const salas=getSalas().filter(s=>s.unidadeId===_sessR.unidadeId);
   const cont =document.getElementById('mapaRecep');
@@ -59,7 +55,7 @@ function rdMapaR() {
       }
     }
 
-    // Próxima disponibilidade (se ocupada)
+
     if(status==='ocupada'){
       const proxRes=reservasAtivas
         .filter(r=>r.dataInicio>hj&&statusReserva(r)!=='encerrada')
@@ -77,7 +73,7 @@ function rdMapaR() {
     </div>`;
   }).join('');
 
-  // Tabela de reservas futuras
+
   const hjs=[...Array(14)].map((_,i)=>{const d=new Date();d.setDate(d.getDate()+i);return d.toISOString().split('T')[0];});
   const tb=document.getElementById('tbFuturas');
   const fut=getReservas().filter(r=>r.unidadeId===_sessR.unidadeId&&r.dataFim>=hj)
@@ -97,7 +93,7 @@ function rdMapaR() {
   }).join('');
 }
 
-/* ── CHAVES RECEPÇÃO ───────────────────────────────────── */
+
 function rdChavesR() {
   const chaves=getChaves().filter(c=>c.unidadeId===_sessR.unidadeId);
   const cont  =document.getElementById('listaChavesR');
@@ -151,7 +147,7 @@ function excluirChave(id){
   deleteChave(id);toast('Chave excluída.','aviso');rdChavesR();
 }
 
-/* ── NOTIFICAÇÕES ──────────────────────────────────────── */
+
 function rdNotifsR() {
   const list=getNotifsPara('recepcao',_sessR.unidadeId);
   const cont=document.getElementById('listaNotifR');
@@ -166,7 +162,7 @@ function rdNotifsR() {
   initNotifBadge('recepcao');
 }
 
-/* ── HELPERS ───────────────────────────────────────────── */
+
 function _popularSalasSelR(id){
   const sel=document.getElementById(id);if(!sel)return;
   sel.innerHTML='<option value="">— Selecione a sala —</option>';

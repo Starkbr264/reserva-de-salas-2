@@ -1,3 +1,8 @@
+/*
+ * index_page.js
+ * Logica da pagina inicial (landing page / sobre o sistema).
+ * Controla o botao de alternancia de tema claro/escuro.
+ */
 window.addEventListener('DOMContentLoaded', function() {
   initTema();
 

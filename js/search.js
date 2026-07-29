@@ -1,15 +1,7 @@
-/* ================================================================
-   js/search.js — Pesquisa e filtros globais
-   Expõe: filtrarLista(lista, termo, campos)
-          gerarBarraPesquisa(configId, onUpdate)
-          gerarFiltros(filtrosConfig, onUpdate)
-   ================================================================ */
-
-/**
- * Filtra um array de objetos com base em termo de busca e campos especificados.
- * @param {Array}  lista   - array de objetos
- * @param {string} termo   - texto digitado pelo usuário
- * @param {Array}  campos  - campos a checar (strings ou funções(item)=>string)
+/*
+ * search.js
+ * Utilitario de busca e filtro em tabelas.
+ * Aplicado nos paineis de Salas, Turmas, Reservas e Chaves.
  */
 function filtrarLista(lista, termo, campos) {
   if (!termo || !termo.trim()) return lista;
@@ -22,27 +14,18 @@ function filtrarLista(lista, termo, campos) {
   });
 }
 
-/**
- * Aplica filtros de seleção (ex: por unidade, perfil, turno…)
- * @param {Array}  lista   - array de objetos
- * @param {Object} filtros - { campo: valor } — ignora valores vazios/null
- */
+
 function aplicarFiltros(lista, filtros) {
   return lista.filter(function(item) {
     return Object.keys(filtros).every(function(k) {
       var v = filtros[k];
-      if (!v && v !== 0) return true; // ignora filtro vazio
+      if (!v && v !== 0) return true;
       return String(item[k]) === String(v);
     });
   });
 }
 
-/* ── Gerador de barra de pesquisa HTML ─────────────────────── */
-/**
- * Retorna HTML de uma barra de pesquisa padronizada.
- * @param {string} placeholder
- * @param {string} inputId  - id do <input>
- */
+
 function htmlBarraBusca(placeholder, inputId) {
   return '<div class="search-bar"><span class="search-icon"><i class="ph ph-magnifying-glass"></i></span>'
     + '<input type="text" id="' + inputId + '" class="search-input" placeholder="' + esc(placeholder) + '" autocomplete="off">'
@@ -50,12 +33,7 @@ function htmlBarraBusca(placeholder, inputId) {
     + '</div>';
 }
 
-/**
- * Retorna HTML de um select de filtro.
- * @param {string} id
- * @param {string} label
- * @param {Array}  opcoes  - [{value, label}]
- */
+
 function htmlFiltroSelect(id, label, opcoes) {
   var opts = '<option value="">Todos</option>'
     + opcoes.map(function(o){return '<option value="'+esc(String(o.value))+'">'+esc(o.label)+'</option>';}).join('');
@@ -65,12 +43,7 @@ function htmlFiltroSelect(id, label, opcoes) {
     + '</div>';
 }
 
-/**
- * Monta uma barra de pesquisa + filtros dentro de um container.
- * @param {string}   containerId  - id do div onde inserir
- * @param {Object}   config       - { busca:{id,placeholder}, filtros:[{id,label,opcoes}] }
- * @param {Function} onUpdate     - callback chamado ao mudar qualquer campo
- */
+
 function montarBarraPesquisaFiltros(containerId, config, onUpdate) {
   var cont = document.getElementById(containerId);
   if (!cont) return;
@@ -95,7 +68,7 @@ function montarBarraPesquisaFiltros(containerId, config, onUpdate) {
   html += '</div>';
   cont.innerHTML = html;
 
-  // Eventos
+
   function dispararUpdate() { if (typeof onUpdate === 'function') onUpdate(); }
 
   if (config.busca) {
@@ -110,9 +83,7 @@ function montarBarraPesquisaFiltros(containerId, config, onUpdate) {
   }
 }
 
-/**
- * Limpa todos os filtros de uma barra.
- */
+
 function limparFiltros(containerId, buscaId) {
   var cont = document.getElementById(containerId);
   if (!cont) return;
@@ -121,15 +92,12 @@ function limparFiltros(containerId, buscaId) {
     var inp = document.getElementById(buscaId);
     if (inp) { inp.value = ''; inp.dispatchEvent(new Event('input')); return; }
   }
-  // fallback: disparar evento no primeiro input
+
   var inp2 = cont.querySelector('input');
   if (inp2) inp2.dispatchEvent(new Event('input'));
 }
 
-/**
- * Lê os valores atuais dos filtros de uma barra.
- * @param {Object} config - mesmo config passado para montarBarraPesquisaFiltros
- */
+
 function lerFiltros(config) {
   var resultado = {};
   if (config.busca) {

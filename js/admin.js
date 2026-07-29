@@ -1,16 +1,7 @@
-/* ============================================================
-   js/admin.js — Painel do Administrador
-   Depende de: storage.js | auth.js
-
-   IDs dos modais (admin.html):
-     Unidade → #modalUnid  | campos: munNome, munEndereco, munCep | msg: munMsg | título: munTitulo
-     Usuário → #modalUser  | campos: muNome, muEmail, muSenha, muPerfil, muUnidade | msg: muMsg | título: muTitulo
-   ============================================================ */
-
 var _editUnidId = null;
 var _editUserId = null;
 
-/* ── INIT ──────────────────────────────────────────────── */
+
 function initAdmin() {
   var s = getSessao();
   _tx('sbNome',     s.nome);
@@ -19,7 +10,7 @@ function initAdmin() {
   ir('dashboard');
 }
 
-/* ── NAVEGAÇÃO ─────────────────────────────────────────── */
+
 function ir(aba) {
   document.querySelectorAll('.pg').forEach(function(p) {
     p.classList.remove('on'); p.style.display = 'none';
@@ -44,7 +35,7 @@ function ir(aba) {
   if (aba === 'unidades')  rdUnidades();
 }
 
-/* ── DASHBOARD ─────────────────────────────────────────── */
+
 function rdDash() {
   var todos = getUsuarios();
   _tx('stUsers', todos.length);
@@ -70,7 +61,7 @@ function rdDash() {
   }).join('');
 }
 
-/* ── UNIDADES ──────────────────────────────────────────── */
+
 function rdUnidades() {
   var list = getUnidades();
   var tb   = document.getElementById('tbUnidades');
@@ -90,7 +81,7 @@ function rdUnidades() {
   }).join('');
 }
 
-/* Modal unidade */
+
 function abrirModalUnid(id) {
   _editUnidId = id || null;
   var u = id ? getUnidadeById(id) : null;
@@ -127,7 +118,7 @@ function excluirUnid(id) {
   delUnidade(id); showToast('Unidade excluída.','aviso'); rdUnidades();
 }
 
-/* ── USUÁRIOS ──────────────────────────────────────────── */
+
 function rdUsuarios() {
   var list = getUsuarios();
   var tb   = document.getElementById('tbUsuarios');
@@ -152,7 +143,7 @@ function rdUsuarios() {
   }).join('');
 }
 
-/* Modal usuário */
+
 function abrirModalUser(id) {
   _editUserId = id || null;
   var u = id ? getUsuarioById(id) : null;
@@ -162,7 +153,7 @@ function abrirModalUser(id) {
   _vl('muSenha', '');
   if (u) _vl('muPerfil', u.perfil);
 
-  /* Popula select de unidades */
+
   var sel = document.getElementById('muUnidade');
   sel.innerHTML = '<option value="">— Selecione a unidade —</option>';
   getUnidades().forEach(function(un) {
@@ -222,8 +213,7 @@ function excluirUser(id) {
   delUsuario(id); showToast('Usuário excluído.','aviso'); rdUsuarios(); rdDash();
 }
 
-/* ── HELPERS ───────────────────────────────────────────── */
-/* Abre/fecha modal usando classe .on (definida no CSS como display:flex) */
+
 function _modal(id, abrir) {
   var el = document.getElementById(id);
   if (el) el.classList.toggle('on', abrir);

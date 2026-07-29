@@ -1,11 +1,10 @@
-/* ================================================================
+﻿/* ================================================================
    layout.css — Estrutura principal: sidebar, topbar, páginas
    ================================================================ */
 
-/* ── Estrutura geral ──────────────────────────────────────── */
 .layout { display: flex; min-height: 100vh; }
 
-/* ── Sidebar ──────────────────────────────────────────────── */
+
 .sidebar {
   width: var(--sidebar-w);
   background: var(--surface);
@@ -141,7 +140,6 @@
 }
 .btn-sair:hover { background: var(--red-l); border-color: var(--red); color: var(--red); }
 
-/* ── Main / Topbar ────────────────────────────────────────── */
 .main { margin-left: var(--sidebar-w); flex: 1; display: flex; flex-direction: column; }
 .topbar {
   padding: 16px 28px;
@@ -166,12 +164,9 @@
 }
 .btn-tema:hover { border-color: var(--accent); background: var(--accent-d); }
 
-/* ── Páginas (display controlado via JS) ──────────────────── */
 .pg { display: none; padding: 24px 28px; animation: fadeIn .22s ease; }
 .pg.ativa { display: block; }
-<<<<<<< HEAD
 
-/* ── Dark mode: sidebar icon contrast fix ──────────────────── */
 [data-theme="dark"] .sb-btn .ic {
   background: rgba(90,171,255,.12);
   color: #7ab8e8;
@@ -195,5 +190,3 @@
   background: rgba(90,171,255,.25);
   color: #5aabff;
 }
-=======
->>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4

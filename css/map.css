@@ -1,8 +1,8 @@
-/* ================================================================
+﻿/* ================================================================
    map.css — Mapa de salas v2 (cards ricos por Bloco / Andar)
    ================================================================ */
 
-/* ── Barra de filtros do mapa ─────────────────────────────── */
+
 .mapa-filtros {
   display: flex;
   flex-wrap: wrap;
@@ -28,7 +28,7 @@
 .mapa-busca-wrap:focus-within { border-color: var(--primary); }
 .mapa-busca-wrap .search-input { padding: 9px 0; }
 
-/* ── Legenda com contadores ───────────────────────────────── */
+
 .mapa-legenda {
   display: flex;
   flex-wrap: wrap;
@@ -43,7 +43,7 @@
 .leg-item.iminente { color: var(--amber); }
 .leg-total         { color: var(--text2); font-weight: 400; }
 
-/* ── Agrupamento por Bloco ────────────────────────────────── */
+
 .mapa-bloco { margin-bottom: 28px; }
 .mapa-bloco-titulo {
   font-size: .82rem;
@@ -58,7 +58,7 @@
   margin-bottom: 12px;
 }
 
-/* ── Agrupamento por Andar ────────────────────────────────── */
+
 .mapa-andar { margin-bottom: 16px; }
 .mapa-andar-titulo {
   font-size: .75rem;
@@ -77,7 +77,7 @@
   gap: 12px;
 }
 
-/* ── Card de sala v2 ──────────────────────────────────────── */
+
 .sala-card-v2 {
   background: var(--surface);
   border: 2px solid var(--border2);
@@ -198,7 +198,6 @@
 .sala-card.ocupada .sala-status { color: var(--red);   }
 .sala-card.iminente .sala-status{ color: var(--amber); }
 
-/* ── Turnos com status colorido por período ────────────────── */
 .mapa-turno.ocupado {
   background: var(--red);
   color: #fff;
@@ -210,7 +209,7 @@
   border-color: var(--amber);
 }
 
-/* ── Lista de períodos dentro do card ─────────────────────── */
+
 .sc-periodo {
   padding: 5px 0;
   border-bottom: 1px solid var(--border);
@@ -228,7 +227,6 @@
 .sc-periodo-turno.ocp { color: var(--red);   }
 .sc-periodo-turno.imi { color: var(--amber);  }
 
-/* ── Botões de override de status ─────────────────────────── */
 .sc-override-bar {
   display: flex;
   gap: 4px;
@@ -278,9 +276,8 @@
   box-shadow: 0 0 0 2px var(--primary);
 }
 .sc-override { background: color-mix(in srgb, var(--primary) 8%, transparent); border-radius: 4px; padding: 4px 6px; }
-<<<<<<< HEAD
 
-/* ── Loading spinner do mapa ────────────────────────────── */
+
 .mapa-loading {
   display: flex;
   align-items: center;
@@ -301,5 +298,3 @@
   flex-shrink: 0;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
-=======
->>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4

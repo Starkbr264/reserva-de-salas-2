@@ -1,17 +1,10 @@
-/* ============================================================
-   js/disponibilidade.js — Consulta de disponibilidade por sala/turno/data
-   Depende de: storage.js
-   Chamado em: dashboard.html (seção #section-disponibilidade)
-   ============================================================ */
-
-// Mapeia getDay() → abreviação usada nas reservas
 const DIA_MAP = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sab'];
 
-/* ---- Inicialização da seção ---- */
+
 function initDisponibilidade() {
   _popularSelectDispSalas();
 
-  // Data mínima: hoje
+
   const hoje = new Date().toISOString().split('T')[0];
   document.getElementById('dispData').value = hoje;
 
@@ -21,7 +14,7 @@ function initDisponibilidade() {
   document.getElementById('dispTurno').addEventListener('change', verificarDisponibilidade);
 }
 
-/* ---- Popula select de salas ---- */
+
 function _popularSelectDispSalas() {
   const sel = document.getElementById('dispSala');
   sel.innerHTML = '<option value="">— Selecione uma sala —</option>';
@@ -33,13 +26,13 @@ function _popularSelectDispSalas() {
   });
 }
 
-/* Função chamada também ao entrar na seção */
+
 function refreshDisponibilidade() {
   _popularSelectDispSalas();
   document.getElementById('resultadoDisponibilidade').className = 'disp-result';
 }
 
-/* ---- Verificação principal ---- */
+
 function verificarDisponibilidade() {
   const salaId  = parseInt(document.getElementById('dispSala').value);
   const turno   = document.getElementById('dispTurno').value;
@@ -51,12 +44,12 @@ function verificarDisponibilidade() {
     return;
   }
 
-  // Dia da semana da data escolhida (com ajuste UTC para evitar off-by-one)
+
   const [ano, mes, dia] = dataStr.split('-').map(Number);
-  const diaIdx = new Date(ano, mes - 1, dia).getDay(); // 0=dom, 1=seg …
+  const diaIdx = new Date(ano, mes - 1, dia).getDay();
   const diaAbrev = DIA_MAP[diaIdx];
 
-  // Busca reservas ativas que cobrem esse dia
+
   const ocupadas = getReservas().filter(r =>
     r.salaId   === salaId &&
     r.turno    === turno  &&
@@ -96,7 +89,7 @@ function verificarDisponibilidade() {
   }
 }
 
-/* ---- Helpers ---- */
+
 function diaNomeCompleto(abrev) {
   const nomes = { dom:'Domingo', seg:'Segunda-feira', ter:'Terça-feira',
                   qua:'Quarta-feira', qui:'Quinta-feira', sex:'Sexta-feira', sab:'Sábado' };

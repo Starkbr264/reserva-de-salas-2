@@ -1,17 +1,25 @@
-/* ────────────────────────────────────────────────────────
-   admin_page.js — Painel do Administrador (v2)
-   Com pesquisa e filtros em Usuários e Unidades
-   ──────────────────────────────────────────────────────── */
+/*
+ * admin_page.js
+ * Painel do Administrador.
+ *
+ * Secoes:
+ *   Dashboard  — totais de usuarios, unidades, salas e reservas
+ *   Usuarios   — CRUD com filtro por perfil e busca textual
+ *   Unidades   — CRUD de unidades/CPS com CEP
+ *   Salas      — visao global de todas as salas do sistema
+ *   Turmas     — visao global de todas as turmas
+ *   Reservas   — visao global de todas as reservas
+ *   Chaves     — visao global de todas as chaves
+ *   Calendario — calendario de reservas de todas as unidades
+ *
+ * Funcao principal: ir(aba) — navega entre as secoes
+ */
+﻿
 var _editUserId = null;
 var _editUnidId = null;
 
-<<<<<<< HEAD
 window.addEventListener('DOMContentLoaded', async function() {
   await initDados(); requirePerfil('admin'); initSidebar(); initLogo(); ir('dashboard');
-=======
-window.addEventListener('DOMContentLoaded', function() {
-  initDados(); requirePerfil('admin'); initSidebar(); initLogo(); ir('dashboard');
->>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
 });
 
 var _META = {
@@ -22,12 +30,10 @@ var _META = {
   turmas:    { t:'Turmas',          s:'Todas as turmas do sistema' },
   reservas:  { t:'Reservas',        s:'Todas as reservas do sistema' },
   chaves:    { t:'Chaves',          s:'Todas as chaves do sistema' },
-<<<<<<< HEAD
   calendario:{ t:'Calendário de Reservas', s:'Visualize todas as reservas por data e turno' },
-=======
->>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
 };
 
+// Navegacao entre secoes
 function ir(aba) {
   document.querySelectorAll('.pg').forEach(function(p){ p.classList.remove('ativa'); p.style.display='none'; });
   var pg = document.getElementById('pg-'+aba);
@@ -44,13 +50,11 @@ function ir(aba) {
   if (aba==='turmas')    rdTodasTurmas();
   if (aba==='reservas')  rdTodasReservas();
   if (aba==='chaves')    rdTodasChaves();
-<<<<<<< HEAD
   if (aba==='calendario')  rdCalendario();
-=======
->>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
 }
 
-/* ── DASHBOARD ── */
+
+// Dashboard — totais do sistema
 function rdDash() {
   var us = getUsuarios();
   document.getElementById('stTotal').textContent  = us.length;
@@ -72,7 +76,7 @@ function rdDash() {
   }).join('');
 }
 
-/* ── USUÁRIOS com pesquisa e filtros ── */
+
 var _cfgUsuarios = {
   busca: { id:'buscarUsuario', placeholder:'Pesquisar por nome, e-mail…' },
   filtros: [
@@ -81,6 +85,7 @@ var _cfgUsuarios = {
   ]
 };
 
+// Usuarios — listagem e CRUD com filtros
 function rdUsuarios() {
   _cfgUsuarios.filtros[1].opcoes = getUnidades().map(function(u){return {value:u.id,label:u.nome};});
   var cont = document.getElementById('searchUsuarios');
@@ -102,9 +107,9 @@ function _atualizarFiltroUnidades(selId) {
 function _renderTbUsuarios() {
   var vals = lerFiltros(_cfgUsuarios);
   var list = getUsuarios();
-  // busca textual
+
   list = filtrarLista(list, vals._busca, ['nome','email']);
-  // filtros de select
+
   if (vals.perfil)    list = list.filter(function(u){ return u.perfil === vals.perfil; });
   if (vals.unidadeId) list = list.filter(function(u){ return String(u.unidadeId) === String(vals.unidadeId); });
 
@@ -125,6 +130,7 @@ function _renderTbUsuarios() {
   }).join('');
 }
 
+// Modal de criar/editar usuario
 function abrirUser(id) {
   _editUserId = id||null; var u=id?getUserById(id):null;
   document.getElementById('mUTitulo').textContent = id?'Editar Usuário':'Novo Usuário';
@@ -141,6 +147,7 @@ function abrirUser(id) {
   fmsgHide('mUMsg'); modalAbrir('modalUser');
 }
 function fecharUser(){ modalFechar('modalUser'); _editUserId=null; }
+// Salva o usuario
 function salvarUser(){
   var nome=document.getElementById('mUNome').value.trim();
   var email=document.getElementById('mUEmail').value.trim();
@@ -166,18 +173,20 @@ function resetSenha(id){
   if(!nova||!nova.trim())return;
   updUser(id,{senha:nova.trim()}); toast('Senha de "'+u.nome+'" redefinida!','ok');
 }
+// Remove o usuario apos confirmacao
 function excluirUser(id){
   var u=getUserById(id);if(!u)return;
   if(!confirm('Excluir "'+u.nome+'"?\nEsta ação não pode ser desfeita.'))return;
   delUser(id); toast('Usuário excluído.','aviso'); rdUsuarios(); rdDash();
 }
 
-/* ── UNIDADES com pesquisa ── */
+
 var _cfgUnidades = {
   busca: { id:'buscarUnidade', placeholder:'Pesquisar por nome, cidade, CEP…' },
   filtros: []
 };
 
+// Unidades — listagem e CRUD
 function rdUnidades() {
   var cont=document.getElementById('searchUnidades');
   if(cont&&!cont.innerHTML) montarBarraPesquisaFiltros('searchUnidades',_cfgUnidades,_renderTbUnidades);
@@ -199,6 +208,7 @@ function _renderTbUnidades(){
       +'</div></td></tr>';
   }).join('');
 }
+// Modal de criar/editar unidade
 function abrirUnid(id){
   _editUnidId=id||null; var u=id?getUnidadeById(id):null;
   document.getElementById('mNTitulo').textContent=id?'Editar Unidade':'Nova Unidade';
@@ -208,6 +218,7 @@ function abrirUnid(id){
   fmsgHide('mNMsg'); modalAbrir('modalUnid');
 }
 function fecharUnid(){ modalFechar('modalUnid'); _editUnidId=null; }
+// Salva os dados da unidade
 function salvarUnid(){
   var nome=document.getElementById('mNNome').value.trim();
   var endereco=document.getElementById('mNEndereco').value.trim();
@@ -225,7 +236,7 @@ function excluirUnid(id){
   delUnidade(id); toast('Unidade excluída.','aviso'); rdUnidades(); rdDash();
 }
 
-/* ── SALAS (visão global admin) ── */
+
 var _cfgSalasAdmin = {
   busca:{id:'buscarSalaAdmin',placeholder:'Pesquisar sala por nome, tipo…'},
   filtros:[
@@ -243,6 +254,7 @@ var _cfgSalasAdmin = {
     ]},
   ]
 };
+// Visao global — todas as salas do sistema
 function rdTodasSalas(){
   _cfgSalasAdmin.filtros[0].opcoes=getUnidades().map(function(u){return{value:u.id,label:u.nome};});
   var cont=document.getElementById('searchSalasAdmin');
@@ -270,7 +282,7 @@ function _renderTbSalasAdmin(){
   }).join('');
 }
 
-/* ── TURMAS (visão global admin) ── */
+
 var _cfgTurmasAdmin = {
   busca:{id:'buscarTurmaAdmin',placeholder:'Pesquisar turma, curso, instrutor…'},
   filtros:[
@@ -279,6 +291,7 @@ var _cfgTurmasAdmin = {
     {id:'filtStatusTurma',label:'Status', campo:'_status',   opcoes:[{value:'ativa',label:'Ativa'},{value:'iminente',label:'Iminente'},{value:'posterior',label:'Posterior'},{value:'encerrada',label:'Encerrada'}]},
   ]
 };
+// Visao global — todas as turmas
 function rdTodasTurmas(){
   _cfgTurmasAdmin.filtros[0].opcoes=getUnidades().map(function(u){return{value:u.id,label:u.nome};});
   var cont=document.getElementById('searchTurmasAdmin');
@@ -307,7 +320,7 @@ function _renderTbTurmasAdmin(){
   }).join('');
 }
 
-/* ── RESERVAS (visão global admin) ── */
+
 var _cfgResAdmin = {
   busca:{id:'buscarResAdmin',placeholder:'Pesquisar sala, turma, turno…'},
   filtros:[
@@ -316,6 +329,7 @@ var _cfgResAdmin = {
     {id:'filtStatusRes',label:'Status', campo:'status',    opcoes:[{value:'ATIVA',label:'ATIVA'},{value:'CANCELADA',label:'CANCELADA'}]},
   ]
 };
+// Visao global — todas as reservas
 function rdTodasReservas(){
   _cfgResAdmin.filtros[0].opcoes=getUnidades().map(function(u){return{value:u.id,label:u.nome};});
   var cont=document.getElementById('searchResAdmin');
@@ -339,11 +353,7 @@ function _renderTbResAdmin(){
   if(!list.length){tb.innerHTML='<tr class="empty-row"><td colspan="6">Nenhuma reserva encontrada.</td></tr>';return;}
   tb.innerHTML=list.map(function(r){
     var sala=getSalaById(r.salaId); var turma=r.turmaId?getTurmaById(r.turmaId):null; var unid=getUnidadeById(r.unidadeId);
-<<<<<<< HEAD
     var turmaLabel = r.avulsa ? '<span class="bdg bdg-amber">Sem turma</span>' : esc(turma?turma.nome:'—');
-=======
-    var turmaLabel = r.avulsa ? '<span class="bdg bdg-amber">Avulsa</span>' : esc(turma?turma.nome:'—');
->>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
     return '<tr><td><strong>'+esc(sala?sala.nome:'—')+'</strong></td>'
       +'<td class="mono">'+turmaLabel+'</td>'
       +'<td>'+esc(unid?unid.nome:'—')+'</td>'
@@ -353,7 +363,7 @@ function _renderTbResAdmin(){
   }).join('');
 }
 
-/* ── CHAVES (visão global admin) ── */
+
 var _cfgChavAdmin = {
   busca:{id:'buscarChavAdmin',placeholder:'Pesquisar por código, sala, andar…'},
   filtros:[
@@ -361,6 +371,7 @@ var _cfgChavAdmin = {
     {id:'filtStatusChav',label:'Status',  campo:'status',    opcoes:[{value:'disponivel',label:'Disponível'},{value:'pega',label:'Retirada'}]},
   ]
 };
+// Visao global — todas as chaves
 function rdTodasChaves(){
   _cfgChavAdmin.filtros[0].opcoes=getUnidades().map(function(u){return{value:u.id,label:u.nome};});
   var cont=document.getElementById('searchChavAdmin');
@@ -390,14 +401,3 @@ function _renderTbChavAdmin(){
       +'<td><span class="bdg '+(c.status==='disponivel'?'bdg-green':'bdg-amber')+'">'+(c.status==='disponivel'?'Disponível':'Retirada por '+(quem?quem.nome:'?'))+'</span></td></tr>';
   }).join('');
 }
-<<<<<<< HEAD
-=======
-
-/* ── RESET ── */
-function resetarTodosDados(){
-  if(!confirm('<i class="ph ph-warning"></i>️ Isso vai apagar TODOS os dados e restaurar o padrão.\n\nTem certeza?'))return;
-  if(!confirm('Confirme: apagar TUDO e voltar ao estado inicial?'))return;
-  localStorage.clear(); toast('Dados resetados! Recarregando…','aviso');
-  setTimeout(function(){window.location.reload();},800);
-}
->>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4

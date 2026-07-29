@@ -1,8 +1,7 @@
-/* ================================================================
+﻿/* ================================================================
    components.css — Cards, stats, badges, chips, status de turma
    ================================================================ */
 
-/* ── Cards ────────────────────────────────────────────────── */
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -15,7 +14,6 @@
 .card-head  { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
 .card-head .card-title { margin: 0; }
 
-/* ── Stats ────────────────────────────────────────────────── */
 .stats { display: grid; gap: 14px; margin-bottom: 18px; }
 .stats.s4 { grid-template-columns: repeat(4, 1fr); }
 .stats.s3 { grid-template-columns: repeat(3, 1fr); }
@@ -45,7 +43,6 @@
 .s-red     .stat-val { color: var(--red);     }
 .s-blue    .stat-val { color: var(--blue);    }
 
-/* ── Status de turma ──────────────────────────────────────── */
 .st {
   display: inline-block;
   padding: 3px 10px;
@@ -60,7 +57,6 @@
 .st-posterior { background: var(--st-posterior-bg); color: var(--st-posterior-txt); border-color: var(--st-posterior-brd); }
 .st-encerrada { background: var(--st-encerrada-bg); color: var(--st-encerrada-txt); border-color: var(--st-encerrada-brd); }
 
-/* ── Badges ───────────────────────────────────────────────── */
 .bdg {
   display: inline-block;
   padding: 3px 9px;
@@ -75,7 +71,6 @@
 .bdg-primary { background: var(--primary-l); color: var(--primary); border: 1px solid var(--primary-d); }
 .bdg-muted   { background: var(--surface2);  color: var(--text2);   border: 1px solid var(--border2); }
 
-/* ── Chips (multi-seleção de turnos/dias) ─────────────────── */
 .chips { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 6px; }
 .chip {
   padding: 6px 12px;
@@ -96,9 +91,7 @@
 @media (max-width: 768px) {
   .stats.s4, .stats.s3 { grid-template-columns: 1fr 1fr; }
 }
-<<<<<<< HEAD
 
-/* ── Dark mode: component icon + badge contrast ────────────── */
 [data-theme="dark"] .stat-icon,
 [data-theme="dark"] .feat-icon {
   filter: brightness(1.3);
@@ -115,7 +108,6 @@
   border-bottom-color: #1e3350;
 }
 
-/* ── Botões tipo-data do modal de solicitação ─────────────── */
 .sl-tipo-btn {
   flex: 1;
   padding: 7px 12px;
@@ -200,5 +192,3 @@
     justify-content: flex-start;
   }
 }
-=======
->>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4

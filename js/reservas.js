@@ -1,8 +1,4 @@
-/* ============================================================
-   js/reservas.js — Reservas recorrentes com detecção de conflito
-   Depende de: storage.js
-   Chamado em: dashboard.html (seção #section-reservas)
-   ============================================================ */
+﻿
 
 const DIAS_SEMANA = [
   { val: 'seg', label: 'SEG' },
@@ -13,7 +9,7 @@ const DIAS_SEMANA = [
   { val: 'sab', label: 'SÁB' },
 ];
 
-/* ---- Inicialização da seção ---- */
+
 function initReservas() {
   _buildDiasCheckboxes();
   _popularSelectSalas();
@@ -29,7 +25,7 @@ function initReservas() {
   renderTabelaReservas();
 }
 
-/* ---- Constrói chips de dias ---- */
+
 function _buildDiasCheckboxes() {
   const cont = document.getElementById('diasCheckboxes');
   cont.innerHTML = '';
@@ -46,7 +42,7 @@ function _buildDiasCheckboxes() {
   });
 }
 
-/* ---- Popula selects ---- */
+
 function _popularSelectSalas() {
   const sel = document.getElementById('reservaSala');
   sel.innerHTML = '<option value="">— Selecione uma sala —</option>';
@@ -73,7 +69,7 @@ function _popularSelectTurmas() {
   });
 }
 
-/* ---- Ao mudar turma: preenche campos automaticamente ---- */
+
 function _aoMudarTurma() {
   const opt = this.options[this.selectedIndex];
   if (!opt.value) return;
@@ -88,20 +84,13 @@ function _sincronizarTurnoComTurma() {
   document.getElementById('reservaTurma').dispatchEvent(new Event('change'));
 }
 
-/* ---- Coleta dias selecionados ---- */
+
 function _getDiasSelecionados() {
   return Array.from(document.querySelectorAll('#diasCheckboxes .check-chip.checked'))
               .map(c => c.dataset.val);
 }
 
-/* ============================================================
-   VERIFICAÇÃO DE CONFLITO
-   Conflito ocorre quando:
-   - Mesma sala
-   - Mesmo turno
-   - Períodos de data se sobrepõem
-   - E têm ao menos 1 dia da semana em comum
-   ============================================================ */
+
 function verificarConflito(nova, ignorarId = null) {
   const reservas = getReservas().filter(r => r.status === 'ATIVA' && r.id !== ignorarId);
 
@@ -109,13 +98,11 @@ function verificarConflito(nova, ignorarId = null) {
     if (r.salaId !== nova.salaId)   continue;
     if (r.turno  !== nova.turno)    continue;
 
-    // Checar sobreposição de período
-    // [A.inicio ... A.fim]  vs  [B.inicio ... B.fim]
-    // Sem sobreposição: A.fim < B.inicio  OU  B.fim < A.inicio
+
     const semSobreposicao = nova.dataFim < r.dataInicio || r.dataFim < nova.dataInicio;
     if (semSobreposicao) continue;
 
-    // Checar dias em comum
+
     const diasComuns = nova.diasSemana.filter(d => r.diasSemana.includes(d));
     if (diasComuns.length > 0) {
       const sala  = getSalas().find(s => s.id === r.salaId);
@@ -124,10 +111,10 @@ function verificarConflito(nova, ignorarId = null) {
       return `Conflito! "${sala?.nome}" já está ocupada no ${r.turno} (${diasStr}) por "${turma?.nome}".`;
     }
   }
-  return null; // sem conflito
+  return null;
 }
 
-/* ---- Salvar reserva ---- */
+
 function salvarReserva() {
   const msg    = document.getElementById('msgReserva');
   const salaId = parseInt(document.getElementById('reservaSala').value);
@@ -137,7 +124,7 @@ function salvarReserva() {
   const fim    = document.getElementById('reservaFim').value;
   const dias   = _getDiasSelecionados();
 
-  // Validações
+
   const erros = [];
   if (!salaId)       erros.push('Selecione uma sala.');
   if (!turmaId)      erros.push('Selecione uma turma.');
@@ -150,7 +137,7 @@ function salvarReserva() {
     return;
   }
 
-  // Valida: fim ≤ dataFim da turma
+
   const turma = getTurmas().find(t => t.id === turmaId);
   if (fim > turma.dataFim) {
     showMsg(msg, 'error', `Data fim (${formatDate(fim)}) ultrapassa o fim da turma (${formatDate(turma.dataFim)}).`);
@@ -161,7 +148,7 @@ function salvarReserva() {
     return;
   }
 
-  // Valida turno disponível na sala
+
   const sala = getSalas().find(s => s.id === salaId);
   if (sala && !sala.turnosDisponiveis.includes(turno)) {
     showMsg(msg, 'warning', `A sala "${sala.nome}" não tem o turno ${turno} disponível.`);
@@ -184,7 +171,7 @@ function salvarReserva() {
   renderTabelaReservas();
 }
 
-/* ---- Excluir reserva ---- */
+
 function excluirReserva(id) {
   if (!confirm('Excluir esta reserva?')) return;
   deleteReserva(id);
@@ -192,7 +179,7 @@ function excluirReserva(id) {
   renderTabelaReservas();
 }
 
-/* ---- Renderizar tabela ---- */
+
 function renderTabelaReservas() {
   const tbody  = document.querySelector('#tabelaReservas tbody');
   const salas  = getSalas();
@@ -209,11 +196,7 @@ function renderTabelaReservas() {
     const turma = r.turmaId ? turmas.find(t => t.id === r.turmaId) : null;
     const diasStr = r.diasSemana.map(d => d.toUpperCase()).join(', ');
     const isAtiva = r.status === 'ATIVA';
-<<<<<<< HEAD
     const turmaLabel = r.avulsa ? '<span class="badge badge-warning">Sem turma</span>' : (turma ? escapeHtml(turma.nome) : '<em>Turma removida</em>');
-=======
-    const turmaLabel = r.avulsa ? '<span class="badge badge-warning">Avulsa</span>' : (turma ? escapeHtml(turma.nome) : '<em>Turma removida</em>');
->>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
 
     return `
       <tr>
@@ -231,7 +214,7 @@ function renderTabelaReservas() {
   }).join('');
 }
 
-/* ── PESQUISA RESERVAS (dashboard) ── */
+
 var _cfgResrDash = {
   busca:{id:'buscarResrD', placeholder:'Pesquisar sala, turma, turno…'},
   filtros:[
@@ -272,11 +255,7 @@ function _renderTabelaReservasFiltrada() {
     const turma = r.turmaId ? turmas.find(t => t.id === r.turmaId) : null;
     const diasStr = r.diasSemana.map(d => d.toUpperCase()).join(', ');
     const isAtiva = r.status === 'ATIVA';
-<<<<<<< HEAD
     const turmaLabel = r.avulsa ? '<span class="badge badge-warning">Sem turma</span>' : (turma ? escapeHtml(turma.nome) : '<em>Turma removida</em>');
-=======
-    const turmaLabel = r.avulsa ? '<span class="badge badge-warning">Avulsa</span>' : (turma ? escapeHtml(turma.nome) : '<em>Turma removida</em>');
->>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
     return `
       <tr>
         <td><strong>${sala ? escapeHtml(sala.nome) : '<em>Sala removida</em>'}</strong></td>

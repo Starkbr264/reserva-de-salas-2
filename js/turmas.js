@@ -1,17 +1,11 @@
-/* ============================================================
-   js/turmas.js — CRUD completo de Turmas
-   Depende de: storage.js
-   Chamado em: dashboard.html (seção #section-turmas)
-   ============================================================ */
-
 let _turmaEditId = null;
 
-/* ---- Inicialização da seção ---- */
+
 function initTurmas() {
   const hoje = new Date().toISOString().split('T')[0];
   document.getElementById('turmaInicio').min = hoje;
 
-  // Quando início muda, atualiza o mínimo do fim
+
   document.getElementById('turmaInicio').addEventListener('change', function() {
     document.getElementById('turmaFim').min = this.value;
   });
@@ -24,7 +18,7 @@ function initTurmas() {
   renderTabelaTurmas();
 }
 
-/* ---- Coleta dados do formulário ---- */
+
 function _getDadosTurma() {
   const nome      = document.getElementById('turmaNome').value.trim();
   const curso     = document.getElementById('turmaCurso').value.trim();
@@ -43,7 +37,7 @@ function _getDadosTurma() {
   return { dados: { nome, curso, turno, dataInicio, dataFim }, erros };
 }
 
-/* ---- Salvar (criar ou editar) ---- */
+
 function salvarTurma() {
   const msg = document.getElementById('msgTurma');
   const { dados, erros } = _getDadosTurma();
@@ -67,7 +61,7 @@ function salvarTurma() {
   renderTabelaTurmas();
 }
 
-/* ---- Editar ---- */
+
 function editarTurma(id) {
   const turma = getTurmas().find(t => t.id === id);
   if (!turma) return;
@@ -86,7 +80,7 @@ function editarTurma(id) {
   document.getElementById('section-turmas').scrollIntoView({ behavior: 'smooth' });
 }
 
-/* ---- Cancelar edição ---- */
+
 function cancelarEdicaoTurma() {
   _turmaEditId = null;
   document.getElementById('formTurma').reset();
@@ -95,7 +89,7 @@ function cancelarEdicaoTurma() {
   document.getElementById('msgTurma').style.display = 'none';
 }
 
-/* ---- Excluir ---- */
+
 function excluirTurma(id) {
   const reservasVinculadas = getReservas().filter(r => r.turmaId === id && r.status === 'ATIVA');
   if (reservasVinculadas.length > 0) {
@@ -108,7 +102,7 @@ function excluirTurma(id) {
   renderTabelaTurmas();
 }
 
-/* ---- Renderizar tabela ---- */
+
 function renderTabelaTurmas() {
   const tbody = document.querySelector('#tabelaTurmas tbody');
   const hoje  = new Date().toISOString().split('T')[0];
@@ -138,7 +132,7 @@ function renderTabelaTurmas() {
   }).join('');
 }
 
-/* ── PESQUISA TURMAS (dashboard) ── */
+
 var _cfgTurmasDash = {
   busca:{id:'buscarTurmaD', placeholder:'Pesquisar por código, curso…'},
   filtros:[

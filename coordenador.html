@@ -1,9 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
+<!-- coordenador.html — Painel do Coordenador: salas, turmas, reservas, mapa, solicitacoes, calendario -->
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="css/main.css">
-<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="css/phosphor.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Coordenador — SENAC Reservas</title>
 
@@ -28,10 +29,7 @@
       <span class="sb-section">Visualização</span>
       <button class="sb-btn" id="nav-instrutores"  onclick="ir('instrutores')"> <span class="ic">I</span>Instrutores</button>
       <button class="sb-btn" id="nav-mapa"         onclick="ir('mapa')">        <span class="ic">M</span>Mapa de Salas</button>
-<<<<<<< HEAD
       <button class="sb-btn" id="nav-calendario" onclick="ir('calendario')"><span class="ic"><i class="ph ph-calendar"></i></span>Calendário</button>
-=======
->>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
       <button class="sb-btn" id="nav-solicitacoes" onclick="ir('solicitacoes')"><span class="ic">!</span>Solicitações<span class="sb-notif" id="badgeSolic" style="display:none">0</span></button>
       <button class="sb-btn" id="nav-notifs"       onclick="ir('notifs')">      <span class="ic">N</span>Notificações<span class="sb-notif" id="badgeNotif" style="display:none">0</span></button>
     </nav>
@@ -48,7 +46,7 @@
       <div class="tb-right"><button class="btn-tema" onclick="toggleTema()"><i class="ph ph-moon"></i></button></div>
     </header>
 
-    <!-- DASHBOARD -->
+    
     <div class="pg ativa" id="pg-dashboard">
       <div class="stats s4">
         <div class="stat s-primary"><div class="stat-lbl">Salas</div>      <div class="stat-val" id="stSalas">0</div></div>
@@ -66,7 +64,7 @@
       </div>
     </div>
 
-    <!-- SALAS -->
+    
     <div class="pg" id="pg-salas">
       <div class="card">
         <div class="card-head">
@@ -81,7 +79,7 @@
       </div>
     </div>
 
-    <!-- TURMAS -->
+    
     <div class="pg" id="pg-turmas">
       <div class="card">
         <div class="card-head">
@@ -96,7 +94,7 @@
       </div>
     </div>
 
-    <!-- RESERVAS -->
+    
     <div class="pg" id="pg-reservas">
       <div class="card">
         <div class="card-head">
@@ -111,7 +109,7 @@
       </div>
     </div>
 
-    <!-- INSTRUTORES -->
+    
     <div class="pg" id="pg-instrutores">
       <div class="card">
         <div class="card-head">
@@ -125,7 +123,7 @@
       </div>
     </div>
 
-    <!-- MAPA -->
+    
     <div class="pg" id="pg-mapa">
       <div class="card">
         <div class="card-head">
@@ -133,13 +131,9 @@
             <div class="card-title">Mapa de Salas — Hoje</div>
             <div id="mapaLegenda" class="mapa-legenda"></div>
           </div>
-<<<<<<< HEAD
           <button type="button" class="btn-refresh" onclick="return atualizarSecao('rdMapa', this)"><i class="ph ph-arrows-clockwise"></i> Atualizar</button>
-=======
-          <button class="btn btn-ghost btn-sm" onclick="rdMapa()"><i class="ph ph-arrows-clockwise"></i> Atualizar</button>
->>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
         </div>
-        <!-- Filtros do mapa -->
+        
         <div class="mapa-filtros">
           <div class="mapa-busca-wrap">
             <span class="search-icon"><i class="ph ph-magnifying-glass"></i></span>
@@ -169,24 +163,17 @@
       </div>
     </div>
 
-<<<<<<< HEAD
     
-            <!-- SOLICITAÇÕES -->
+            
     <div class="pg" id="pg-solicitacoes">
       <div class="card"><div class="card-head"><div class="card-title">Solicitações de Sala</div>
         <button type="button" class="btn-refresh" onclick="return atualizarSecao('rdSolics', this)"><i class="ph ph-arrows-clockwise"></i> Atualizar</button></div>
-=======
-    <!-- SOLICITAÇÕES -->
-    <div class="pg" id="pg-solicitacoes">
-      <div class="card"><div class="card-title">Solicitações de Sala</div>
->>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
         <div id="listaSolics"></div>
       </div>
     </div>
 
-    <!-- NOTIFS -->
+    
     <div class="pg" id="pg-notifs">
-<<<<<<< HEAD
       <div class="card"><div class="card-head"><div class="card-title">Notificações</div>
         <button type="button" class="btn-refresh" onclick="return atualizarSecao('rdNotifs', this)"><i class="ph ph-arrows-clockwise"></i> Atualizar</button></div>
         <div id="listaNotifs"></div>
@@ -195,7 +182,7 @@
     
     </div>
 
-    <!-- CALENDÁRIO DE RESERVAS -->
+    
     <div class="pg" id="pg-calendario">
       <div class="card">
         <div class="cal-toolbar">
@@ -229,16 +216,11 @@
           <div class="cal-detalhe-wrap"><div id="calDetalhe" class="cal-detalhe"></div></div>
         </div>
       </div>
-=======
-      <div class="card"><div class="card-title">Notificações</div>
-        <div id="listaNotifs"></div>
-      </div>
->>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
     </div>
   </div>
 </div>
 
-<!-- MODAL SALA -->
+
 <div class="modal-overlay" id="modalSala" style="display:none">
   <div class="modal-box" style="max-width:520px">
     <div class="modal-title">
@@ -263,7 +245,7 @@
   </div>
 </div>
 
-<!-- MODAL TURMA -->
+
 <div class="modal-overlay" id="modalTurma" style="display:none">
   <div class="modal-box">
     <div class="modal-title">
@@ -287,18 +269,13 @@
   </div>
 </div>
 
-<!-- MODAL RESERVA -->
+
 <div class="modal-overlay" id="modalRes" style="display:none">
-<<<<<<< HEAD
   <div class="modal-box" style="max-width:480px">
-=======
-  <div class="modal-box wide">
->>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
     <div class="modal-title">
       <span id="mrTitulo">Nova Reserva</span>
       <button class="modal-close" onclick="modalFechar('modalRes')" title="Fechar"><i class="ph ph-x"></i></button>
     </div>
-<<<<<<< HEAD
     <div class="fg" style="gap:10px">
       <div class="ff"><label>Sala *</label><select id="mRSala"></select></div>
       <div class="ff"><label>Turma *</label><select id="mRTurma"></select></div>
@@ -312,16 +289,6 @@
         <div class="ff"><label>Início *</label><input type="date" id="mRIni"></div>
         <div class="ff"><label>Fim *</label><input type="date" id="mRFim"></div>
       </div>
-=======
-    <div class="fg g2">
-      <div class="ff"><label>Sala *</label><select id="mRSala"></select></div>
-      <div class="ff"><label>Turma *</label><select id="mRTurma"></select></div>
-      <div class="ff"><label>Turno *</label>
-        <select id="mRTurno"><option>Matutino</option><option>Vespertino</option><option>Noturno</option></select></div>
-      <div class="ff"><label>Dias da semana</label><div class="chips" id="mRDias"></div></div>
-      <div class="ff"><label>Início reserva *</label><input type="date" id="mRIni"></div>
-      <div class="ff"><label>Fim reserva *</label>   <input type="date" id="mRFim"></div>
->>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
     </div>
     <div id="mRMsg" class="fmsg"></div>
     <div class="modal-foot">
@@ -331,7 +298,7 @@
   </div>
 </div>
 
-<!-- MODAL ATRIBUIR TURMA -->
+
 <div class="modal-overlay" id="modalAtrib" style="display:none">
   <div class="modal-box">
     <div class="modal-title">
@@ -339,15 +306,11 @@
       <button class="modal-close" onclick="modalFechar('modalAtrib')" title="Fechar"><i class="ph ph-x"></i></button>
     </div>
     <input type="hidden" id="mAInstId">
-<<<<<<< HEAD
     <div class="ff">
       <label>Turmas</label>
       <div id="mATurmas" class="chips" style="display:flex;flex-direction:column;align-items:stretch;gap:8px;max-height:280px;overflow:auto"></div>
       <div id="mAMsg" class="fmsg"></div>
     </div>
-=======
-    <div class="ff"><label>Turma</label><select id="mATurma"></select></div>
->>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
     <div class="modal-foot">
       <button class="btn btn-ghost" onclick="modalFechar('modalAtrib')">Cancelar</button>
       <button class="btn btn-primary" onclick="salvarAtrib()">Atribuir</button>
@@ -357,10 +320,7 @@
 
 <div id="toasts"></div>
 <script src="js/storage.js"></script>
-<<<<<<< HEAD
     <script src="js/calendario_page.js"></script>
-=======
->>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
 <script src="js/auth.js"></script>
 <script src="js/search.js"></script>
 <script src="js/coordenador_page.js"></script>

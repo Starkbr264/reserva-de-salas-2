@@ -1,12 +1,6 @@
-/* ============================================================
-   js/salas.js — CRUD completo de Salas
-   Depende de: storage.js
-   Chamado em: dashboard.html (seção #section-salas)
-   ============================================================ */
-
 let _salaEditId = null;
 
-/* ---- Inicialização da seção ---- */
+
 function initSalas() {
   renderTabelaSalas();
 
@@ -15,7 +9,7 @@ function initSalas() {
     salvarSala();
   });
 
-  // Chips de turno clicáveis — preventDefault evita o duplo-disparo do <label>+<input>
+
   document.querySelectorAll('.turno-chip').forEach(chip => {
     chip.addEventListener('click', (e) => {
       e.preventDefault();
@@ -24,7 +18,7 @@ function initSalas() {
   });
 }
 
-/* ---- Coleta dados do formulário ---- */
+
 function _getDadosSala() {
   const turnos = [];
   document.querySelectorAll('.turno-chip.checked').forEach(c => turnos.push(c.dataset.val));
@@ -41,7 +35,7 @@ function _getDadosSala() {
   return { dados: { nome, capacidade, tipo, turnosDisponiveis: turnos }, erros };
 }
 
-/* ---- Salvar (criar ou editar) ---- */
+
 function salvarSala() {
   const msg = document.getElementById('msgSala');
   const { dados, erros } = _getDadosSala();
@@ -66,7 +60,7 @@ function salvarSala() {
   renderTabelaSalas();
 }
 
-/* ---- Editar ---- */
+
 function editarSala(id) {
   const sala = getSalas().find(s => s.id === id);
   if (!sala) return;
@@ -87,7 +81,7 @@ function editarSala(id) {
   document.getElementById('section-salas').scrollIntoView({ behavior: 'smooth' });
 }
 
-/* ---- Cancelar edição ---- */
+
 function cancelarEdicaoSala() {
   _salaEditId = null;
   document.getElementById('formSala').reset();
@@ -97,7 +91,7 @@ function cancelarEdicaoSala() {
   document.getElementById('msgSala').style.display = 'none';
 }
 
-/* ---- Excluir ---- */
+
 function excluirSala(id) {
   const reservasVinculadas = getReservas().filter(r => r.salaId === id && r.status === 'ATIVA');
   if (reservasVinculadas.length > 0) {
@@ -110,7 +104,7 @@ function excluirSala(id) {
   renderTabelaSalas();
 }
 
-/* ---- Renderizar tabela ---- */
+
 function renderTabelaSalas() {
   const tbody = document.querySelector('#tabelaSalas tbody');
   const salas = getSalas();
@@ -134,7 +128,7 @@ function renderTabelaSalas() {
   `).join('');
 }
 
-/* ── PESQUISA SALAS (dashboard) ── */
+
 var _cfgSalasDash = {
   busca:{id:'buscarSalaD', placeholder:'Pesquisar por nome ou tipo…'},
   filtros:[

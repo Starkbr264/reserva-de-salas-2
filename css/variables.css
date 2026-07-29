@@ -1,10 +1,10 @@
-/* ================================================================
+﻿/* ================================================================
    variables.css — Tokens de design: cores, espaçamentos, sombras
    Importado primeiro por main.css
    ================================================================ */
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap');
 
-/* ── TEMA CLARO (padrão) ──────────────────────────────────── */
+
 :root {
   --bg:         #f5f7fa;
   --surface:    #ffffff;
@@ -58,14 +58,13 @@
   --st-encerrada-bg:  #f1f5f9; --st-encerrada-txt:  #64748b; --st-encerrada-brd:  #cbd5e1;
 }
 
-/* ── TEMA ESCURO ──────────────────────────────────────────── */
+
 [data-theme="dark"] {
   --bg:        #060d16;
   --surface:   #0d1826;
   --surface2:  #111f30;
   --bg2:       #0a1520;
   --bg3:       #182840;
-<<<<<<< HEAD
   --border:    #1e3350;
   --border2:   #2a4468;
 
@@ -106,36 +105,4 @@
   --st-iminente-bg:   rgba(251,191,36,.14);  --st-iminente-txt:  #fcd34d;  --st-iminente-brd:  rgba(251,191,36,.35);
   --st-posterior-bg:  rgba(96,165,250,.14);  --st-posterior-txt: #93c5fd;  --st-posterior-brd: rgba(96,165,250,.35);
   --st-encerrada-bg:  rgba(100,116,139,.12); --st-encerrada-txt: #94a3b8;  --st-encerrada-brd: rgba(100,116,139,.3);
-=======
-  --border:    #182840;
-  --border2:   #1e3350;
-
-  --primary:   #4a9eff;
-  --primary-h: #2e7de0;
-  --primary-l: rgba(74,158,255,.14);
-  --primary-d: rgba(74,158,255,.08);
-
-  --text1:     #dce8f5;
-  --text:      #dce8f5;
-  --text2:     #7a9bb8;
-  --text3:     #3d5570;
-
-  --green-l:   rgba(5,150,105,.16);
-  --red-l:     rgba(220,38,38,.16);
-  --amber-l:   rgba(217,119,6,.16);
-  --blue-l:    rgba(37,99,235,.16);
-  --accent-l:  rgba(245,158,11,.16);
-
-  --st-ativa-bg:      rgba(5,150,105,.16);   --st-ativa-txt:     #6ee7b7;
-  --st-iminente-bg:   rgba(217,119,6,.16);   --st-iminente-txt:  #fcd34d;
-  --st-posterior-bg:  rgba(37,99,235,.16);   --st-posterior-txt: #93c5fd;
-  --st-encerrada-bg:  rgba(100,116,139,.1);  --st-encerrada-txt: #64748b;
-  --st-ativa-brd:     rgba(6,95,70,.4);
-  --st-iminente-brd:  rgba(146,64,14,.4);
-  --st-posterior-brd: rgba(30,64,175,.4);
-  --st-encerrada-brd: rgba(100,116,139,.3);
-
-  --shadow:    0 1px 3px rgba(0,0,0,.3),  0 4px 16px rgba(0,0,0,.25);
-  --shadow-md: 0 4px 12px rgba(0,0,0,.4), 0 8px 32px rgba(0,0,0,.35);
->>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
 }

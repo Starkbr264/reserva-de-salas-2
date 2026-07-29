@@ -1,9 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
+<!-- admin.html — Painel do Administrador: usuarios, unidades, salas, turmas, reservas, chaves e calendario -->
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="css/main.css">
-<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="css/phosphor.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Administrador — SENAC Reservas</title>
 
@@ -11,7 +12,7 @@
 <body>
 <div class="layout">
 
-  <!-- SIDEBAR -->
+  
   <aside class="sidebar">
     <div class="sb-brand">
       <div class="logo-wrap" id="logoWrap"><img id="logoImg" src="img/senac-logo-sem-fundo.webp" alt="SENAC"></div>
@@ -30,10 +31,7 @@
       <button class="sb-btn" id="nav-turmas"   onclick="ir('turmas')"><span class="ic">T</span>Turmas</button>
       <button class="sb-btn" id="nav-reservas" onclick="ir('reservas')"><span class="ic">R</span>Reservas</button>
       <button class="sb-btn" id="nav-chaves"   onclick="ir('chaves')"><span class="ic"><i class="ph ph-key"></i></span>Chaves</button>
-<<<<<<< HEAD
       <button class="sb-btn" id="nav-calendario" onclick="ir('calendario')"><span class="ic"><i class="ph ph-calendar"></i></span>Calendário</button>
-=======
->>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
     </nav>
     <div class="sb-foot">
       <div class="sb-user">
@@ -41,14 +39,10 @@
         <div><div class="sb-uname" id="sbNome">—</div><div class="sb-urole">Administrador</div></div>
       </div>
       <button class="btn-sair" onclick="sair()">Sair do sistema</button>
-<<<<<<< HEAD
-=======
-      <button class="btn-sair" style="margin-top:6px;border-color:var(--red);color:var(--red)" onclick="resetarTodosDados()"><i class="ph ph-warning"></i>️ Resetar dados</button>
->>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
     </div>
   </aside>
 
-  <!-- MAIN -->
+  
   <div class="main">
     <header class="topbar">
       <div>
@@ -60,7 +54,7 @@
       </div>
     </header>
 
-    <!-- DASHBOARD -->
+    
     <div class="pg ativa" id="pg-dashboard">
       <div class="stats s4">
         <div class="stat s-primary"><div class="stat-lbl">Total Usuários</div><div class="stat-val" id="stTotal">0</div></div>
@@ -75,7 +69,7 @@
         <div class="stat s-amber"> <div class="stat-lbl">Chaves</div>   <div class="stat-val" id="stChav">0</div></div>
       </div>
       <div class="card">
-        <div class="card-title">Últimos Usuários</div>
+        <div class="card-title">Ultimos Usuários</div>
         <div class="tw"><table class="tbl">
           <thead><tr><th>Nome</th><th>E-mail</th><th>Perfil</th><th>Unidade</th></tr></thead>
           <tbody id="tbDash"></tbody>
@@ -83,15 +77,12 @@
       </div>
     </div>
 
-    <!-- USUÁRIOS -->
+    
     <div class="pg" id="pg-usuarios">
       <div class="card">
         <div class="card-head">
           <div class="card-title">Usuários do Sistema <span class="count-badge" id="countUsuarios"></span></div>
-<<<<<<< HEAD
           <button type="button" class="btn-refresh" onclick="return atualizarSecao('rdUsuarios', this)"><i class="ph ph-arrows-clockwise"></i> Atualizar</button>
-=======
->>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
           <button class="btn btn-primary" onclick="abrirUser(0)">+ Novo Usuário</button>
         </div>
         <div id="searchUsuarios"></div>
@@ -102,15 +93,12 @@
       </div>
     </div>
 
-    <!-- UNIDADES -->
+    
     <div class="pg" id="pg-unidades">
       <div class="card">
         <div class="card-head">
           <div class="card-title">Unidades / CPS do SENAC-DF <span class="count-badge" id="countUnidades"></span></div>
-<<<<<<< HEAD
           <button type="button" class="btn-refresh" onclick="return atualizarSecao('rdUnidades', this)"><i class="ph ph-arrows-clockwise"></i> Atualizar</button>
-=======
->>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
           <button class="btn btn-primary" onclick="abrirUnid(0)">+ Nova Unidade</button>
         </div>
         <div id="searchUnidades"></div>
@@ -121,15 +109,12 @@
       </div>
     </div>
 
-    <!-- SALAS GLOBAL -->
+    
     <div class="pg" id="pg-salas">
       <div class="card">
         <div class="card-head">
           <div class="card-title">Todas as Salas <span class="count-badge" id="countSalasAdmin"></span></div>
-<<<<<<< HEAD
           <button type="button" class="btn-refresh" onclick="return atualizarSecao('rdTodasSalas', this)"><i class="ph ph-arrows-clockwise"></i> Atualizar</button>
-=======
->>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
         </div>
         <div id="searchSalasAdmin"></div>
         <div class="tw"><table class="tbl">
@@ -139,15 +124,12 @@
       </div>
     </div>
 
-    <!-- TURMAS GLOBAL -->
+    
     <div class="pg" id="pg-turmas">
       <div class="card">
         <div class="card-head">
           <div class="card-title">Todas as Turmas <span class="count-badge" id="countTurmasAdmin"></span></div>
-<<<<<<< HEAD
           <button type="button" class="btn-refresh" onclick="return atualizarSecao('rdTodasTurmas', this)"><i class="ph ph-arrows-clockwise"></i> Atualizar</button>
-=======
->>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
         </div>
         <div id="searchTurmasAdmin"></div>
         <div class="tw"><table class="tbl">
@@ -157,15 +139,12 @@
       </div>
     </div>
 
-    <!-- RESERVAS GLOBAL -->
+    
     <div class="pg" id="pg-reservas">
       <div class="card">
         <div class="card-head">
           <div class="card-title">Todas as Reservas <span class="count-badge" id="countResAdmin"></span></div>
-<<<<<<< HEAD
           <button type="button" class="btn-refresh" onclick="return atualizarSecao('rdTodasReservas', this)"><i class="ph ph-arrows-clockwise"></i> Atualizar</button>
-=======
->>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
         </div>
         <div id="searchResAdmin"></div>
         <div class="tw"><table class="tbl">
@@ -175,15 +154,12 @@
       </div>
     </div>
 
-    <!-- CHAVES GLOBAL -->
+    
     <div class="pg" id="pg-chaves">
       <div class="card">
         <div class="card-head">
           <div class="card-title">Todas as Chaves <span class="count-badge" id="countChavAdmin"></span></div>
-<<<<<<< HEAD
           <button type="button" class="btn-refresh" onclick="return atualizarSecao('rdTodasChaves', this)"><i class="ph ph-arrows-clockwise"></i> Atualizar</button>
-=======
->>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
         </div>
         <div id="searchChavAdmin"></div>
         <div class="tw"><table class="tbl">
@@ -191,12 +167,11 @@
           <tbody id="tbChavAdmin"></tbody>
         </table></div>
       </div>
-<<<<<<< HEAD
 
         
     </div>
 
-    <!-- CALENDÁRIO DE RESERVAS -->
+    
     <div class="pg" id="pg-calendario">
       <div class="card">
         <div class="cal-toolbar">
@@ -230,13 +205,11 @@
           <div class="cal-detalhe-wrap"><div id="calDetalhe" class="cal-detalhe"></div></div>
         </div>
       </div>
-=======
->>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
     </div>
   </div>
 </div>
 
-<!-- MODAL USUÁRIO -->
+
 <div class="modal-overlay" id="modalUser" style="display:none">
   <div class="modal-box" style="max-width:460px">
     <div class="modal-title"><span id="mUTitulo">Novo Usuário</span><button class="modal-close" onclick="fecharUser()"><i class="ph ph-x"></i></button></div>
@@ -263,7 +236,7 @@
   </div>
 </div>
 
-<!-- MODAL UNIDADE -->
+
 <div class="modal-overlay" id="modalUnid" style="display:none">
   <div class="modal-box">
     <div class="modal-title"><span id="mNTitulo">Nova Unidade</span><button class="modal-close" onclick="fecharUnid()"><i class="ph ph-x"></i></button></div>
@@ -280,15 +253,10 @@
   </div>
 </div>
 
-<<<<<<< HEAD
 
     <div id="toasts"></div>
 <script src="js/storage.js"></script>
     <script src="js/calendario_page.js"></script>
-=======
-<div id="toasts"></div>
-<script src="js/storage.js"></script>
->>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
 <script src="js/auth.js"></script>
 <script src="js/search.js"></script>
 <script src="js/admin_page.js"></script>

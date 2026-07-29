@@ -1,4 +1,4 @@
-/* ================================================================
+﻿/* ================================================================
    modal.css — Overlays e caixas de diálogo
    ================================================================ */
 
@@ -29,11 +29,7 @@
   margin: auto;
   position: relative;
 }
-<<<<<<< HEAD
 .modal-box.wide { max-width: 520px; }
-=======
-.modal-box.wide { max-width: 640px; }
->>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
 
 /* Título com botão de fechar */
 .modal-title {

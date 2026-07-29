@@ -1,52 +1,31 @@
 <!DOCTYPE html>
-<!-- ============================================================
-     dashboard.html — Painel principal da Coordenação
-     Depende de: css/style.css
-                 js/storage.js → js/auth.js → js/salas.js
-                 js/turmas.js  → js/reservas.js → js/disponibilidade.js
-     ============================================================ -->
+<!-- dashboard.html — Painel publico de disponibilidade de salas (sem login) -->
+
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="css/main.css">
-<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="css/phosphor.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Painel — Reserva de Salas SENAC</title>
 
 </head>
 <body>
 
-<!-- ============================================================
-     LAYOUT: Sidebar + Main
-     ============================================================ -->
+
 <div class="layout">
 
-  <!-- ======== SIDEBAR ======== -->
+  
   <aside class="sidebar">
     <div class="sidebar-brand">
-      <!--
-        ============================================================
-        LOGO DA INSTITUIÇÃO
-        ============================================================
-        Para usar uma imagem como logo, edite o atributo "src" abaixo
-        com o caminho da sua imagem. Exemplos:
-
-          → Arquivo na mesma pasta:      src="logo.png"
-          → Subpasta "img":              src="img/logo.png"
-          → URL externa:                 src="https://exemplo.com/logo.png"
-
-        A altura máxima é 52px (controlada pelo CSS).
-        Se não quiser usar imagem, deixe src="" e o texto "SENAC."
-        abaixo será exibido no lugar.
-        ============================================================
-      -->
+      
       <img
         id="logoImg"
         src="img/senac-logo-sem-fundo.webp"
         alt="Logo SENAC"
         style="max-width:100%; max-height:52px; object-fit:contain; margin-bottom:8px;"
       >
-      <!-- Texto exibido quando não há logo (src vazio acima) -->
+      
       <div class="logo-text" id="logoText">SENAC<span>.</span></div>
       <div class="logo-sub">Reserva de Salas</div>
     </div>
@@ -78,10 +57,10 @@
     </div>
   </aside>
 
-  <!-- ======== MAIN ======== -->
+  
   <div class="main">
 
-    <!-- Topbar -->
+    
     <header class="topbar">
       <div>
         <div class="topbar-title" id="topbarTitle">Salas</div>
@@ -93,15 +72,13 @@
       </div>
     </header>
 
-    <!-- Conteúdo das seções -->
+    
     <main class="page-content">
 
-      <!-- ================================================
-           SEÇÃO: SALAS
-           ================================================ -->
+      
       <div id="section-salas">
 
-        <!-- Formulário de cadastro -->
+        
         <div class="section-card">
           <h3>Cadastrar Sala</h3>
 
@@ -161,7 +138,7 @@
           <div id="msgSala" class="form-msg"></div>
         </div>
 
-        <!-- Tabela -->
+        
         <div class="section-card">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
             <h3 style="margin:0">Salas Cadastradas <span class="count-badge" id="countSalasDash"></span></h3>
@@ -179,12 +156,10 @@
           </div>
         </div>
 
-      </div><!-- /section-salas -->
+      </div>
 
 
-      <!-- ================================================
-           SEÇÃO: TURMAS
-           ================================================ -->
+      
       <div id="section-turmas" style="display:none">
 
         <div class="section-card">
@@ -247,12 +222,10 @@
           </div>
         </div>
 
-      </div><!-- /section-turmas -->
+      </div>
 
 
-      <!-- ================================================
-           SEÇÃO: RESERVAS
-           ================================================ -->
+      
       <div id="section-reservas" style="display:none">
 
         <div class="section-card">
@@ -319,12 +292,10 @@
           </div>
         </div>
 
-      </div><!-- /section-reservas -->
+      </div>
 
 
-      <!-- ================================================
-           SEÇÃO: DISPONIBILIDADE
-           ================================================ -->
+      
       <div id="section-disponibilidade" style="display:none">
 
         <div class="section-card">
@@ -355,7 +326,7 @@
           <div id="resultadoDisponibilidade" class="disp-result"></div>
         </div>
 
-        <!-- Dica de uso -->
+        
         <div class="section-card" style="padding:20px 28px">
           <p style="color:var(--text-muted); font-size:.9rem; margin:0">
             <strong>Como funciona:</strong> selecione uma sala, o turno e uma data.
@@ -363,25 +334,16 @@
           </p>
         </div>
 
-      </div><!-- /section-disponibilidade -->
+      </div>
 
-    </main><!-- /page-content -->
-  </div><!-- /main -->
-</div><!-- /layout -->
+    </main>
+  </div>
+</div>
 
-<!-- Toast container -->
+
 <div id="toast-container"></div>
 
-<!-- ============================================================
-     SCRIPTS — ordem de importação é obrigatória:
-     1. storage.js  (funções de dados — base de tudo)
-     2. auth.js     (depende de storage)
-     3. salas.js    (depende de storage)
-     4. turmas.js   (depende de storage)
-     5. reservas.js (depende de storage + salas + turmas)
-     6. disponibilidade.js (depende de storage)
-     7. Bloco inline: navegação + utilitários + inicialização
-     ============================================================ -->
+
 <script src="js/storage.js"></script>
 <script src="js/auth.js"></script>
 <script src="js/search.js"></script>

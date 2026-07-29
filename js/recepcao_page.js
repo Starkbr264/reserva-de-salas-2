@@ -1,39 +1,41 @@
+/*
+ * recepcao_page.js
+ * Painel da Recepcao.
+ *
+ * Secoes:
+ *   Mapa de Salas  — visualizacao somente leitura da ocupacao atual
+ *   Chaves         — atribuicao e devolucao de chaves para instrutores
+ *   Notificacoes   — avisos recebidos
+ *   Calendario     — calendario de reservas da unidade
+ *
+ * A recepcao nao pode alterar o status das salas no mapa
+ * (apenas visualiza). O controle de chaves e exclusivo da recepcao.
+ */
 var _sess;
 
-<<<<<<< HEAD
 window.addEventListener('DOMContentLoaded', async function() {
   await initDados(); requirePerfil('recepcao'); _sess = getSessao();
-=======
-window.addEventListener('DOMContentLoaded', function() {
-  initDados(); requirePerfil('recepcao'); _sess = getSessao();
->>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
   initSidebar(); initLogo(); ir('mapa'); _atualizarBadge();
 });
 
 function _uid(){ return _sess?_sess.unidadeId:null; }
 
+// Navegacao entre secoes
 function ir(aba) {
   document.querySelectorAll('.pg').forEach(function(p){p.classList.remove('ativa');p.style.display='none';});
   var pg=document.getElementById('pg-'+aba); if(pg){pg.classList.add('ativa');pg.style.display='block';}
   document.querySelectorAll('.sb-btn').forEach(function(b){b.classList.remove('ativo');});
   var btn=document.getElementById('nav-'+aba); if(btn)btn.classList.add('ativo');
-<<<<<<< HEAD
   var meta={mapa:{t:'Mapa de Salas',s:'Visualizar ocupação e guiar instrutores'},chaves:{t:'Chaves',s:'Criar e controlar chaves das salas'},notifs:{t:'Notificações',s:'Avisos recebidos'},calendario:{t:'Calendário de Reservas',s:'Visualize reservas por data e turno'}};
-=======
-  var meta={mapa:{t:'Mapa de Salas',s:'Visualizar ocupação e guiar instrutores'},chaves:{t:'Chaves',s:'Criar e controlar chaves das salas'},notifs:{t:'Notificações',s:'Avisos recebidos'}};
->>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
   var m=meta[aba]||{}; document.getElementById('tbTitle').textContent=m.t||aba; document.getElementById('tbSub').textContent=m.s||'';
   if(aba==='mapa')   rdMapa();
   if(aba==='chaves') rdChaves();
   if(aba==='notifs') rdNotifs();
-<<<<<<< HEAD
   if(aba==='calendario')  rdCalendario();
-=======
->>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
 }
 
 function _calcSalaStatusRec(s, hj) {
-  // Verificar override manual primeiro
+
   var ov=getOverride(s.id, s.unidadeId);
   if(ov){
     return {
@@ -43,7 +45,7 @@ function _calcSalaStatusRec(s, hj) {
       turnoAtivo:ov.status!=='livre'?'Manual':'', turmaNome:ov.motivo||'', instNome:ov.por||''
     };
   }
-  // Calcular pelo calendário
+
   var rs=getReservas().filter(function(r){return r.salaId===s.id&&r.dataInicio<=hj&&r.dataFim>=hj;});
   var p=hj.split('-').map(Number);
   var dia=['dom','seg','ter','qua','qui','sex','sab'][new Date(p[0],p[1]-1,p[2]).getDay()];
@@ -52,11 +54,7 @@ function _calcSalaStatusRec(s, hj) {
     if(!r.diasSemana.includes(dia)) return;
     var pStat,pTurma,pInst;
     if(r.avulsa||!r.turmaId){
-<<<<<<< HEAD
       pStat='ocupada'; pTurma='Sem turma';
-=======
-      pStat='ocupada'; pTurma='Reserva avulsa';
->>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
       var iA=r.instrutorId?getUserById(r.instrutorId):null; pInst=iA?iA.nome:'—';
     } else {
       var t=getTurmaById(r.turmaId); var cst=t?calcStatus(t):'encerrada';
@@ -114,24 +112,8 @@ function _buildSalaCardRec(s, info) {
     ocupHtml = '<div class="sc-livre-label">'+statusIcon+' Disponível</div>';
   }
 
-<<<<<<< HEAD
   return '<div class="sala-card-v2 '+info.stat+'">'
     +'<div class="sc-header"><div class="sc-nome">'+esc(s.nome)+'</div>'
-=======
-  var sid = s.id;
-  var ovOcup  = info.stat==='ocupada'  ? 'ov-active' : '';
-  var ovIminn = info.stat==='iminente' ? 'ov-active' : '';
-  var ovLivre = (info.stat==='livre' && !info.override) ? 'ov-active' : '';
-  var ovBtn = '<div class="sc-override-bar">'
-    +'<button class="sc-ov-btn '+ovOcup+'"  data-sid="'+sid+'" data-uid="'+uid+'" data-st="ocupada"  onclick="ovClickRec(this)" title="Marcar Ocupada"><span class="ic-dot ic-ocupada"></span></button>'
-    +'<button class="sc-ov-btn '+ovIminn+'" data-sid="'+sid+'" data-uid="'+uid+'" data-st="iminente" onclick="ovClickRec(this)" title="Marcar Em Breve"><span class="ic-dot ic-iminente"></span></button>'
-    +'<button class="sc-ov-btn '+ovLivre+'" data-sid="'+sid+'" data-uid="'+uid+'" data-st="livre"    onclick="ovClickRec(this)" title="Marcar Livre"><span class="ic-dot ic-livre"></span></button>'
-    +(info.override?'<button class="sc-ov-btn sc-ov-auto" data-sid="'+sid+'" data-uid="'+uid+'" data-st="auto" onclick="ovClickRec(this)" title="Voltar ao automático">⟳ Auto</button>':'')
-    +'</div>';
-
-  return '<div class="sala-card-v2 '+info.stat+(info.override?' has-override':'')+'">'
-    +'<div class="sc-header"><div class="sc-nome">'+esc(s.nome)+(info.override?'<span class="sc-ov-tag"><i class="ph ph-gear"></i>️</span>':'')+'</div>'
->>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
     +'<div class="sc-status-dot '+info.stat+'"></div></div>'
     +'<div class="sc-tipo">'+esc(s.tipo)+'</div>'
     +'<div class="sc-meta">'
@@ -140,38 +122,9 @@ function _buildSalaCardRec(s, info) {
       +'<div class="sc-meta-item"><span class="sc-meta-icon"><i class="ph ph-users"></i></span>'+s.capacidade+'</div>'
     +'</div>'
     +'<div class="sc-turnos">'+turnosHtml+'</div>'
-<<<<<<< HEAD
     +ocupHtml
     +'</div>';
 }
-
-/* Controles de override removidos — recepção somente leitura */
-=======
-    +ocupHtml+ovBtn
-    +'</div>';
-}
-
-function ovClickRec(btn) {
-  var salaId    = parseInt(btn.getAttribute('data-sid'));
-  var unidadeId = parseInt(btn.getAttribute('data-uid'));
-  var status    = btn.getAttribute('data-st');
-  _setOverrideRec(salaId, unidadeId, status);
-}
-
-function _setOverrideRec(salaId, unidadeId, status) {
-  var motivo = '';
-  if (status==='ocupada'||status==='iminente') {
-    motivo = prompt(
-      status==='ocupada' ? 'Motivo da ocupação:' : 'Motivo para "Em Breve":',
-      status==='ocupada' ? 'Em uso' : 'Preparação'
-    );
-    if (motivo===null) return;
-  }
-  var sess = getSessao();
-  setOverride(salaId, unidadeId, status==='auto' ? null : status, motivo, sess ? sess.nome : '—');
-  rdMapa();
-}
->>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
 
 
 function _popularFiltrosMapaRec() {
@@ -190,6 +143,7 @@ function _popularFiltrosMapaRec() {
   }
 }
 
+// Mapa de salas — visualizacao somente leitura
 function rdMapa() {
   _popularFiltrosMapaRec();
   var salas=getSalasByUnidade(_uid()); var cont=document.getElementById('mapaRec'); var hj=hojeISO();
@@ -245,7 +199,7 @@ function rdMapa() {
   });
   cont.innerHTML=html;
 
-  // Tabela futuras
+
   var tb=document.getElementById('tbFuturas'); var hoje14=new Date(); hoje14.setDate(hoje14.getDate()+14);
   var fim14=hoje14.toISOString().split('T')[0];
   var fut=getReservas().filter(function(r){return r.unidadeId===_uid()&&r.dataFim>=hj&&r.dataInicio<=fim14;}).sort(function(a,b){return a.dataInicio.localeCompare(b.dataInicio);}).slice(0,20);
@@ -261,13 +215,13 @@ function rdMapa() {
   }).join('');
 }
 
+// Chaves — listagem com status de atribuicao
 function rdChaves() {
   var list=getChaves().filter(function(c){return c.unidadeId===_uid();}); var cont=document.getElementById('listaChaves');
   if(!list.length){cont.innerHTML='<p class="txt2">Nenhuma chave cadastrada. Clique em "+ Nova Chave" para criar.</p>';return;}
-<<<<<<< HEAD
   cont.innerHTML=list.map(function(c){ return _buildChaveCard(c); }).join('');
 }
-/* ── RENDER CARD CHAVE ── */
+
 function _buildChaveCard(c) {
   var sala  = getSalaById(c.salaId);
   var pega  = c.status === 'pega';
@@ -305,22 +259,7 @@ async function liberarChaveRapido(chaveId) {
   rdChaves();
 }
 
-=======
-  cont.innerHTML=list.map(function(c){
-    var sala=getSalaById(c.salaId); var pega=c.status==='pega'; var quem=pega&&c.instrutorId?getUserById(c.instrutorId):null;
-    return '<div class="chave-card '+(pega?'pega':'disponivel')+'">'
-      +'<div class="ch-icon">'+(pega?'<i class="ph ph-key"></i>':'<i class="ph ph-key"></i>️')+'</div>'
-      +'<div class="ch-info"><div class="ch-nome">'+esc(sala?sala.nome:'—')+' — '+esc(c.codigo||'Chave')+'</div>'
-      +'<div class="ch-det">Andar: '+esc(c.andar||'—')+' · <strong>'+(pega?'Retirada':'Disponível')+'</strong></div>'
-      +(quem?'<div class="ch-det">Retirada por: '+esc(quem.nome)+(c.pegaEm?' em '+fmtDateTime(c.pegaEm):'')+'</div>':'')
-      +'</div>'
-      +'<div style="display:flex;gap:6px">'
-      +'<button class="btn btn-ghost btn-sm" onclick="abrirChave('+c.id+')">Editar</button>'
-      +'<button class="btn btn-danger btn-sm" onclick="excluirChave('+c.id+')">Excluir</button>'
-      +'</div></div>';
-  }).join('');
-}
->>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
+// Modal de nova chave ou edicao
 function abrirChave(id) {
   var c=id?getChaveById(id):null;
   document.getElementById('mCId').value=id||''; _tx('mCTit',id?'Editar Chave':'Nova Chave');
@@ -329,6 +268,7 @@ function abrirChave(id) {
   document.getElementById('mCCod').value=c?c.codigo||'':''; document.getElementById('mCAndar').value=c?c.andar||'':'';
   modalAbrir('modalChave');
 }
+// Salva dados da chave
 function salvarChave() {
   var id=parseInt(document.getElementById('mCId').value)||null;
   var salaId=parseInt(document.getElementById('mCSala').value)||null;
@@ -342,12 +282,12 @@ function excluirChave(id){
   if(!confirm('Excluir esta chave?'))return; delChave(id); toast('Chave excluída.','aviso'); rdChaves();
 }
 
-<<<<<<< HEAD
 var _NOTIF_ICONS = {
   info:'<i class="ph ph-info"></i>', aviso:'<i class="ph ph-warning"></i>', chave:'<i class="ph ph-key"></i>', solicit:'<i class="ph ph-clipboard-text"></i>',
   reserva:'<i class="ph ph-calendar"></i>', aprovada:'<i class="ph ph-check-circle"></i>', recusada:'<i class="ph ph-x-circle"></i>', erro:'<i class="ph ph-warning-circle"></i>'
 };
 
+// Notificacoes da recepcao
 function rdNotifs() {
   var list = getNotifsPara('recepcao', _uid());
   var cont  = document.getElementById('listaNotifs');
@@ -369,34 +309,16 @@ function rdNotifs() {
       + '</div>';
   }).join('');
   marcarTodasLidas('recepcao', _uid()); _atualizarBadge();
-=======
-function rdNotifs() {
-  var list=getNotifsPara('recepcao',_uid()); var cont=document.getElementById('listaNotifs');
-  if(!list.length){cont.innerHTML='<p class="txt2">Sem notificações.</p>';return;}
-  cont.innerHTML=list.map(function(n){
-    return '<div class="notif-item tipo-'+(n.tipo||'info')+(n.lida?'':' nao-lida')+'">'
-      +'<div class="ni-title">'+esc(n.titulo||'Notificação')+'</div>'
-      +'<div class="ni-msg">'+esc(n.msg)+'</div>'
-      +'<div class="ni-time">'+fmtDateTime(n.criadaEm)+'</div>'+'</div>';
-  }).join('');
-  marcarTodasLidas('recepcao',_uid()); _atualizarBadge();
->>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
 }
 
 function _atualizarBadge(){var n=countNaoLidas('recepcao',_uid());var b=document.getElementById('badgeNotif');if(b){b.textContent=n;b.style.display=n?'':'none';}}
 function _tx(id,v){var e=document.getElementById(id);if(e)e.textContent=v;}
 
-/* ── PESQUISA CHAVES ── */
+
 var _cfgChavRec = {
-<<<<<<< HEAD
   busca:{id:'buscarChavRec', placeholder:'Pesquisar por código, sala, andar, responsável…'},
   filtros:[
     {id:'filtStatusChavRec', label:'Situação', campo:'status', opcoes:[{value:'disponivel',label:'Na recepção'},{value:'pega',label:'Com responsável'}]},
-=======
-  busca:{id:'buscarChavRec', placeholder:'Pesquisar por código, sala, andar…'},
-  filtros:[
-    {id:'filtStatusChavRec', label:'Status', campo:'status', opcoes:[{value:'disponivel',label:'Disponível'},{value:'pega',label:'Retirada'}]},
->>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
   ]
 };
 
@@ -419,11 +341,11 @@ function _renderChavRec() {
   var cnt = document.getElementById('countChavRec'); if (cnt) cnt.textContent = list.length+' chave(s)';
   var cont = document.getElementById('listaChaves');
   if (!list.length){cont.innerHTML='<p class="txt2">Nenhuma chave encontrada.</p>';return;}
-<<<<<<< HEAD
   cont.innerHTML = list.map(function(c){ return _buildChaveCard(c); }).join('');
 }
 
-/* ── ATRIBUIR CHAVE A INSTRUTOR ── */
+
+// Abre o modal para atribuir uma chave a um instrutor
 function abrirAtribuir(chaveId) {
   var c = getChaveById(chaveId);
   var sala = getSalaById(c ? c.salaId : null);
@@ -433,7 +355,7 @@ function abrirAtribuir(chaveId) {
   document.getElementById('mAChaveId').value = chaveId;
   document.getElementById('mAChaveNome').value = (sala ? sala.nome : '—') + ' — ' + (c ? c.codigo || 'Chave' : '');
 
-  // Populate select with instructors AND coordinators from this unit
+
   var sel = document.getElementById('mAInstrutorSel');
   sel.innerHTML = '<option value="">— Selecione o responsável —</option>';
 
@@ -456,7 +378,7 @@ function abrirAtribuir(chaveId) {
     sel.appendChild(grp);
   });
 
-  // Show "Liberar" button only when key is already with someone
+
   var btnDev = document.getElementById('mABtnDevolver');
   if (btnDev) btnDev.style.display = pega ? '' : 'none';
 
@@ -502,19 +424,4 @@ async function devolverChaveRec() {
   } catch(e) { toast('Erro ao devolver chave.', 'erro'); }
   modalFechar('modalAtribuir');
   rdChaves();
-=======
-  cont.innerHTML = list.map(function(c){
-    var sala=getSalaById(c.salaId); var pega=c.status==='pega'; var quem=pega&&c.instrutorId?getUserById(c.instrutorId):null;
-    return '<div class="chave-card '+(pega?'pega':'disponivel')+'">'
-      +'<div class="ch-icon">'+(pega?'<i class="ph ph-key"></i>':'<i class="ph ph-key"></i>️')+'</div>'
-      +'<div class="ch-info"><div class="ch-nome">'+esc(sala?sala.nome:'—')+' — '+esc(c.codigo||'Chave')+'</div>'
-      +'<div class="ch-det">Andar: '+esc(c.andar||'—')+' · <strong>'+(pega?'Retirada':'Disponível')+'</strong></div>'
-      +(quem?'<div class="ch-det">Por: '+esc(quem.nome)+(c.pegaEm?' em '+fmtDateTime(c.pegaEm):'')+'</div>':'')
-      +'</div>'
-      +'<div style="display:flex;gap:6px">'
-      +'<button class="btn btn-ghost btn-sm" onclick="abrirChave('+c.id+')">Editar</button>'
-      +'<button class="btn btn-danger btn-sm" onclick="excluirChave('+c.id+')">Excluir</button>'
-      +'</div></div>';
-  }).join('');
->>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
 }

@@ -1,9 +1,11 @@
+/*
+ * dashboard_page.js
+ * Logica do painel publico de disponibilidade de salas (dashboard.html).
+ * Exibe a ocupacao atual das salas sem necessidade de login.
+ */
 window.addEventListener('DOMContentLoaded', function() {
-  /* ============================================================
-     Utilitários compartilhados (acessíveis por todos os módulos)
-     ============================================================ */
 
-  /** Escapa HTML para evitar XSS ao inserir texto do usuário no DOM */
+
   function escapeHtml(str) {
     if (!str) return '';
     return String(str)

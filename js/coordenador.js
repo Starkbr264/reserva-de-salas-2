@@ -1,7 +1,3 @@
-/* ============================================================
-   js/coordenador.js — Painel do Coordenador
-   ============================================================ */
-
 const DIAS_SEM = [{v:'seg',l:'SEG'},{v:'ter',l:'TER'},{v:'qua',l:'QUA'},
                   {v:'qui',l:'QUI'},{v:'sex',l:'SEX'},{v:'sab',l:'SÁB'}];
 const TURNOS   = ['Matutino','Vespertino','Noturno'];
@@ -17,7 +13,7 @@ function initCoordenador() {
   ir('dashboard');
 }
 
-/* ── NAVEGAÇÃO ─────────────────────────────────────────── */
+
 const META_C = {
   dashboard:      {t:'Dashboard',       s:'Visão geral da unidade'},
   salas:          {t:'Salas',           s:'Cadastro e gestão de salas'},
@@ -41,7 +37,7 @@ function ir(aba) {
   if(fn[aba]) fn[aba]();
 }
 
-/* ── DASHBOARD ─────────────────────────────────────────── */
+
 function rdDash() {
   const salas   = getSalas().filter(s=>s.unidadeId===_sess.unidadeId);
   const turmas  = getTurmas().filter(t=>t.unidadeId===_sess.unidadeId);
@@ -52,7 +48,7 @@ function rdDash() {
   _t('stReservas',reservas.length);
   _t('stSolics',  solics.length);
 
-  // Turmas recentes
+
   const tb = document.getElementById('tbDashTurmas');
   const rec = [...turmas].sort((a,b)=>b.id-a.id).slice(0,5);
   if(!rec.length){tb.innerHTML='<tr class="tbl-empty"><td colspan="5">Nenhuma turma cadastrada.</td></tr>';return;}
@@ -69,7 +65,7 @@ function rdDash() {
   }).join('');
 }
 
-/* ── SALAS ─────────────────────────────────────────────── */
+
 function rdSalas() {
   const list = getSalas().filter(s=>s.unidadeId===_sess.unidadeId);
   const tb   = document.getElementById('tbSalas');
@@ -93,7 +89,7 @@ function abrirModalSala(id) {
   _v('msNome',       s?s.nome:'');
   _v('msCapacidade', s?s.capacidade:'');
   _v('msTipo',       s?s.tipo:'');
-  // chips de turno
+
   const cont=document.getElementById('msTurnos');
   cont.innerHTML='';
   TURNOS.forEach(t=>{
@@ -129,7 +125,7 @@ function excluirSala(id){
   deleteSala(id);toast('Sala excluída.','aviso');rdSalas();
 }
 
-/* ── TURMAS ────────────────────────────────────────────── */
+
 function rdTurmas() {
   const list=getTurmas().filter(t=>t.unidadeId===_sess.unidadeId);
   const tb  =document.getElementById('tbTurmas');
@@ -193,7 +189,7 @@ function excluirTurma(id){
   toast('Turma excluída.','aviso');rdTurmas();
 }
 
-/* ── RESERVAS ──────────────────────────────────────────── */
+
 function rdReservas() {
   const list=getReservas().filter(r=>r.unidadeId===_sess.unidadeId);
   const tb  =document.getElementById('tbReservas');
@@ -242,7 +238,7 @@ function abrirModalResEditar(id) {
   _v('mrTurno',r.turno);
   _v('mrInicio',r.dataInicio);
   _v('mrFim',r.dataFim);
-  // marcar dias salvos
+
   document.querySelectorAll('#mrDias .chip').forEach(c=>{
     if(r.diasSemana.includes(c.dataset.val)) c.classList.add('on');
   });
@@ -286,7 +282,7 @@ function excluirRes(id){
   deleteReserva(id);toast('Reserva excluída.','aviso');rdReservas();
 }
 
-/* ── INSTRUTORES ───────────────────────────────────────── */
+
 function rdInstrutores() {
   const list=getUsuarios().filter(u=>u.perfil==='instrutor'&&u.unidadeId===_sess.unidadeId);
   const tb  =document.getElementById('tbInstrutores');
@@ -320,14 +316,14 @@ function salvarAtrib() {
   fecharModalAtrib();rdInstrutores();
 }
 
-/* ── MAPA ──────────────────────────────────────────────── */
+
 function rdMapa() {
   const salas=getSalas().filter(s=>s.unidadeId===_sess.unidadeId);
   const cont =document.getElementById('mapaSalas');
   if(!salas.length){cont.innerHTML='<p class="txt2">Nenhuma sala cadastrada.</p>';return;}
   const hj=hoje();
   cont.innerHTML=salas.map(s=>{
-    // verifica ocupação hoje
+
     let status='livre',info='Disponível',instNome='';
     const reservas=getReservas().filter(r=>r.salaId===s.id&&r.dataInicio<=hj&&r.dataFim>=hj);
     if(reservas.length){
@@ -348,7 +344,7 @@ function rdMapa() {
   }).join('');
 }
 
-/* ── SOLICITAÇÕES ──────────────────────────────────────── */
+
 function rdSolics() {
   const list=getSolics().filter(s=>s.unidadeId===_sess.unidadeId);
   const cont=document.getElementById('listaSolics');
@@ -386,7 +382,7 @@ function responderSolic(id, status) {
   rdSolics();initNotifBadge('coordenador');
 }
 
-/* ── NOTIFICAÇÕES ──────────────────────────────────────── */
+
 function rdNotifs() {
   const list=getNotifsPara('coordenador',_sess.unidadeId);
   const cont=document.getElementById('listaNotifs');
@@ -401,7 +397,7 @@ function rdNotifs() {
   initNotifBadge('coordenador');
 }
 
-/* ── HELPERS ───────────────────────────────────────────── */
+
 function _popularInstrutoresSel(id) {
   const sel=document.getElementById(id);if(!sel)return;
   sel.innerHTML='<option value="">— Sem instrutor —</option>';

@@ -1,17 +1,24 @@
-<<<<<<< HEAD
+/*
+ * login_page.js
+ * Logica da tela de login.
+ *
+ * - Carrega as unidades disponveis no select
+ * - Valida email e senha contra os dados do storage
+ * - Redireciona para o painel correto conforme o perfil do usuario:
+ *     admin       -> admin.html
+ *     coordenador -> coordenador.html
+ *     instrutor   -> instrutor.html
+ *     recepcao    -> recepcao.html
+ */
 window.addEventListener('DOMContentLoaded', async function() {
   await initDados();
   if (typeof initTema === 'function') initTema();
-=======
-window.addEventListener('DOMContentLoaded', function() {
-  initDados();
-  initTema();
->>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
   seJaLogado();
   initLogo();
 
-  // Popula unidades
+
   (function() {
+// Popula o select com as unidades cadastradas
     var sel = document.getElementById('selUnidade');
     var uns = getUnidades();
     if (!uns.length) {
@@ -28,14 +35,12 @@ window.addEventListener('DOMContentLoaded', function() {
     }
   })();
 
-<<<<<<< HEAD
+// Listener de submit do formulario de login
   document.getElementById('fLogin').addEventListener('submit', async function(ev) {
-=======
-  document.getElementById('fLogin').addEventListener('submit', function(ev) {
->>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
     ev.preventDefault();
     var email = document.getElementById('inpEmail').value.trim();
     var senha = document.getElementById('inpSenha').value;
+// Popula o select com as unidades cadastradas
     var uid   = parseInt(document.getElementById('selUnidade').value) || null;
     var msg   = document.getElementById('loginMsg');
 
@@ -45,7 +50,6 @@ window.addEventListener('DOMContentLoaded', function() {
 
     if (!email || !senha) { erro('Preencha e-mail e senha.'); return; }
 
-<<<<<<< HEAD
     var u;
     try {
       u = await loginUser(email, senha);
@@ -55,9 +59,6 @@ window.addEventListener('DOMContentLoaded', function() {
       document.getElementById('inpSenha').focus();
       return;
     }
-=======
-    var u = loginUser(email, senha);
->>>>>>> 02f7ebd2e56a757cb8c77350bffac62559285cc4
     if (!u) {
       erro('E-mail ou senha incorretos.');
       document.getElementById('inpSenha').value = '';
@@ -65,7 +66,7 @@ window.addEventListener('DOMContentLoaded', function() {
       return;
     }
 
-    // Admin não precisa selecionar unidade
+
     if (u.perfil !== 'admin') {
       if (!uid && getUnidades().length > 0) { erro('Selecione sua unidade.'); return; }
       if (u.unidadeId && uid && u.unidadeId !== uid) { erro('Unidade incorreta para este usuário.'); return; }

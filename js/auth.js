@@ -1,26 +1,35 @@
-/* ================================================================
-   js/auth.js — Guards de rota
-   Depende de: storage.js
-   ================================================================ */
-
+/*
+ * auth.js
+ * Autenticacao e controle de sessao.
+ *
+ * requirePerfil(perfil) — redireciona se o usuario nao tiver o perfil correto
+ * initSidebar          — preenche nome e iniciais na sidebar
+ * initLogo             — exibe logo da unidade ou texto fallback
+ * seJaLogado           — redireciona para o painel se ja houver sessao ativa
+ * sair                 — encerra a sessao e volta ao login
+ */
 var _ROTAS = {
   admin:'admin.html', coordenador:'coordenador.html',
   instrutor:'instrutor.html', recepcao:'recepcao.html'
 };
 
+// Verifica se o usuario tem o perfil correto para a pagina
 function requirePerfil(perfil) {
   var s = getSessao();
   if (!s || s.perfil !== perfil) { window.location.replace('login.html'); }
 }
 
+// Redireciona para o painel se ja houver sessao ativa
 function seJaLogado() {
   var s = getSessao(); if (!s) return;
   if (_ROTAS[s.perfil]) window.location.replace(_ROTAS[s.perfil]);
 }
 
+// Encerra a sessao e volta para o login
 function sair() { clearSessao(); window.location.replace('login.html'); }
 
-/* Preenche sidebar com dados da sessão */
+
+// Preenche a sidebar com nome, iniciais e perfil do usuario
 function initSidebar() {
   var s = getSessao(); if (!s) return;
   var el = function(id){ return document.getElementById(id); };
@@ -33,7 +42,8 @@ function initSidebar() {
   initTema();
 }
 
-/* Logo: mostra img se src preenchido, senão mostra texto */
+
+// Exibe o logo da unidade ou texto fallback
 function initLogo() {
   var img  = document.getElementById('logoImg');
   var wrap = document.getElementById('logoWrap');
