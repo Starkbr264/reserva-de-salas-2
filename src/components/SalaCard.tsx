@@ -1,10 +1,24 @@
+/*
+ * SalaCard.tsx — Cartão de sala usado no mapa de salas do mobile.
+ *
+ * Réplica do .sala-card-v2 do web:
+ *   - Borda e fundo na cor do status (verde=livre, vermelho=ocupada,
+ *     âmbar=iminente);
+ *   - Mostra nome, tipo, andar/bloco/capacidade e os turnos disponíveis;
+ *   - Abaixo, lista os períodos de ocupação do dia (turno + turma +
+ *     instrutor + horário) ou o selo "Disponível".
+ *
+ * As informações de status vêm de calcSalaInfo() (salaStatus.ts), que usa
+ * as reservas sincronizadas com o servidor central — as mesmas do web.
+ */
+
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '@/constants/colors';
 import { Sala, StatusSala } from '@/types';
 
-// Periodo de ocupacao de uma sala (turno + turma + instrutor)
+// Período de ocupação de uma sala (turno + turma + instrutor)
 export type Periodo = {
   turno: string;
   turmaNome: string;

@@ -67,6 +67,7 @@ export type Reserva = {
   instrutorId?: number | null;
   unidadeId: number;
   avulsa?: boolean;
+  status?: string;
 };
 
 export type Chave = {
@@ -90,13 +91,17 @@ export type Solicitacao = {
   dataInicio?: string;
   dataFim?: string;
   diasSemana?: DiaSemana[] | null;
+  datasEspecificas?: string[] | null;
   horaInicio?: string | null;
   horaFim?: string | null;
   motivo?: string;
   modo?: ModoData;
+  turno?: Turno;
   status: StatusSolic;
   unidadeId: number;
   criadaEm: string;
+  respondidaEm?: string;
+  resposta?: string;
 };
 
 export type Notificacao = {

@@ -401,9 +401,6 @@ function ModalTurma({ turma, uid, onClose, onDone }: { turma: Turma | null; uid:
               <View style={{ flex: 1 }}>
                 <Text style={styles.mLabel}>Data fim *</Text>
                 <DatePickerField value={fim} onChange={setFim} placeholder="Selecionar fim" minDate={ini || undefined} />
-
-
-
               </View>
             </View>
           </ScrollView>
@@ -937,6 +934,10 @@ function ModalReserva({ reserva, uid, onClose, onDone }: {
 // ---- Solicitacoes ----
 function Solicitacoes({ uid, sessaoId, onChange }: { uid: number | null; sessaoId: number; onChange: () => void }) {
   const [busca, setBusca] = useState('');
+  const [comentarioSolic, setComentarioSolic] = useState<Solicitacao | null>(null);
+  const [txtComentario, setTxtComentario] = useState('');
+  const [acaoSolic, setAcaoSolic] = useState<'aprovada' | 'recusada'>('aprovada');
+
   const list = db.getSolics()
     .filter(s => s.unidadeId === uid)
     .filter(s => {
@@ -951,8 +952,23 @@ function Solicitacoes({ uid, sessaoId, onChange }: { uid: number | null; sessaoI
       return (b.criadaEm ?? '').localeCompare(a.criadaEm ?? '');
     });
 
-  const responder = async (s: Solicitacao, status: 'aprovada' | 'recusada') => {
-    await db.updSolic(s.id, { status });
+  const prepararResposta = (s: Solicitacao, status: 'aprovada' | 'recusada') => {
+    // Espelha o prompt de comentario do web antes de aprovar/recusar
+    setAcaoSolic(status);
+    setTxtComentario(status === 'recusada' ? 'Sala bloqueada para manutencao.' : '');
+    setComentarioSolic(s);
+  };
+
+  const confirmarResposta = async () => {
+    const s = comentarioSolic;
+    if (!s) return;
+    const comentario = txtComentario.trim();
+    setComentarioSolic(null);
+    await responder(s, acaoSolic, comentario || undefined);
+  };
+
+  const responder = async (s: Solicitacao, status: 'aprovada' | 'recusada', comentario?: string) => {
+    await db.updSolic(s.id, { status, ...(comentario ? { resposta: comentario } : {}), respondidaEm: new Date().toISOString() });
     const sala = db.getSalaById(s.salaId);
     if (status === 'aprovada') {
       const dataIni = s.dataInicio ?? s.data;
@@ -970,10 +986,11 @@ function Solicitacoes({ uid, sessaoId, onChange }: { uid: number | null; sessaoI
         }
       }
     }
+    const comentarioTxt = comentario ? ` Comentario: "${comentario}"` : '';
     await db.addNotif({
       tipo: status === 'aprovada' ? 'aprovada' : 'recusada',
       titulo: status === 'aprovada' ? 'Solicitacao aprovada' : 'Solicitacao recusada',
-      msg: `Sua solicitacao da sala "${sala?.nome ?? '?'}" foi ${status}.`,
+      msg: `Sua solicitacao da sala "${sala?.nome ?? '?'}" foi ${status}.${comentarioTxt}`,
       paraPerfil: 'instrutor', paraId: s.instrutorId, unidadeId: uid,
     });
     onChange();
@@ -1027,16 +1044,53 @@ function Solicitacoes({ uid, sessaoId, onChange }: { uid: number | null; sessaoI
               </View>
             ) : null}
 
+            {s.resposta ? (
+              <View style={[styles.motivoBox, { borderLeftWidth: 3, borderLeftColor: cor }]}>
+                <Text style={[styles.motivoTxt, { color: cor, fontWeight: '700' }]}>
+                  Resposta do coordenador
+                </Text>
+                <Text style={[styles.motivoTxt, { marginTop: 2 }]}>{s.resposta}</Text>
+              </View>
+            ) : null}
+
             {pend && (
               <View style={{ flexDirection: 'row', gap: 8, marginTop: 10 }}>
-                <Button title="Aprovar" variant="success" size="sm" icon="checkmark" onPress={() => responder(s, 'aprovada')} style={{ flex: 1 }} />
-                <Button title="Recusar" variant="danger" size="sm" icon="close" onPress={() => responder(s, 'recusada')} style={{ flex: 1 }} />
+                <Button title="Aprovar" variant="success" size="sm" icon="checkmark" onPress={() => prepararResposta(s, 'aprovada')} style={{ flex: 1 }} />
+                <Button title="Recusar" variant="danger" size="sm" icon="close" onPress={() => prepararResposta(s, 'recusada')} style={{ flex: 1 }} />
               </View>
             )}
           </Card>
         );
       })}
       {!list.length && <EmptyState icon="clipboard-outline" text="Nenhuma solicitacao encontrada." />}
+
+      {comentarioSolic && (
+        <Modal visible transparent animationType="slide" onRequestClose={() => setComentarioSolic(null)}>
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalBox}>
+              <View style={styles.modalHeader}>
+                <Text style={styles.modalTitle}>
+                  {acaoSolic === 'aprovada' ? 'Aprovar solicitacao' : 'Recusar solicitacao'}
+                </Text>
+                <TouchableOpacity onPress={() => setComentarioSolic(null)}><Ionicons name="close" size={24} color={Colors.text2} /></TouchableOpacity>
+              </View>
+              <Text style={styles.mLabel}>Comentario para o instrutor</Text>
+              <TextInput
+                style={[styles.mInput, { height: 84, textAlignVertical: 'top' }]}
+                multiline
+                value={txtComentario}
+                onChangeText={setTxtComentario}
+                placeholder={acaoSolic === 'recusada' ? 'Motivo da recusa...' : 'Comentario (opcional)...'}
+                placeholderTextColor={Colors.text3}
+              />
+              <View style={{ flexDirection: 'row', gap: 8, marginTop: 14 }}>
+                <Button title="Cancelar" variant="ghost" onPress={() => setComentarioSolic(null)} style={{ flex: 1 }} />
+                <Button title="Confirmar" variant="primary" icon="checkmark" onPress={confirmarResposta} style={{ flex: 1 }} />
+              </View>
+            </View>
+          </View>
+        </Modal>
+      )}
     </View>
   );
 }

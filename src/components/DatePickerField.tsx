@@ -1,3 +1,16 @@
+/*
+ * DatePickerField.tsx — Seletor de data do mobile.
+ *
+ * Componente de formulário usado nos modais do mobile (turmas, reservas,
+ * solicitações de sala, etc.). Abre um calendário mensal em um modal:
+ *   - Navegação por mês (setas) e destaque do dia de hoje;
+ *   - Dias fora do mês ficam apagados;
+ *   - Suporta minDate/maxDate para desabilitar datas fora do intervalo.
+ *
+ * O valor trocado com o formulário é uma data em ISO (AAAA-MM-DD), o mesmo
+ * formato usado pelo web — garantindo compatibilidade na sincronização.
+ */
+
 import React, { useMemo, useState } from 'react';
 import {
   Modal, ScrollView, Text, TouchableOpacity, View, StyleProp, ViewStyle

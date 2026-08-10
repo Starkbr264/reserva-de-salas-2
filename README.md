@@ -1,79 +1,143 @@
-# SENAC Reservas — App Mobile
+# SENAC Reservas — Sistema de Reserva de Salas
 
-Aplicativo mobile do Sistema de Reserva de Salas do SENAC GDF.
-Convertido do frontend web (HTML/CSS/JS) para **React Native + Expo**,
-seguindo a estrutura do guia StudyTask.
+Projeto integrador do SENAC GDF: um sistema completo de **organização e gestão de salas** que ajuda os **coordenadores** a visualizar o **mapa de salas** e as **reservas feitas pelos instrutores**, evitando conflitos de horário e centralizando todo o fluxo de solicitações, aprovações e controle de chaves.
 
-## Stack
+O sistema é dividido em três partes que compartilham o **mesmo banco de dados**:
 
-- **React Native** + **Expo** (SDK 51)
-- **Expo Router** (navegacao baseada em arquivos)
-- **TypeScript** (tipagem estrita)
-- **AsyncStorage** (persistencia local — substitui o localStorage do web)
-- **@expo/vector-icons** (icones)
+1. **Servidor central** ([Node.js](server/index.js)) — fonte da verdade compartilhada
+2. **Web** ([frontend_reserva_salas/](frontend_reserva_salas/)) — painéis em HTML/CSS/JS
+3. **Mobile** ([src/](src/)) — app em React Native + Expo
 
-## Estrutura de pastas (padrao StudyTask)
+> **Para que serve:** facilitar a organização e a orientação dos coordenadores diante do mapa de salas e das reservas feitas pelos instrutores, garantindo que cada sala seja usada de forma planejada, sem choques de agenda e com todo o histórico de solicitações registrado.
+
+---
+
+## Como funciona
+
+### Arquitetura
 
 ```
-src/
-  app/              -> telas (Expo Router)
-    _layout.tsx     -> layout raiz
-    index.tsx       -> redirect por sessao
-    login/          -> tela de login
-    admin/          -> painel do administrador
-    coordenador/    -> painel do coordenador
-    recepcao/       -> painel da recepcao
-    instrutor/      -> painel do instrutor
-  components/       -> componentes reutilizaveis (ui, SalaCard, ScreenShell)
-  hooks/            -> useAuth, useRequirePerfil
-  services/         -> storage.ts (CRUD + AsyncStorage + seed)
-  types/            -> index.ts (todos os tipos)
-  constants/        -> colors.ts (tokens espelhados do CSS web)
-  utils/            -> salaStatus.ts (calculo de ocupacao)
+┌─────────────────┐     ┌──────────────────────┐     ┌─────────────────┐
+│      WEB        │     │   SERVIDOR CENTRAL   │     │     MOBILE      │
+│ (frontend_res-  │◄───►│   server/index.js    │◄───►│  (React Native  │
+│  erva_salas/)   │     │   porta 3333         │     │   + Expo)       │
+└─────────────────┘     │   server/data/db.json│     └─────────────────┘
+                        └──────────────────────┘
 ```
+
+- O **servidor central** roda em `http://localhost:3333`, serve o web como arquivos estáticos e expõe a API REST consumida pelo mobile:
+  - `GET  /api/dados` → baixa o banco completo (sincronização inicial)
+  - `POST /api/sinc`  → envia alterações locais (merge por id)
+  - `POST /api/login` → valida e-mail/senha
+  - `POST /api/reset` → recarrega os dados de exemplo
+- **Web e mobile sincronizam contra o mesmo banco** (`server/data/db.json`): o que é alterado no web aparece no mobile e vice-versa. Cada cliente mantém um cache local (localStorage no web, AsyncStorage no mobile) e funciona offline, sincronizando quando o servidor volta.
+
+### Fluxo principal
+
+1. **Instrutor** solicita uma sala (data única, período ou datas avulsas + turnos + horário + motivo);
+2. **Coordenador** recebe a solicitação e **aprova ou recusa** — pode escrever um **comentário** que fica visível para o instrutor;
+3. Ao **aprovar**, o sistema **cria a reserva automaticamente** e atualiza o mapa de salas e o calendário;
+4. **Recepção** controla a **retirada e devolução de chaves** das salas reservadas.
+
+---
 
 ## Como rodar
 
+Requisitos: Node.js instalado.
+
 ```bash
+# 1) Instale as dependências do projeto (mobile)
 npm install
+```
+
+### Servidor central (web + API)
+
+```bash
+node server/index.js
+```
+
+| Recurso        | Endereço                       |
+|----------------|--------------------------------|
+| Web            | http://localhost:3333          |
+| API (mobile)   | http://localhost:3333/api/dados|
+
+### Mobile (Expo)
+
+```bash
 npx expo start
 ```
 
-Depois:
-- Aperte `a` para abrir no Android
-- Aperte `i` para abrir no iOS
-- Escaneie o QR code com o app Expo Go no celular
+- Aperte `a` para abrir no Android ou `i` para abrir no iOS
+- Ou escaneie o QR code com o app **Expo Go** no celular (na mesma rede Wi-Fi)
+
+> O app mobile descobre sozinho o IP da máquina para conectar na API (porta 3333).
+
+---
 
 ## Credenciais de teste
 
 | Perfil       | Email                          | Senha         |
 |--------------|--------------------------------|---------------|
-| Admin        | senac_gdf@hotmail.com          | Senac.DF2007  |
+| Admin        | Senac_GDF@Hotmail.com          | Senac.DF2007  |
 | Coordenador  | coord.asanorte@senacdf.com     | Coord@123     |
 | Instrutor    | katia.barros@senacdf.com       | Inst@123      |
-| Recepcao     | recep.asanorte@senacdf.com     | Recep@123     |
+| Recepção     | recep.asanorte@senacdf.com     | Recep@123     |
+
+---
 
 ## Funcionalidades por perfil
 
-**Admin** — dashboard, CRUD de usuarios e unidades, visao global de salas/turmas/reservas/chaves, resetar dados.
+| Perfil       | Funcionalidades |
+|--------------|-----------------|
+| **Admin**    | Dashboard geral, CRUD de usuários e unidades, visão global de salas, turmas, reservas e chaves, resetar dados de exemplo. |
+| **Coordenador** | Dashboard da unidade, mapa de salas com status em tempo real, CRUD de salas/turmas/reservas, aprovar/recusar solicitações (com comentário e criação automática da reserva), notificações. |
+| **Instrutor** | Minhas turmas, solicitar sala, **acompanhar pedidos** (status e comentário/resposta do coordenador), chaves sob sua responsabilidade, notificações. |
+| **Recepção**  | Mapa de salas (somente leitura), controle de chaves (atribuir, reatribuir, liberar, devolver), notificações. |
 
-**Coordenador** — dashboard, mapa de salas, reservas, aprovar/recusar solicitacoes (cria a reserva automaticamente), notificacoes.
+---
 
-**Instrutor** — minhas turmas, solicitar sala (data unica/periodo/datas avulsas + turnos + horario + turma), chaves sob responsabilidade, notificacoes.
+## Estrutura de pastas
 
-**Recepcao** — mapa de salas (somente leitura), controle de chaves (atribuir/reatribuir/liberar), notificacoes.
+```
+reservasenac/
+├── server/                     # Servidor central (fonte da verdade)
+│   ├── index.js                #   API REST + arquivos estáticos do web
+│   ├── seed.js                 #   dados de exemplo (IDs fixos)
+│   └── data/db.json            #   banco compartilhado (gera no 1º acesso)
+├── frontend_reserva_salas/     # Web (HTML/CSS/JS puro)
+│   ├── login.html, admin.html, coordenador.html,
+│   │   instrutor.html, recepcao.html, calendario...
+│   └── js/
+│       ├── storage.js          #   cache + sincronização com o servidor
+│       ├── coordenador_page.js #   painel do coordenador (solicitações/comentários)
+│       └── ...
+└── src/                        # Mobile (React Native + Expo)
+    ├── app/                    #   telas (Expo Router)
+    │   ├── login/              #   login
+    │   ├── admin/              #   painel do administrador
+    │   ├── coordenador/        #   painel do coordenador
+    │   ├── instrutor/          #   painel do instrutor (aba "Pedidos")
+    │   └── recepcao/           #   painel da recepção
+    ├── components/             #   componentes reutilizáveis
+    ├── hooks/                  #   useAuth, useRequirePerfil
+    ├── services/               #   api.ts (HTTP) + storage.ts (CRUD/sinc)
+    ├── types/                  #   tipos TypeScript
+    ├── constants/              #   cores
+    ├── theme/                  #   tema claro/escuro
+    └── utils/                  #   cálculo de status das salas
+```
 
-## Design
+---
 
-As cores e o visual sao espelhados do frontend web original
-(ver `src/constants/colors.ts` — tokens identicos ao `variables.css`).
-Cor primaria: `#1a3a5c`. Mesma logica de status de salas (livre/ocupada/em breve)
-e mesmas cores por turno.
+## Stack
 
-## Diferencas em relacao ao web
+- **Servidor:** Node.js puro (http, fs, path) — sem dependências externas
+- **Web:** HTML + CSS + JavaScript puro (localStorage + fetch)
+- **Mobile:** React Native + Expo (SDK 51), Expo Router, TypeScript, AsyncStorage, @expo/vector-icons
 
-- **AsyncStorage** no lugar de `localStorage` (assincrono)
-- Navegacao por **abas horizontais** no lugar da sidebar
-- **Pull-to-refresh** no lugar do botao "Atualizar"
-- **Modais deslizantes** (bottom sheet) no lugar dos modais centrais
-- Calendario nao incluido nesta versao (recomendado adicionar depois)
+---
+
+## Documentação técnica
+
+Detalhes da conexão web ↔ mobile e dos comentários de solicitações estão em:
+[**DOCUMENTACAO_CONEXAO_WEB_MOBILE.txt**](DOCUMENTACAO_CONEXAO_WEB_MOBILE.txt)

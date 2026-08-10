@@ -1,3 +1,14 @@
+/*
+ * TimePickerField.tsx — Seletor de horário do mobile.
+ *
+ * Componente de formulário usado nos modais do mobile (reservas com hora,
+ * solicitações de sala, etc.). Abre um modal com duas colunas roláveis:
+ * horas (00–23) e minutos (de 5 em 5), com pré-visualização "HH:mm".
+ *
+ * O valor trocado com o formulário é "HH:mm" — mesmo formato usado no
+ * web — garantindo que horaInicio/horaFim sincronizem corretamente.
+ */
+
 import React, { useState } from 'react';
 import {
   Modal, ScrollView, Text, TouchableOpacity, View, StyleProp, ViewStyle

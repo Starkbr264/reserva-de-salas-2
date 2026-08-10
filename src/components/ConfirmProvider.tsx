@@ -1,27 +1,42 @@
+/*
+ * ConfirmProvider.tsx — Modal de confirmação reutilizável do mobile.
+ *
+ * Por que existe: no react-native-web o Alert.alert é um "no-op" silencioso
+ * (não mostra nada), então botões de excluir/confirmar não funcionavam quando
+ * o app rodava no navegador. Este provider substitui o Alert por um modal
+ * próprio, que funciona igual em Android, iOS e Web.
+ *
+ * Uso:
+ *   const { pedirConfirmacao } = useConfirmar();
+ *   const ok = await pedirConfirmacao({ titulo, msg, confirmar, destrutivo });
+ *   if (ok) { ...fazer a ação... }
+ *
+ * Retorna uma Promise<boolean>: true se o usuário confirmou, false se cancelou.
+ */
+
 import React, { createContext, useCallback, useContext, useMemo, useRef, useState } from 'react';
 import { Modal, View, Text, TouchableOpacity } from 'react-native';
 import { Colors } from '@/constants/colors';
 import { criarEstilos } from '@/theme/theme';
 
-// Caixa de confirmação cross-platform (web + native).
-// No react-native-web o Alert.alert é no-op silencioso — por isso botões de
-// excluir/confirmar nunca disparavam no navegador. Este modal resolve esse
-// problema e mantém o visual consistente com o app.
-
+// Opções aceitas por pedirConfirmacao().
 type OpcoesConfirm = {
-  titulo?: string;
-  msg: string;
-  confirmar?: string;
-  cancelar?: string;
-  destrutivo?: boolean;
+  titulo?: string;            // título do modal
+  msg: string;                // mensagem central
+  confirmar?: string;         // texto do botão de confirmar
+  cancelar?: string;          // texto do botão de cancelar
+  destrutivo?: boolean;       // true -> botão de confirmar em vermelho
 };
 
+// O que o hook useConfirmar() expõe.
 type ConfirmContexto = {
   pedirConfirmacao: (opts: OpcoesConfirm) => Promise<boolean>;
 };
 
+// Contexto React consumido por useConfirmar().
 const Contexto = createContext<ConfirmContexto | null>(null);
 
+// Provedor: guarda o estado do modal e devolve a Promise que o chamador aguarda.
 export function ConfirmProvider({ children }: { children: React.ReactNode }) {
   const [aberto, setAberto] = useState(false);
   const [opts, setOpts] = useState<OpcoesConfirm | null>(null);

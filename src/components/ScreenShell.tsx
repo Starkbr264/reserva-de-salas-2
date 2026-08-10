@@ -1,3 +1,18 @@
+/*
+ * ScreenShell.tsx — "Casca" de tela usada por todos os painéis do mobile.
+ *
+ * Espelha a topbar/sidebar do web (admin.html, coordenador.html etc.)
+ * adaptada para celular:
+ *   - Topbar fixa: logo SENAC, badge do perfil, toggle de tema, avatar,
+ *     botão de logout;
+ *   - Barra de abas horizontal rolável (tabs), cada uma com ícone e badge
+ *     opcional (ex.: nº de solicitações pendentes / avisos não lidos);
+ *   - Área de conteúdo rolável com pull-to-refresh, que chama onRefresh
+ *     (recarrega os dados sincronizando com o servidor central).
+ *
+ * Recebe tudo via props — cada painel define suas próprias abas e conteúdo.
+ */
+
 import React from 'react';
 import {
   View, Text, StyleSheet, TouchableOpacity, Image,
@@ -11,6 +26,7 @@ import { Assets } from '@/constants/assets';
 import { Sessao } from '@/types';
 import { iniciais } from '@/services/storage';
 
+// Tipo de cada aba: chave (rota interna), rótulo, ícone e badge opcional.
 type TabItem = {
   key: string;
   label: string;
@@ -18,29 +34,29 @@ type TabItem = {
   badge?: number;
 };
 
+// Props que cada painel precisa fornecer ao usar o ScreenShell.
 type Props = {
-  sessao: Sessao | null;
-  perfilLabel: string;
-  title: string;
-  subtitle?: string;
-  tabs: TabItem[];
-  activeTab: string;
-  onTabChange: (key: string) => void;
-  onLogout: () => void;
-  onRefresh?: () => void;
-  refreshing?: boolean;
-  children: React.ReactNode;
+  sessao: Sessao | null;        // usuário logado (para o avatar/iniciais)
+  perfilLabel: string;          // ex.: "Administrador", "Coordenador"…
+  title: string;                // título da seção atual
+  subtitle?: string;            // subtítulo explicativo
+  tabs: TabItem[];              // abas disponíveis no painel
+  activeTab: string;            // aba selecionada
+  onTabChange: (key: string) => void;  // troca de aba
+  onLogout: () => void;         // encerra a sessão
+  onRefresh?: () => void;       // recarrega dados (pull-to-refresh)
+  refreshing?: boolean;         // indicador de atualização
+  children: React.ReactNode;    // conteúdo da aba atual
 };
 
-// Casca de tela: topbar com logo/perfil + tabs horizontais + conteudo rolavel.
-// Espelha a sidebar/topbar do web adaptada para mobile, com toggle de tema.
+// Casca de tela: topbar com logo/perfil + tabs horizontais + conteúdo rolável.
 export function ScreenShell({
   sessao, perfilLabel, title, subtitle, tabs, activeTab,
   onTabChange, onLogout, onRefresh, refreshing, children,
 }: Props) {
-  const perfilTone = getPerfilTone(perfilLabel);
-  const activeItem = tabs.find(t => t.key === activeTab);
-  const { tema, alternar } = useTema();
+  const perfilTone = getPerfilTone(perfilLabel);   // cor do badge do perfil
+  const activeItem = tabs.find(t => t.key === activeTab); // aba ativa p/ topbar
+  const { tema, alternar } = useTema();            // tema claro/escuro
 
   return (
     <SafeAreaView style={styles.safe}>

@@ -1,3 +1,19 @@
+/*
+ * ui.tsx — Bloco de componentes de interface reutilizáveis do mobile.
+ *
+ * Contém os "átomos" visuais usados em todos os painéis:
+ *   Badge / StatusPill / StatusDot -> rótulos de perfil, status de turma e
+ *                                     bolinha de cor do mapa de salas
+ *   Card / StatCard                -> cartões de listagem e estatísticas
+ *   Button                         -> botão com variantes (primary, ghost…)
+ *   SearchBar                      -> campo de busca das listagens
+ *   EmptyState                     -> estado vazio ("nada encontrado")
+ *   SectionHeader                  -> título de bloco com subtítulo
+ *
+ * Todos os componentes usam as cores do tema (Colors), o que faz a UI
+ * acompanhar o tema claro/escuro automaticamente — igual ao web.
+ */
+
 import React from 'react';
 import {
   View, Text, TouchableOpacity,
@@ -10,6 +26,7 @@ import { criarEstilos } from '@/theme/theme';
 // ---- Badge (espelha .bdg do web) ----
 type BadgeProps = { label: string; tone?: 'primary' | 'green' | 'red' | 'amber' | 'blue' | 'muted'; style?: StyleProp<ViewStyle> };
 
+// Retorna as cores de fundo/texto/borda de cada tom de badge.
 function getTone(tone: BadgeProps['tone']) {
   switch (tone) {
     case 'green': return { bg: Colors.greenLight, text: Colors.green, border: 'rgba(5,150,105,0.25)' };

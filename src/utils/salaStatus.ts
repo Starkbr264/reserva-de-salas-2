@@ -1,3 +1,14 @@
+/*
+ * salaStatus.ts — Calcula o status de ocupação de uma sala.
+ *
+ * Espelha o _calcSalaStatus do web (frontend_reserva_salas/js/salas.js):
+ *   - Se a sala tem override manual (statusManual), usa ele;
+ *   - Senão, olha as reservas do dia: se alguma está ativa -> 'ocupada',
+ *     se só há reservas iminentes -> 'iminente', senão -> 'livre'.
+ *
+ * Usado pelo mapa de salas (coordenador e recepção) e pelo SalaCard.
+ */
+
 import { Sala } from '@/types';
 import { SalaInfo, Periodo } from '@/components/SalaCard';
 import * as db from '@/services/storage';

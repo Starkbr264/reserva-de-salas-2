@@ -12,7 +12,7 @@ import Calendario from '@/components/Calendario';
 import DatePickerField from '@/components/DatePickerField';
 import TimePickerField from '@/components/TimePickerField';
 import * as db from '@/services/storage';
-import { Sala, Turno, ModoData, Notificacao, Sessao } from '@/types';
+import { Sala, Turno, DiaSemana, ModoData, Notificacao, Sessao } from '@/types';
 
 
 
@@ -21,6 +21,7 @@ const TABS = [
   { key: 'turmas',  label: 'Turmas',   icon: 'school-outline' as const },
   { key: 'calendario', label: 'Calendario', icon: 'calendar-outline' as const },
   { key: 'salas',   label: 'Solicitar',icon: 'add-circle-outline' as const },
+  { key: 'solicitacoes', label: 'Pedidos', icon: 'clipboard-outline' as const },
   { key: 'chaves',  label: 'Chaves',   icon: 'key-outline' as const },
   { key: 'notifs',  label: 'Avisos',   icon: 'notifications-outline' as const },
 ];
@@ -52,6 +53,7 @@ export default function InstrutorPanel() {
     turmas: { t: 'Minhas Turmas', s: 'Turmas atribuidas a voce' },
     calendario: { t: 'Calendario', s: 'Calendario das suas reservas' },
     salas:  { t: 'Solicitar Sala', s: 'Solicite uma sala disponivel' },
+    solicitacoes: { t: 'Minhas Solicitações', s: 'Acompanhe seus pedidos de sala' },
     chaves: { t: 'Chaves', s: 'Chaves sob sua responsabilidade' },
     notifs: { t: 'Notificacoes', s: 'Avisos e respostas' },
   };
@@ -66,6 +68,7 @@ export default function InstrutorPanel() {
       {tab === 'turmas' && <MinhasTurmas sessaoId={sessao!.id} key={`t${tick}`} />}
       {tab === 'calendario' && <CalendarioArea sessao={sessao!} key={`ca${tick}`} />}
       {tab === 'salas'  && <SolicitarSala sessaoId={sessao!.id} uid={uid} onDone={recarregar} key={`s${tick}`} />}
+      {tab === 'solicitacoes' && <MinhasSolicitacoes sessaoId={sessao!.id} key={`so${tick}`} />}
       {tab === 'chaves' && <MinhasChaves sessaoId={sessao!.id} uid={uid} key={`c${tick}`} />}
       {tab === 'notifs' && <Notifs uid={uid} sessaoId={sessao!.id} key={`n${tick}`} />}
     </ScreenShell>
@@ -182,9 +185,24 @@ function ModalSolicitar({ sala, sessaoId, uid, onClose, onDone }: { sala: Sala; 
       if (!dataIni || !dataFim) { Alert.alert('Atencao', 'Informe inicio e fim.'); return; }
       di = dataIni; df = dataFim;
     }
+    // Calcula os dias da semana do periodo (mesmo formato do web: ['seg','ter',...])
+    const datasNoPeriodo: string[] = [];
+    if (modo === 'periodo' && di && df && df >= di) {
+      const ini = new Date(di + 'T00:00:00');
+      const fim = new Date(df + 'T00:00:00');
+      for (let d = new Date(ini); d <= fim; d.setDate(d.getDate() + 1)) {
+        datasNoPeriodo.push(d.toISOString().split('T')[0]);
+      }
+    }
+    const datasNucleo = modo === 'unica' ? [di] : datasNoPeriodo;
+    const diasSemana: DiaSemana[] = Array.from(new Set(
+      (datasNucleo.length ? datasNucleo : [di]).map(d => db.diaDaSemana(d))
+    ));
     await db.addSolic({
       salaId: sala.id, instrutorId: sessaoId, turmaId, turnos,
+      turno: turnos[0], // compatibilidade com o web (solicitacoes antigas usam turno)
       data: di, dataInicio: di, dataFim: df,
+      diasSemana: diasSemana.length ? diasSemana : null,
       horaInicio: horaIni.trim() || null, horaFim: horaFim.trim() || null, motivo: motivo.trim(),
       status: 'pendente', unidadeId: uid, modo, criadaEm: new Date().toISOString(),
     });
@@ -284,6 +302,77 @@ function ModalSolicitar({ sala, sessaoId, uid, onClose, onDone }: { sala: Sala; 
   );
 }
 
+// ---- Minhas Solicitacoes (acompanha pedidos + comentario do coordenador) ----
+function MinhasSolicitacoes({ sessaoId }: { sessaoId: number }) {
+  const [busca, setBusca] = useState('');
+  const list = db.getSolics()
+    .filter(s => s.instrutorId === sessaoId)
+    .filter(s => {
+      const sala = db.getSalaById(s.salaId);
+      const turma = s.turmaId ? db.getTurmaById(s.turmaId) : null;
+      const turnosStr = Array.isArray(s.turnos) ? s.turnos.join(', ') : (s.turno ?? '');
+      return matchBusca(busca, sala?.nome, turma?.nome, s.status, turnosStr, s.data, s.dataInicio, s.dataFim, s.motivo, s.resposta);
+    })
+    .sort((a, b) => (b.criadaEm ?? '').localeCompare(a.criadaEm ?? ''));
+
+  return (
+    <View>
+      <SearchBar value={busca} onChangeText={setBusca} placeholder="Pesquisar pedidos" />
+      {list.map(s => {
+        const sala = db.getSalaById(s.salaId);
+        const turma = s.turmaId ? db.getTurmaById(s.turmaId) : null;
+        const turnosStr = Array.isArray(s.turnos) && s.turnos.length
+          ? s.turnos.join(', ')
+          : (s.turno ?? '—');
+        const pend = s.status === 'pendente';
+        const cor = pend ? Colors.amber : s.status === 'aprovada' ? Colors.green : Colors.red;
+        const dataLabel = (s.dataInicio && s.dataFim && s.dataInicio !== s.dataFim)
+          ? `${db.fmtData(s.dataInicio)} a ${db.fmtData(s.dataFim)}`
+          : db.fmtData(s.data ?? s.dataInicio);
+        return (
+          <Card key={s.id} style={[styles.solicitCard, { borderLeftColor: cor, borderLeftWidth: 3 }]}>
+            <View style={styles.rowBetween}>
+              <Text style={styles.salaNome}>{sala?.nome ?? 'Sala'}</Text>
+              <StatusPillPedido status={s.status} />
+            </View>
+            <Text style={styles.turmaMeta}>Solicitada em: {db.fmtDateTime(s.criadaEm)}</Text>
+            <Text style={styles.turmaMeta}>Data: {dataLabel}</Text>
+            <Text style={styles.turmaMeta}>Turno(s): {turnosStr}</Text>
+            {s.horaInicio && s.horaFim ? (
+              <Text style={styles.turmaMeta}>Horario: {s.horaInicio} as {s.horaFim}</Text>
+            ) : null}
+            {turma ? <Text style={styles.turmaMeta}>Turma: {turma.nome}</Text> : null}
+            {s.motivo ? (
+              <View style={styles.motivoBox}>
+                <Text style={styles.motivoLabel}>Motivo</Text>
+                <Text style={styles.motivoTxt}>{s.motivo}</Text>
+              </View>
+            ) : null}
+            {s.resposta ? (
+              <View style={[styles.motivoBox, { borderLeftWidth: 3, borderLeftColor: cor, marginTop: 8 }]}>
+                <Text style={[styles.motivoLabel, { color: cor }]}>
+                  Resposta do coordenador
+                </Text>
+                <Text style={[styles.motivoTxt, { marginTop: 2 }]}>{s.resposta}</Text>
+                {s.respondidaEm ? (
+                  <Text style={styles.turmaMeta}>Em: {db.fmtDateTime(s.respondidaEm)}</Text>
+                ) : null}
+              </View>
+            ) : null}
+          </Card>
+        );
+      })}
+      {!list.length && <EmptyState icon="clipboard-outline" text="Nenhuma solicitacao encontrada." />}
+    </View>
+  );
+}
+
+// Badge de status para pedidos do instrutor (pendente/aprovada/recusada)
+function StatusPillPedido({ status }: { status: string }) {
+  const tone = status === 'pendente' ? 'amber' : status === 'aprovada' ? 'green' : 'red' as const;
+  return <Badge label={status.toUpperCase()} tone={tone} />;
+}
+
 // ---- Minhas Chaves ----
 function MinhasChaves({ sessaoId, uid }: { sessaoId: number; uid: number }) {
   const [busca, setBusca] = useState('');
@@ -350,6 +439,11 @@ const styles = StyleSheet.create({
   notifTitle: { fontSize: 14, fontWeight: '700', color: Colors.text },
   notifMsg: { fontSize: 13, color: Colors.text2, marginTop: 2 },
   notifTime: { fontSize: 11, color: Colors.text3, marginTop: 4 },
+  solicitCard: { marginBottom: 12 },
+  motivoBox: { backgroundColor: Colors.surface2, borderRadius: 8, padding: 10, marginTop: 4 },
+  motivoLabel: { fontSize: 11, color: Colors.text3, fontWeight: '800', textTransform: 'uppercase', letterSpacing: 0.5 },
+  motivoTxt: { fontSize: 12, color: Colors.text2 },
+
   // Modal
   modalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-end' },
   modalBox: { backgroundColor: Colors.surface, borderTopLeftRadius: 20, borderTopRightRadius: 20, padding: 20, paddingBottom: 30 },

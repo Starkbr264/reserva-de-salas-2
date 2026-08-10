@@ -1,3 +1,17 @@
+/*
+ * Calendario.tsx — Calendário de reservas do mobile.
+ *
+ * Espelha o calendario.html do web:
+ *   - Visualização por MÊS ou por SEMANA;
+ *   - Cada dia mostra "pílulas" coloridas por turno (Matutino, Vespertino,
+ *     Noturno) conforme as reservas; selecionar um dia abre o painel de
+ *     detalhes logo abaixo;
+ *   - Filtros por sala e por turno;
+ *   - O conteúdo vem das props (db.getReservas(), db.getSalas() etc.), ou
+ *     seja, dos dados sincronizados com o servidor central — o mesmo banco
+ *     usado pelo web.
+ */
+
 import React, { useMemo, useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';

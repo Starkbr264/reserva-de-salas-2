@@ -1,3 +1,15 @@
+/*
+ * login/index.tsx — Tela de login do mobile.
+ *
+ * Espelha a login.html do web:
+ *   - Lista as unidades vindas do banco sincronizado (servidor central);
+ *   - Valida e-mail/senha contra o servidor (POST /api/login) com fallback
+ *     para o cache local (modo offline) — feito por db.loginUser();
+ *   - Após o login, redireciona para o painel do perfil (via useAuth.entrar).
+ *
+ * A unidade é usada por perfis não-admin; o admin ignora a seleção.
+ */
+
 import React, { useEffect, useState } from 'react';
 import {
   View, Text, TextInput, StyleSheet, TouchableOpacity, Image,
@@ -14,18 +26,21 @@ import { Unidade } from '@/types';
 
 // Tela de login — valida email/senha/unidade e redireciona por perfil
 export default function LoginScreen() {
+  // Estado do formulário: e-mail, senha, unidade selecionada, erro e loading.
   const router = useRouter();
-  const { entrar } = useAuth();
-  const { tema } = useTema();
-  const [unidades, setUnidades] = useState<Unidade[]>([]);
+  const { entrar } = useAuth();        // função de login do hook de autenticação
+  const { tema } = useTema();          // tema claro/escuro (para a StatusBar)
+  const [unidades, setUnidades] = useState<Unidade[]>([]); // lista de unidades
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [unidadeId, setUnidadeId] = useState<number | null>(null);
   const [erro, setErro] = useState('');
-  const [carregando, setCarregando] = useState(false);
-  const [mostrarSenha, setMostrarSenha] = useState(false);
-  const [dropdownAberto, setDropdownAberto] = useState(false);
+  const [carregando, setCarregando] = useState(false);   // trava o botão
+  const [mostrarSenha, setMostrarSenha] = useState(false); // olhinho da senha
+  const [dropdownAberto, setDropdownAberto] = useState(false); // dropdown de unidade
 
+  // Ao abrir a tela: inicializa os dados (sincronizando com o servidor
+  // central) e carrega as unidades para popular o dropdown.
   useEffect(() => {
     (async () => {
       await db.initDados();
@@ -33,6 +48,8 @@ export default function LoginScreen() {
     })();
   }, []);
 
+  // Submete o login: delega para useAuth.entrar(), que valida no servidor
+  // central e redireciona para o painel do perfil.
   const fazerLogin = async () => {
     setErro('');
     if (!email || !senha) { setErro('Preencha e-mail e senha.'); return; }
@@ -45,6 +62,7 @@ export default function LoginScreen() {
     }
   };
 
+  // Unidade selecionada no dropdown (para exibir o nome no campo).
   const unidadeSel = unidades.find(u => u.id === unidadeId);
 
   return (
