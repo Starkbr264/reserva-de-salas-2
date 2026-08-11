@@ -1,13 +1,13 @@
-﻿/*
+/*
  * storage.js
- * Camada de dados local â€” substitui chamadas ao backend.
+ * Camada de dados local — substitui chamadas ao backend.
  * Usa localStorage para persistir todos os dados do sistema.
  *
  * Estrutura principal:
- *   _K          â€” chaves do localStorage
- *   CACHE       â€” espelho em memÃ³ria (carregado pelo initDados)
- *   _seedDados  â€” popula dados iniciais se ainda nao existirem
- *   initDados   â€” inicializa o sistema e carrega o cache
+ *   _K          — chaves do localStorage
+ *   CACHE       — espelho em memória (carregado pelo initDados)
+ *   _seedDados  — popula dados iniciais se ainda nao existirem
+ *   initDados   — inicializa o sistema e carrega o cache
  *
  * CRUD disponivel para:
  *   Usuarios, Unidades, Salas, Turmas, Reservas,
@@ -108,7 +108,7 @@ function _load() {
 function _persist(key) { _sv(_K[key], CACHE[key]); }
 
 
-// Dados iniciais â€” populados no primeiro acesso
+// Dados iniciais — populados no primeiro acesso
 function _seedDados() {
   if (localStorage.getItem(_K.init)) return;
 
@@ -119,16 +119,16 @@ function _seedDados() {
 
 
   const unidades = [
-    { id:1001, nome:'SENAC Asa Norte',    cep:'70750-500', cidade:'BrasÃ­lia/DF',    endereco:'SCS Q.3 Bl.A - Asa Norte' },
-    { id:1002, nome:'SENAC Asa Sul',      cep:'70390-045', cidade:'BrasÃ­lia/DF',    endereco:'SCS Q.3 Bl.A - Asa Sul' },
+    { id:1001, nome:'SENAC Asa Norte',    cep:'70750-500', cidade:'Brasília/DF',    endereco:'SCS Q.3 Bl.A - Asa Norte' },
+    { id:1002, nome:'SENAC Asa Sul',      cep:'70390-045', cidade:'Brasília/DF',    endereco:'SCS Q.3 Bl.A - Asa Sul' },
     { id:1003, nome:'SENAC Taguatinga',   cep:'72015-900', cidade:'Taguatinga/DF',  endereco:'QS 1 Rua 210 Lote 30' },
-    { id:1004, nome:'SENAC CeilÃ¢ndia',    cep:'72220-270', cidade:'CeilÃ¢ndia/DF',   endereco:'Setor O, Qd.602 Conj.A' },
+    { id:1004, nome:'SENAC Ceilândia',    cep:'72220-270', cidade:'Ceilândia/DF',   endereco:'Setor O, Qd.602 Conj.A' },
     { id:1005, nome:'SENAC Gama',         cep:'72405-080', cidade:'Gama/DF',        endereco:'St. Central Qd.01 Conj.A' },
-    { id:1006, nome:'SENAC Sobradinho',   cep:'73025-500', cidade:'Sobradinho/DF',  endereco:'Conj.7 Ãrea Esp. S/N' },
+    { id:1006, nome:'SENAC Sobradinho',   cep:'73025-500', cidade:'Sobradinho/DF',  endereco:'Conj.7 Área Esp. S/N' },
     { id:1007, nome:'SENAC Planaltina',   cep:'73380-100', cidade:'Planaltina/DF',  endereco:'Setor Comercial Lote 1' },
     { id:1008, nome:'SENAC Samambaia',    cep:'72301-080', cidade:'Samambaia/DF',   endereco:'QS 318 Conj.1 Lote 1' },
     { id:1009, nome:'SENAC Santa Maria',  cep:'72503-503', cidade:'Santa Maria/DF', endereco:'Av.Alagados Qd.400' },
-    { id:1010, nome:'SENAC Ãguas Claras', cep:'71907-530', cidade:'Ãguas Claras/DF',endereco:'Av.Araras Qd.600 Lote 10' },
+    { id:1010, nome:'SENAC Águas Claras', cep:'71907-530', cidade:'Águas Claras/DF',endereco:'Av.Araras Qd.600 Lote 10' },
   ];
 
 
@@ -142,11 +142,11 @@ function _seedDados() {
     { id:2003, nome:'Carla Souza Lima',     email:'coord.taguatinga@senacdf.com',  senha:'Coord@123', perfil:'coordenador', unidadeId:1003 },
     { id:2004, nome:'Daniel Rocha Neves',   email:'coord.ceilandia@senacdf.com',   senha:'Coord@123', perfil:'coordenador', unidadeId:1004 },
     { id:2005, nome:'Elaine Cristina Dias', email:'coord.gama@senacdf.com',        senha:'Coord@123', perfil:'coordenador', unidadeId:1005 },
-    { id:2006, nome:'FÃ¡bio Alves Santos',   email:'coord.sobradinho@senacdf.com',  senha:'Coord@123', perfil:'coordenador', unidadeId:1006 },
+    { id:2006, nome:'Fábio Alves Santos',   email:'coord.sobradinho@senacdf.com',  senha:'Coord@123', perfil:'coordenador', unidadeId:1006 },
     { id:2007, nome:'Gabriela Moura',       email:'coord.planaltina@senacdf.com',  senha:'Coord@123', perfil:'coordenador', unidadeId:1007 },
     { id:2008, nome:'Henrique Lopes',       email:'coord.samambaia@senacdf.com',   senha:'Coord@123', perfil:'coordenador', unidadeId:1008 },
     { id:2009, nome:'Isabela Ramos',        email:'coord.santamaria@senacdf.com',  senha:'Coord@123', perfil:'coordenador', unidadeId:1009 },
-    { id:2010, nome:'JoÃ£o Victor Pinto',    email:'coord.aguasclaras@senacdf.com', senha:'Coord@123', perfil:'coordenador', unidadeId:1010 },
+    { id:2010, nome:'João Victor Pinto',    email:'coord.aguasclaras@senacdf.com', senha:'Coord@123', perfil:'coordenador', unidadeId:1010 },
 
     { id:3001, nome:'Katia Regina Barros',  email:'katia.barros@senacdf.com',     senha:'Inst@123', perfil:'instrutor', unidadeId:1001 },
     { id:3002, nome:'Leonardo Cruz',        email:'leonardo.cruz@senacdf.com',    senha:'Inst@123', perfil:'instrutor', unidadeId:1002 },
@@ -169,60 +169,60 @@ function _seedDados() {
     { id:3019, nome:'Julia Naves',          email:'julia.naves@senacdf.com',      senha:'Inst@123', perfil:'instrutor', unidadeId:1009 },
     { id:3020, nome:'Lucas Teixeira',       email:'lucas.teixeira@senacdf.com',   senha:'Inst@123', perfil:'instrutor', unidadeId:1010 },
 
-    { id:4001, nome:'Ãšrsula Campos',    email:'recep.asanorte@senacdf.com',    senha:'Recep@123', perfil:'recepcao', unidadeId:1001 },
-    { id:4002, nome:'VinÃ­cius Cardoso', email:'recep.asasul@senacdf.com',      senha:'Recep@123', perfil:'recepcao', unidadeId:1002 },
+    { id:4001, nome:'Úrsula Campos',    email:'recep.asanorte@senacdf.com',    senha:'Recep@123', perfil:'recepcao', unidadeId:1001 },
+    { id:4002, nome:'Vinícius Cardoso', email:'recep.asasul@senacdf.com',      senha:'Recep@123', perfil:'recepcao', unidadeId:1002 },
     { id:4003, nome:'Wanda Silveira',   email:'recep.taguatinga@senacdf.com',  senha:'Recep@123', perfil:'recepcao', unidadeId:1003 },
-    { id:4004, nome:'XÃªnia Prudente',   email:'recep.ceilandia@senacdf.com',   senha:'Recep@123', perfil:'recepcao', unidadeId:1004 },
-    { id:4005, nome:'Yara GonÃ§alves',   email:'recep.gama@senacdf.com',        senha:'Recep@123', perfil:'recepcao', unidadeId:1005 },
+    { id:4004, nome:'Xênia Prudente',   email:'recep.ceilandia@senacdf.com',   senha:'Recep@123', perfil:'recepcao', unidadeId:1004 },
+    { id:4005, nome:'Yara Gonçalves',   email:'recep.gama@senacdf.com',        senha:'Recep@123', perfil:'recepcao', unidadeId:1005 },
     { id:4006, nome:'Zilda Fonseca',    email:'recep.sobradinho@senacdf.com',  senha:'Recep@123', perfil:'recepcao', unidadeId:1006 },
     { id:4007, nome:'Adriana Pereira',  email:'recep.planaltina@senacdf.com',  senha:'Recep@123', perfil:'recepcao', unidadeId:1007 },
     { id:4008, nome:'Bernardo Castro',  email:'recep.samambaia@senacdf.com',   senha:'Recep@123', perfil:'recepcao', unidadeId:1008 },
-    { id:4009, nome:'CecÃ­lia Duarte',   email:'recep.santamaria@senacdf.com',  senha:'Recep@123', perfil:'recepcao', unidadeId:1009 },
+    { id:4009, nome:'Cecília Duarte',   email:'recep.santamaria@senacdf.com',  senha:'Recep@123', perfil:'recepcao', unidadeId:1009 },
     { id:4010, nome:'Diego Farias',     email:'recep.aguasclaras@senacdf.com', senha:'Recep@123', perfil:'recepcao', unidadeId:1010 },
   ];
 
 
   const salas = [
 
-    { id:5001, nome:'Lab InformÃ¡tica 01', capacidade:30, tipo:'LaboratÃ³rio de InformÃ¡tica', andar:'1Âº Andar', bloco:'Bloco A', turnosDisponiveis:['Matutino','Vespertino','Noturno'], unidadeId:1001, statusManual:null },
-    { id:5002, nome:'Sala Gastronomia 01', capacidade:20, tipo:'Cozinha DidÃ¡tica', andar:'TÃ©rreo', bloco:'Bloco B', turnosDisponiveis:['Matutino','Vespertino'], unidadeId:1001, statusManual:null },
-    { id:5003, nome:'AuditÃ³rio Principal', capacidade:80, tipo:'AuditÃ³rio', andar:'TÃ©rreo', bloco:'Bloco A', turnosDisponiveis:['Matutino','Vespertino','Noturno'], unidadeId:1001, statusManual:null },
+    { id:5001, nome:'Lab Informática 01', capacidade:30, tipo:'Laboratório de Informática', andar:'1º Andar', bloco:'Bloco A', turnosDisponiveis:['Matutino','Vespertino','Noturno'], unidadeId:1001, statusManual:null },
+    { id:5002, nome:'Sala Gastronomia 01', capacidade:20, tipo:'Cozinha Didática', andar:'Térreo', bloco:'Bloco B', turnosDisponiveis:['Matutino','Vespertino'], unidadeId:1001, statusManual:null },
+    { id:5003, nome:'Auditório Principal', capacidade:80, tipo:'Auditório', andar:'Térreo', bloco:'Bloco A', turnosDisponiveis:['Matutino','Vespertino','Noturno'], unidadeId:1001, statusManual:null },
 
-    { id:5004, nome:'Lab EstÃ©tica 01', capacidade:16, tipo:'LaboratÃ³rio de EstÃ©tica', andar:'1Âº Andar', bloco:'Bloco A', turnosDisponiveis:['Matutino','Vespertino'], unidadeId:1002, statusManual:null },
-    { id:5005, nome:'Sala Comum 01', capacidade:35, tipo:'Sala Comum', andar:'TÃ©rreo', bloco:'Bloco B', turnosDisponiveis:['Matutino','Vespertino','Noturno'], unidadeId:1002, statusManual:null },
-    { id:5006, nome:'Lab Enfermagem 01', capacidade:20, tipo:'LaboratÃ³rio de Enfermagem', andar:'2Âº Andar', bloco:'Bloco A', turnosDisponiveis:['Matutino','Noturno'], unidadeId:1002, statusManual:null },
+    { id:5004, nome:'Lab Estética 01', capacidade:16, tipo:'Laboratório de Estética', andar:'1º Andar', bloco:'Bloco A', turnosDisponiveis:['Matutino','Vespertino'], unidadeId:1002, statusManual:null },
+    { id:5005, nome:'Sala Comum 01', capacidade:35, tipo:'Sala Comum', andar:'Térreo', bloco:'Bloco B', turnosDisponiveis:['Matutino','Vespertino','Noturno'], unidadeId:1002, statusManual:null },
+    { id:5006, nome:'Lab Enfermagem 01', capacidade:20, tipo:'Laboratório de Enfermagem', andar:'2º Andar', bloco:'Bloco A', turnosDisponiveis:['Matutino','Noturno'], unidadeId:1002, statusManual:null },
 
-    { id:5007, nome:'Lab InformÃ¡tica 01', capacidade:30, tipo:'LaboratÃ³rio de InformÃ¡tica', andar:'1Âº Andar', bloco:'Bloco A', turnosDisponiveis:['Matutino','Vespertino','Noturno'], unidadeId:1003, statusManual:null },
-    { id:5008, nome:'Sala Comum 01', capacidade:40, tipo:'Sala Comum', andar:'TÃ©rreo', bloco:'Bloco B', turnosDisponiveis:['Matutino','Vespertino','Noturno'], unidadeId:1003, statusManual:null },
-    { id:5009, nome:'Lab CiÃªncias 01', capacidade:25, tipo:'LaboratÃ³rio de CiÃªncias', andar:'2Âº Andar', bloco:'Bloco A', turnosDisponiveis:['Matutino','Vespertino'], unidadeId:1003, statusManual:null },
+    { id:5007, nome:'Lab Informática 01', capacidade:30, tipo:'Laboratório de Informática', andar:'1º Andar', bloco:'Bloco A', turnosDisponiveis:['Matutino','Vespertino','Noturno'], unidadeId:1003, statusManual:null },
+    { id:5008, nome:'Sala Comum 01', capacidade:40, tipo:'Sala Comum', andar:'Térreo', bloco:'Bloco B', turnosDisponiveis:['Matutino','Vespertino','Noturno'], unidadeId:1003, statusManual:null },
+    { id:5009, nome:'Lab Ciências 01', capacidade:25, tipo:'Laboratório de Ciências', andar:'2º Andar', bloco:'Bloco A', turnosDisponiveis:['Matutino','Vespertino'], unidadeId:1003, statusManual:null },
 
-    { id:5010, nome:'Lab InformÃ¡tica 01', capacidade:30, tipo:'LaboratÃ³rio de InformÃ¡tica', andar:'TÃ©rreo', bloco:'Bloco A', turnosDisponiveis:['Matutino','Vespertino','Noturno'], unidadeId:1004, statusManual:null },
-    { id:5011, nome:'Sala VideoconferÃªncia', capacidade:20, tipo:'Sala de VideoconferÃªncia', andar:'1Âº Andar', bloco:'Bloco B', turnosDisponiveis:['Matutino','Vespertino'], unidadeId:1004, statusManual:null },
-    { id:5012, nome:'AuditÃ³rio 01', capacidade:60, tipo:'AuditÃ³rio', andar:'TÃ©rreo', bloco:'Bloco C', turnosDisponiveis:['Vespertino','Noturno'], unidadeId:1004, statusManual:null },
+    { id:5010, nome:'Lab Informática 01', capacidade:30, tipo:'Laboratório de Informática', andar:'Térreo', bloco:'Bloco A', turnosDisponiveis:['Matutino','Vespertino','Noturno'], unidadeId:1004, statusManual:null },
+    { id:5011, nome:'Sala Videoconferência', capacidade:20, tipo:'Sala de Videoconferência', andar:'1º Andar', bloco:'Bloco B', turnosDisponiveis:['Matutino','Vespertino'], unidadeId:1004, statusManual:null },
+    { id:5012, nome:'Auditório 01', capacidade:60, tipo:'Auditório', andar:'Térreo', bloco:'Bloco C', turnosDisponiveis:['Vespertino','Noturno'], unidadeId:1004, statusManual:null },
 
-    { id:5013, nome:'Lab Gastronomia 01', capacidade:18, tipo:'Cozinha DidÃ¡tica', andar:'TÃ©rreo', bloco:'Bloco A', turnosDisponiveis:['Matutino','Vespertino'], unidadeId:1005, statusManual:null },
-    { id:5014, nome:'Sala Comum 01', capacidade:35, tipo:'Sala Comum', andar:'1Âº Andar', bloco:'Bloco A', turnosDisponiveis:['Matutino','Vespertino','Noturno'], unidadeId:1005, statusManual:null },
-    { id:5015, nome:'Lab InformÃ¡tica 01', capacidade:30, tipo:'LaboratÃ³rio de InformÃ¡tica', andar:'1Âº Andar', bloco:'Bloco B', turnosDisponiveis:['Matutino','Noturno'], unidadeId:1005, statusManual:null },
+    { id:5013, nome:'Lab Gastronomia 01', capacidade:18, tipo:'Cozinha Didática', andar:'Térreo', bloco:'Bloco A', turnosDisponiveis:['Matutino','Vespertino'], unidadeId:1005, statusManual:null },
+    { id:5014, nome:'Sala Comum 01', capacidade:35, tipo:'Sala Comum', andar:'1º Andar', bloco:'Bloco A', turnosDisponiveis:['Matutino','Vespertino','Noturno'], unidadeId:1005, statusManual:null },
+    { id:5015, nome:'Lab Informática 01', capacidade:30, tipo:'Laboratório de Informática', andar:'1º Andar', bloco:'Bloco B', turnosDisponiveis:['Matutino','Noturno'], unidadeId:1005, statusManual:null },
 
-    { id:5016, nome:'Lab EstÃ©tica 01', capacidade:16, tipo:'LaboratÃ³rio de EstÃ©tica', andar:'TÃ©rreo', bloco:'Bloco A', turnosDisponiveis:['Matutino','Vespertino'], unidadeId:1006, statusManual:null },
-    { id:5017, nome:'Sala Comum 01', capacidade:40, tipo:'Sala Comum', andar:'1Âº Andar', bloco:'Bloco A', turnosDisponiveis:['Matutino','Vespertino','Noturno'], unidadeId:1006, statusManual:null },
-    { id:5018, nome:'Lab InformÃ¡tica 01', capacidade:30, tipo:'LaboratÃ³rio de InformÃ¡tica', andar:'2Âº Andar', bloco:'Bloco B', turnosDisponiveis:['Vespertino','Noturno'], unidadeId:1006, statusManual:null },
+    { id:5016, nome:'Lab Estética 01', capacidade:16, tipo:'Laboratório de Estética', andar:'Térreo', bloco:'Bloco A', turnosDisponiveis:['Matutino','Vespertino'], unidadeId:1006, statusManual:null },
+    { id:5017, nome:'Sala Comum 01', capacidade:40, tipo:'Sala Comum', andar:'1º Andar', bloco:'Bloco A', turnosDisponiveis:['Matutino','Vespertino','Noturno'], unidadeId:1006, statusManual:null },
+    { id:5018, nome:'Lab Informática 01', capacidade:30, tipo:'Laboratório de Informática', andar:'2º Andar', bloco:'Bloco B', turnosDisponiveis:['Vespertino','Noturno'], unidadeId:1006, statusManual:null },
 
-    { id:5019, nome:'Lab InformÃ¡tica 01', capacidade:28, tipo:'LaboratÃ³rio de InformÃ¡tica', andar:'TÃ©rreo', bloco:'Bloco A', turnosDisponiveis:['Matutino','Vespertino','Noturno'], unidadeId:1007, statusManual:null },
-    { id:5020, nome:'Sala Comum 01', capacidade:35, tipo:'Sala Comum', andar:'1Âº Andar', bloco:'Bloco A', turnosDisponiveis:['Matutino','Vespertino','Noturno'], unidadeId:1007, statusManual:null },
-    { id:5021, nome:'Lab Enfermagem 01', capacidade:20, tipo:'LaboratÃ³rio de Enfermagem', andar:'2Âº Andar', bloco:'Bloco B', turnosDisponiveis:['Matutino','Vespertino'], unidadeId:1007, statusManual:null },
+    { id:5019, nome:'Lab Informática 01', capacidade:28, tipo:'Laboratório de Informática', andar:'Térreo', bloco:'Bloco A', turnosDisponiveis:['Matutino','Vespertino','Noturno'], unidadeId:1007, statusManual:null },
+    { id:5020, nome:'Sala Comum 01', capacidade:35, tipo:'Sala Comum', andar:'1º Andar', bloco:'Bloco A', turnosDisponiveis:['Matutino','Vespertino','Noturno'], unidadeId:1007, statusManual:null },
+    { id:5021, nome:'Lab Enfermagem 01', capacidade:20, tipo:'Laboratório de Enfermagem', andar:'2º Andar', bloco:'Bloco B', turnosDisponiveis:['Matutino','Vespertino'], unidadeId:1007, statusManual:null },
 
-    { id:5022, nome:'Lab InformÃ¡tica 01', capacidade:30, tipo:'LaboratÃ³rio de InformÃ¡tica', andar:'TÃ©rreo', bloco:'Bloco A', turnosDisponiveis:['Matutino','Vespertino','Noturno'], unidadeId:1008, statusManual:null },
-    { id:5023, nome:'Sala Gastronomia 01', capacidade:18, tipo:'Cozinha DidÃ¡tica', andar:'1Âº Andar', bloco:'Bloco B', turnosDisponiveis:['Matutino','Vespertino'], unidadeId:1008, statusManual:null },
-    { id:5024, nome:'Sala Comum 01', capacidade:40, tipo:'Sala Comum', andar:'1Âº Andar', bloco:'Bloco A', turnosDisponiveis:['Vespertino','Noturno'], unidadeId:1008, statusManual:null },
+    { id:5022, nome:'Lab Informática 01', capacidade:30, tipo:'Laboratório de Informática', andar:'Térreo', bloco:'Bloco A', turnosDisponiveis:['Matutino','Vespertino','Noturno'], unidadeId:1008, statusManual:null },
+    { id:5023, nome:'Sala Gastronomia 01', capacidade:18, tipo:'Cozinha Didática', andar:'1º Andar', bloco:'Bloco B', turnosDisponiveis:['Matutino','Vespertino'], unidadeId:1008, statusManual:null },
+    { id:5024, nome:'Sala Comum 01', capacidade:40, tipo:'Sala Comum', andar:'1º Andar', bloco:'Bloco A', turnosDisponiveis:['Vespertino','Noturno'], unidadeId:1008, statusManual:null },
 
-    { id:5025, nome:'Lab InformÃ¡tica 01', capacidade:30, tipo:'LaboratÃ³rio de InformÃ¡tica', andar:'TÃ©rreo', bloco:'Bloco A', turnosDisponiveis:['Matutino','Vespertino','Noturno'], unidadeId:1009, statusManual:null },
-    { id:5026, nome:'Sala EstÃ©tica 01', capacidade:16, tipo:'LaboratÃ³rio de EstÃ©tica', andar:'1Âº Andar', bloco:'Bloco A', turnosDisponiveis:['Matutino','Vespertino'], unidadeId:1009, statusManual:null },
-    { id:5027, nome:'Sala Comum 01', capacidade:35, tipo:'Sala Comum', andar:'2Âº Andar', bloco:'Bloco B', turnosDisponiveis:['Vespertino','Noturno'], unidadeId:1009, statusManual:null },
+    { id:5025, nome:'Lab Informática 01', capacidade:30, tipo:'Laboratório de Informática', andar:'Térreo', bloco:'Bloco A', turnosDisponiveis:['Matutino','Vespertino','Noturno'], unidadeId:1009, statusManual:null },
+    { id:5026, nome:'Sala Estética 01', capacidade:16, tipo:'Laboratório de Estética', andar:'1º Andar', bloco:'Bloco A', turnosDisponiveis:['Matutino','Vespertino'], unidadeId:1009, statusManual:null },
+    { id:5027, nome:'Sala Comum 01', capacidade:35, tipo:'Sala Comum', andar:'2º Andar', bloco:'Bloco B', turnosDisponiveis:['Vespertino','Noturno'], unidadeId:1009, statusManual:null },
 
-    { id:5028, nome:'Lab InformÃ¡tica 01', capacidade:30, tipo:'LaboratÃ³rio de InformÃ¡tica', andar:'1Âº Andar', bloco:'Bloco A', turnosDisponiveis:['Matutino','Vespertino','Noturno'], unidadeId:1010, statusManual:null },
-    { id:5029, nome:'Sala Comum 01', capacidade:40, tipo:'Sala Comum', andar:'TÃ©rreo', bloco:'Bloco B', turnosDisponiveis:['Matutino','Vespertino','Noturno'], unidadeId:1010, statusManual:null },
-    { id:5030, nome:'AuditÃ³rio 01', capacidade:70, tipo:'AuditÃ³rio', andar:'TÃ©rreo', bloco:'Bloco A', turnosDisponiveis:['Vespertino','Noturno'], unidadeId:1010, statusManual:null },
+    { id:5028, nome:'Lab Informática 01', capacidade:30, tipo:'Laboratório de Informática', andar:'1º Andar', bloco:'Bloco A', turnosDisponiveis:['Matutino','Vespertino','Noturno'], unidadeId:1010, statusManual:null },
+    { id:5029, nome:'Sala Comum 01', capacidade:40, tipo:'Sala Comum', andar:'Térreo', bloco:'Bloco B', turnosDisponiveis:['Matutino','Vespertino','Noturno'], unidadeId:1010, statusManual:null },
+    { id:5030, nome:'Auditório 01', capacidade:70, tipo:'Auditório', andar:'Térreo', bloco:'Bloco A', turnosDisponiveis:['Vespertino','Noturno'], unidadeId:1010, statusManual:null },
 
     { id:5031, nome:'Sala Maker 01', capacidade:24, tipo:'Laboratorio Maker', andar:'2º Andar', bloco:'Bloco C', turnosDisponiveis:['Matutino','Vespertino'], unidadeId:1001, statusManual:null },
     { id:5032, nome:'Sala Reuniao 01', capacidade:12, tipo:'Sala de Reuniao', andar:'1º Andar', bloco:'Bloco A', turnosDisponiveis:['Matutino','Vespertino','Noturno'], unidadeId:1001, statusManual:'manutencao', motivoManual:'Projetor em revisao', manualPor:'Administrador SENAC', manualCriadaEm:new Date(Date.now()-86400000).toISOString().slice(0, 19) },
@@ -249,35 +249,35 @@ function _seedDados() {
 
 
   const turmas = [
-    { id:6001, codigo:'2025.04.101', nome:'2025.04.101', curso:'TÃ©cnico em InformÃ¡tica', turno:'Matutino',    dataInicio:addDias(-30), dataFim:addDias(150), instrutorId:3001, unidadeId:1001 },
-    { id:6002, codigo:'2025.04.102', nome:'2025.04.102', curso:'Gastronomia BÃ¡sica',     turno:'Vespertino',  dataInicio:addDias(-10), dataFim:addDias(80),  instrutorId:3001, unidadeId:1001 },
-    { id:6003, codigo:'2025.04.103', nome:'2025.04.103', curso:'GestÃ£o de Pessoas',      turno:'Noturno',     dataInicio:addDias(5),   dataFim:addDias(120), instrutorId:3001, unidadeId:1001 },
-    { id:6004, codigo:'2025.04.104', nome:'2025.04.104', curso:'TÃ©cnico em EstÃ©tica',    turno:'Matutino',    dataInicio:addDias(-20), dataFim:addDias(100), instrutorId:3002, unidadeId:1002 },
+    { id:6001, codigo:'2025.04.101', nome:'2025.04.101', curso:'Técnico em Informática', turno:'Matutino',    dataInicio:addDias(-30), dataFim:addDias(150), instrutorId:3001, unidadeId:1001 },
+    { id:6002, codigo:'2025.04.102', nome:'2025.04.102', curso:'Gastronomia Básica',     turno:'Vespertino',  dataInicio:addDias(-10), dataFim:addDias(80),  instrutorId:3001, unidadeId:1001 },
+    { id:6003, codigo:'2025.04.103', nome:'2025.04.103', curso:'Gestão de Pessoas',      turno:'Noturno',     dataInicio:addDias(5),   dataFim:addDias(120), instrutorId:3001, unidadeId:1001 },
+    { id:6004, codigo:'2025.04.104', nome:'2025.04.104', curso:'Técnico em Estética',    turno:'Matutino',    dataInicio:addDias(-20), dataFim:addDias(100), instrutorId:3002, unidadeId:1002 },
     { id:6005, codigo:'2025.04.105', nome:'2025.04.105', curso:'Auxiliar de Enfermagem', turno:'Noturno',     dataInicio:addDias(-5),  dataFim:addDias(90),  instrutorId:3002, unidadeId:1002 },
-    { id:6006, codigo:'2025.04.106', nome:'2025.04.106', curso:'InformÃ¡tica BÃ¡sica',     turno:'Vespertino',  dataInicio:addDias(3),   dataFim:addDias(60),  instrutorId:3002, unidadeId:1002 },
-    { id:6007, codigo:'2025.04.107', nome:'2025.04.107', curso:'TÃ©cnico em Redes',       turno:'Matutino',    dataInicio:addDias(-15), dataFim:addDias(130), instrutorId:3003, unidadeId:1003 },
-    { id:6008, codigo:'2025.04.108', nome:'2025.04.108', curso:'CiÃªncias de Dados',      turno:'Vespertino',  dataInicio:addDias(-8),  dataFim:addDias(70),  instrutorId:3003, unidadeId:1003 },
-    { id:6009, codigo:'2025.04.109', nome:'2025.04.109', curso:'Design GrÃ¡fico',         turno:'Noturno',     dataInicio:addDias(7),   dataFim:addDias(110), instrutorId:3003, unidadeId:1003 },
-    { id:6010, codigo:'2025.04.110', nome:'2025.04.110', curso:'TÃ©cnico em InformÃ¡tica', turno:'Matutino',    dataInicio:addDias(-25), dataFim:addDias(90),  instrutorId:3004, unidadeId:1004 },
+    { id:6006, codigo:'2025.04.106', nome:'2025.04.106', curso:'Informática Básica',     turno:'Vespertino',  dataInicio:addDias(3),   dataFim:addDias(60),  instrutorId:3002, unidadeId:1002 },
+    { id:6007, codigo:'2025.04.107', nome:'2025.04.107', curso:'Técnico em Redes',       turno:'Matutino',    dataInicio:addDias(-15), dataFim:addDias(130), instrutorId:3003, unidadeId:1003 },
+    { id:6008, codigo:'2025.04.108', nome:'2025.04.108', curso:'Ciências de Dados',      turno:'Vespertino',  dataInicio:addDias(-8),  dataFim:addDias(70),  instrutorId:3003, unidadeId:1003 },
+    { id:6009, codigo:'2025.04.109', nome:'2025.04.109', curso:'Design Gráfico',         turno:'Noturno',     dataInicio:addDias(7),   dataFim:addDias(110), instrutorId:3003, unidadeId:1003 },
+    { id:6010, codigo:'2025.04.110', nome:'2025.04.110', curso:'Técnico em Informática', turno:'Matutino',    dataInicio:addDias(-25), dataFim:addDias(90),  instrutorId:3004, unidadeId:1004 },
     { id:6011, codigo:'2025.04.111', nome:'2025.04.111', curso:'Operador de Computador', turno:'Vespertino',  dataInicio:addDias(-3),  dataFim:addDias(60),  instrutorId:3004, unidadeId:1004 },
     { id:6012, codigo:'2025.04.112', nome:'2025.04.112', curso:'Auxiliar Administrativo',turno:'Noturno',     dataInicio:addDias(2),   dataFim:addDias(95),  instrutorId:3004, unidadeId:1004 },
     { id:6013, codigo:'2025.04.113', nome:'2025.04.113', curso:'Confeitaria',            turno:'Matutino',    dataInicio:addDias(-12), dataFim:addDias(80),  instrutorId:3005, unidadeId:1005 },
     { id:6014, codigo:'2025.04.114', nome:'2025.04.114', curso:'Atendimento ao Cliente', turno:'Vespertino',  dataInicio:addDias(-6),  dataFim:addDias(50),  instrutorId:3005, unidadeId:1005 },
-    { id:6015, codigo:'2025.04.115', nome:'2025.04.115', curso:'TÃ©cnico em InformÃ¡tica', turno:'Noturno',     dataInicio:addDias(4),   dataFim:addDias(140), instrutorId:3005, unidadeId:1005 },
-    { id:6016, codigo:'2025.04.116', nome:'2025.04.116', curso:'TÃ©cnico em EstÃ©tica',    turno:'Matutino',    dataInicio:addDias(-18), dataFim:addDias(100), instrutorId:3006, unidadeId:1006 },
-    { id:6017, codigo:'2025.04.117', nome:'2025.04.117', curso:'InformÃ¡tica BÃ¡sica',     turno:'Vespertino',  dataInicio:addDias(-4),  dataFim:addDias(65),  instrutorId:3006, unidadeId:1006 },
-    { id:6018, codigo:'2025.04.118', nome:'2025.04.118', curso:'GestÃ£o Financeira',      turno:'Noturno',     dataInicio:addDias(6),   dataFim:addDias(115), instrutorId:3006, unidadeId:1006 },
-    { id:6019, codigo:'2025.04.119', nome:'2025.04.119', curso:'TÃ©cnico em InformÃ¡tica', turno:'Matutino',    dataInicio:addDias(-22), dataFim:addDias(85),  instrutorId:3007, unidadeId:1007 },
+    { id:6015, codigo:'2025.04.115', nome:'2025.04.115', curso:'Técnico em Informática', turno:'Noturno',     dataInicio:addDias(4),   dataFim:addDias(140), instrutorId:3005, unidadeId:1005 },
+    { id:6016, codigo:'2025.04.116', nome:'2025.04.116', curso:'Técnico em Estética',    turno:'Matutino',    dataInicio:addDias(-18), dataFim:addDias(100), instrutorId:3006, unidadeId:1006 },
+    { id:6017, codigo:'2025.04.117', nome:'2025.04.117', curso:'Informática Básica',     turno:'Vespertino',  dataInicio:addDias(-4),  dataFim:addDias(65),  instrutorId:3006, unidadeId:1006 },
+    { id:6018, codigo:'2025.04.118', nome:'2025.04.118', curso:'Gestão Financeira',      turno:'Noturno',     dataInicio:addDias(6),   dataFim:addDias(115), instrutorId:3006, unidadeId:1006 },
+    { id:6019, codigo:'2025.04.119', nome:'2025.04.119', curso:'Técnico em Informática', turno:'Matutino',    dataInicio:addDias(-22), dataFim:addDias(85),  instrutorId:3007, unidadeId:1007 },
     { id:6020, codigo:'2025.04.120', nome:'2025.04.120', curso:'Auxiliar de Enfermagem', turno:'Vespertino',  dataInicio:addDias(-9),  dataFim:addDias(75),  instrutorId:3007, unidadeId:1007 },
-    { id:6021, codigo:'2025.04.121', nome:'2025.04.121', curso:'Excel AvanÃ§ado',         turno:'Noturno',     dataInicio:addDias(1),   dataFim:addDias(55),  instrutorId:3007, unidadeId:1007 },
-    { id:6022, codigo:'2025.04.122', nome:'2025.04.122', curso:'TÃ©cnico em InformÃ¡tica', turno:'Matutino',    dataInicio:addDias(-16), dataFim:addDias(95),  instrutorId:3008, unidadeId:1008 },
-    { id:6023, codigo:'2025.04.123', nome:'2025.04.123', curso:'Gastronomia AvanÃ§ada',   turno:'Vespertino',  dataInicio:addDias(-7),  dataFim:addDias(70),  instrutorId:3008, unidadeId:1008 },
-    { id:6024, codigo:'2025.04.124', nome:'2025.04.124', curso:'LogÃ­stica',              turno:'Noturno',     dataInicio:addDias(8),   dataFim:addDias(125), instrutorId:3008, unidadeId:1008 },
-    { id:6025, codigo:'2025.04.125', nome:'2025.04.125', curso:'TÃ©cnico em InformÃ¡tica', turno:'Matutino',    dataInicio:addDias(-28), dataFim:addDias(110), instrutorId:3009, unidadeId:1009 },
-    { id:6026, codigo:'2025.04.126', nome:'2025.04.126', curso:'TÃ©cnico em EstÃ©tica',    turno:'Vespertino',  dataInicio:addDias(-11), dataFim:addDias(80),  instrutorId:3009, unidadeId:1009 },
+    { id:6021, codigo:'2025.04.121', nome:'2025.04.121', curso:'Excel Avançado',         turno:'Noturno',     dataInicio:addDias(1),   dataFim:addDias(55),  instrutorId:3007, unidadeId:1007 },
+    { id:6022, codigo:'2025.04.122', nome:'2025.04.122', curso:'Técnico em Informática', turno:'Matutino',    dataInicio:addDias(-16), dataFim:addDias(95),  instrutorId:3008, unidadeId:1008 },
+    { id:6023, codigo:'2025.04.123', nome:'2025.04.123', curso:'Gastronomia Avançada',   turno:'Vespertino',  dataInicio:addDias(-7),  dataFim:addDias(70),  instrutorId:3008, unidadeId:1008 },
+    { id:6024, codigo:'2025.04.124', nome:'2025.04.124', curso:'Logística',              turno:'Noturno',     dataInicio:addDias(8),   dataFim:addDias(125), instrutorId:3008, unidadeId:1008 },
+    { id:6025, codigo:'2025.04.125', nome:'2025.04.125', curso:'Técnico em Informática', turno:'Matutino',    dataInicio:addDias(-28), dataFim:addDias(110), instrutorId:3009, unidadeId:1009 },
+    { id:6026, codigo:'2025.04.126', nome:'2025.04.126', curso:'Técnico em Estética',    turno:'Vespertino',  dataInicio:addDias(-11), dataFim:addDias(80),  instrutorId:3009, unidadeId:1009 },
     { id:6027, codigo:'2025.04.127', nome:'2025.04.127', curso:'Atendimento ao Cliente', turno:'Noturno',     dataInicio:addDias(3),   dataFim:addDias(90),  instrutorId:3009, unidadeId:1009 },
-    { id:6028, codigo:'2025.04.128', nome:'2025.04.128', curso:'TÃ©cnico em InformÃ¡tica', turno:'Matutino',    dataInicio:addDias(-14), dataFim:addDias(120), instrutorId:3010, unidadeId:1010 },
-    { id:6029, codigo:'2025.04.129', nome:'2025.04.129', curso:'GestÃ£o de Projetos',     turno:'Vespertino',  dataInicio:addDias(-6),  dataFim:addDias(60),  instrutorId:3010, unidadeId:1010 },
+    { id:6028, codigo:'2025.04.128', nome:'2025.04.128', curso:'Técnico em Informática', turno:'Matutino',    dataInicio:addDias(-14), dataFim:addDias(120), instrutorId:3010, unidadeId:1010 },
+    { id:6029, codigo:'2025.04.129', nome:'2025.04.129', curso:'Gestão de Projetos',     turno:'Vespertino',  dataInicio:addDias(-6),  dataFim:addDias(60),  instrutorId:3010, unidadeId:1010 },
     { id:6030, codigo:'2025.04.130', nome:'2025.04.130', curso:'Empreendedorismo',       turno:'Noturno',     dataInicio:addDias(5),   dataFim:addDias(100), instrutorId:3010, unidadeId:1010 },
 
     { id:6031, codigo:'2025.05.201', nome:'2025.05.201', curso:'Design de Servicos',      turno:'Vespertino', dataInicio:addDias(-2),  dataFim:addDias(75),  instrutorId:3011, unidadeId:1001 },
@@ -340,36 +340,36 @@ function _seedDados() {
 
 
   const chaves = [
-    { id:8001, codigo:'CH-001', salaId:5001, andar:'1Âº Andar', status:'disponivel',  instrutorId:null,  pegaEm:null, unidadeId:1001 },
-    { id:8002, codigo:'CH-002', salaId:5002, andar:'TÃ©rreo',   status:'pega',        instrutorId:3001,  pegaEm:new Date(Date.now()-7200000).toISOString(), unidadeId:1001 },
-    { id:8003, codigo:'CH-003', salaId:5004, andar:'1Âº Andar', status:'disponivel',  instrutorId:null,  pegaEm:null, unidadeId:1002 },
-    { id:8004, codigo:'CH-004', salaId:5005, andar:'TÃ©rreo',   status:'pega',        instrutorId:3002,  pegaEm:new Date(Date.now()-3600000).toISOString(), unidadeId:1002 },
-    { id:8005, codigo:'CH-005', salaId:5007, andar:'1Âº Andar', status:'disponivel',  instrutorId:null,  pegaEm:null, unidadeId:1003 },
-    { id:8006, codigo:'CH-006', salaId:5008, andar:'TÃ©rreo',   status:'pega',        instrutorId:3003,  pegaEm:new Date(Date.now()-5400000).toISOString(), unidadeId:1003 },
-    { id:8007, codigo:'CH-007', salaId:5010, andar:'TÃ©rreo',   status:'disponivel',  instrutorId:null,  pegaEm:null, unidadeId:1004 },
-    { id:8008, codigo:'CH-008', salaId:5011, andar:'1Âº Andar', status:'pega',        instrutorId:3004,  pegaEm:new Date(Date.now()-1800000).toISOString(), unidadeId:1004 },
-    { id:8009, codigo:'CH-009', salaId:5013, andar:'TÃ©rreo',   status:'disponivel',  instrutorId:null,  pegaEm:null, unidadeId:1005 },
-    { id:8010, codigo:'CH-010', salaId:5014, andar:'1Âº Andar', status:'pega',        instrutorId:3005,  pegaEm:new Date(Date.now()-9000000).toISOString(), unidadeId:1005 },
-    { id:8011, codigo:'CH-011', salaId:5016, andar:'TÃ©rreo',   status:'disponivel',  instrutorId:null,  pegaEm:null, unidadeId:1006 },
-    { id:8012, codigo:'CH-012', salaId:5017, andar:'1Âº Andar', status:'pega',        instrutorId:3006,  pegaEm:new Date(Date.now()-2700000).toISOString(), unidadeId:1006 },
-    { id:8013, codigo:'CH-013', salaId:5019, andar:'TÃ©rreo',   status:'disponivel',  instrutorId:null,  pegaEm:null, unidadeId:1007 },
-    { id:8014, codigo:'CH-014', salaId:5020, andar:'1Âº Andar', status:'pega',        instrutorId:3007,  pegaEm:new Date(Date.now()-4500000).toISOString(), unidadeId:1007 },
-    { id:8015, codigo:'CH-015', salaId:5022, andar:'TÃ©rreo',   status:'disponivel',  instrutorId:null,  pegaEm:null, unidadeId:1008 },
-    { id:8016, codigo:'CH-016', salaId:5023, andar:'1Âº Andar', status:'pega',        instrutorId:3008,  pegaEm:new Date(Date.now()-6300000).toISOString(), unidadeId:1008 },
-    { id:8017, codigo:'CH-017', salaId:5025, andar:'TÃ©rreo',   status:'disponivel',  instrutorId:null,  pegaEm:null, unidadeId:1009 },
-    { id:8018, codigo:'CH-018', salaId:5026, andar:'1Âº Andar', status:'pega',        instrutorId:3009,  pegaEm:new Date(Date.now()-8100000).toISOString(), unidadeId:1009 },
-    { id:8019, codigo:'CH-019', salaId:5028, andar:'1Âº Andar', status:'disponivel',  instrutorId:null,  pegaEm:null, unidadeId:1010 },
-    { id:8020, codigo:'CH-020', salaId:5029, andar:'TÃ©rreo',   status:'pega',        instrutorId:3010,  pegaEm:new Date(Date.now()-3000000).toISOString(), unidadeId:1010 },
-    { id:8021, codigo:'CH-021', salaId:5031, andar:'2Âº Andar', status:'disponivel',  instrutorId:null,  pegaEm:null, unidadeId:1001 },
-    { id:8022, codigo:'CH-022', salaId:5034, andar:'1Âº Andar', status:'disponivel',  instrutorId:null,  pegaEm:null, unidadeId:1002 },
-    { id:8023, codigo:'CH-023', salaId:5035, andar:'1Âº Andar', status:'pega',        instrutorId:3013,  pegaEm:new Date(Date.now()-1500000).toISOString(), unidadeId:1003 },
-    { id:8024, codigo:'CH-024', salaId:5037, andar:'2Âº Andar', status:'disponivel',  instrutorId:null,  pegaEm:null, unidadeId:1004 },
-    { id:8025, codigo:'CH-025', salaId:5039, andar:'TÃ©rreo',   status:'disponivel',  instrutorId:null,  pegaEm:null, unidadeId:1005 },
-    { id:8026, codigo:'CH-026', salaId:5041, andar:'1Âº Andar', status:'pega',        instrutorId:3016,  pegaEm:new Date(Date.now()-2100000).toISOString(), unidadeId:1006 },
-    { id:8027, codigo:'CH-027', salaId:5043, andar:'1Âº Andar', status:'disponivel',  instrutorId:null,  pegaEm:null, unidadeId:1007 },
-    { id:8028, codigo:'CH-028', salaId:5045, andar:'2Âº Andar', status:'pega',        instrutorId:3018,  pegaEm:new Date(Date.now()-4200000).toISOString(), unidadeId:1008 },
-    { id:8029, codigo:'CH-029', salaId:5048, andar:'1Âº Andar', status:'disponivel',  instrutorId:null,  pegaEm:null, unidadeId:1009 },
-    { id:8030, codigo:'CH-030', salaId:5049, andar:'2Âº Andar', status:'disponivel',  instrutorId:null,  pegaEm:null, unidadeId:1010 },
+    { id:8001, codigo:'CH-001', salaId:5001, andar:'1º Andar', status:'disponivel',  instrutorId:null,  pegaEm:null, unidadeId:1001 },
+    { id:8002, codigo:'CH-002', salaId:5002, andar:'Térreo',   status:'pega',        instrutorId:3001,  pegaEm:new Date(Date.now()-7200000).toISOString(), unidadeId:1001 },
+    { id:8003, codigo:'CH-003', salaId:5004, andar:'1º Andar', status:'disponivel',  instrutorId:null,  pegaEm:null, unidadeId:1002 },
+    { id:8004, codigo:'CH-004', salaId:5005, andar:'Térreo',   status:'pega',        instrutorId:3002,  pegaEm:new Date(Date.now()-3600000).toISOString(), unidadeId:1002 },
+    { id:8005, codigo:'CH-005', salaId:5007, andar:'1º Andar', status:'disponivel',  instrutorId:null,  pegaEm:null, unidadeId:1003 },
+    { id:8006, codigo:'CH-006', salaId:5008, andar:'Térreo',   status:'pega',        instrutorId:3003,  pegaEm:new Date(Date.now()-5400000).toISOString(), unidadeId:1003 },
+    { id:8007, codigo:'CH-007', salaId:5010, andar:'Térreo',   status:'disponivel',  instrutorId:null,  pegaEm:null, unidadeId:1004 },
+    { id:8008, codigo:'CH-008', salaId:5011, andar:'1º Andar', status:'pega',        instrutorId:3004,  pegaEm:new Date(Date.now()-1800000).toISOString(), unidadeId:1004 },
+    { id:8009, codigo:'CH-009', salaId:5013, andar:'Térreo',   status:'disponivel',  instrutorId:null,  pegaEm:null, unidadeId:1005 },
+    { id:8010, codigo:'CH-010', salaId:5014, andar:'1º Andar', status:'pega',        instrutorId:3005,  pegaEm:new Date(Date.now()-9000000).toISOString(), unidadeId:1005 },
+    { id:8011, codigo:'CH-011', salaId:5016, andar:'Térreo',   status:'disponivel',  instrutorId:null,  pegaEm:null, unidadeId:1006 },
+    { id:8012, codigo:'CH-012', salaId:5017, andar:'1º Andar', status:'pega',        instrutorId:3006,  pegaEm:new Date(Date.now()-2700000).toISOString(), unidadeId:1006 },
+    { id:8013, codigo:'CH-013', salaId:5019, andar:'Térreo',   status:'disponivel',  instrutorId:null,  pegaEm:null, unidadeId:1007 },
+    { id:8014, codigo:'CH-014', salaId:5020, andar:'1º Andar', status:'pega',        instrutorId:3007,  pegaEm:new Date(Date.now()-4500000).toISOString(), unidadeId:1007 },
+    { id:8015, codigo:'CH-015', salaId:5022, andar:'Térreo',   status:'disponivel',  instrutorId:null,  pegaEm:null, unidadeId:1008 },
+    { id:8016, codigo:'CH-016', salaId:5023, andar:'1º Andar', status:'pega',        instrutorId:3008,  pegaEm:new Date(Date.now()-6300000).toISOString(), unidadeId:1008 },
+    { id:8017, codigo:'CH-017', salaId:5025, andar:'Térreo',   status:'disponivel',  instrutorId:null,  pegaEm:null, unidadeId:1009 },
+    { id:8018, codigo:'CH-018', salaId:5026, andar:'1º Andar', status:'pega',        instrutorId:3009,  pegaEm:new Date(Date.now()-8100000).toISOString(), unidadeId:1009 },
+    { id:8019, codigo:'CH-019', salaId:5028, andar:'1º Andar', status:'disponivel',  instrutorId:null,  pegaEm:null, unidadeId:1010 },
+    { id:8020, codigo:'CH-020', salaId:5029, andar:'Térreo',   status:'pega',        instrutorId:3010,  pegaEm:new Date(Date.now()-3000000).toISOString(), unidadeId:1010 },
+    { id:8021, codigo:'CH-021', salaId:5031, andar:'2º Andar', status:'disponivel',  instrutorId:null,  pegaEm:null, unidadeId:1001 },
+    { id:8022, codigo:'CH-022', salaId:5034, andar:'1º Andar', status:'disponivel',  instrutorId:null,  pegaEm:null, unidadeId:1002 },
+    { id:8023, codigo:'CH-023', salaId:5035, andar:'1º Andar', status:'pega',        instrutorId:3013,  pegaEm:new Date(Date.now()-1500000).toISOString(), unidadeId:1003 },
+    { id:8024, codigo:'CH-024', salaId:5037, andar:'2º Andar', status:'disponivel',  instrutorId:null,  pegaEm:null, unidadeId:1004 },
+    { id:8025, codigo:'CH-025', salaId:5039, andar:'Térreo',   status:'disponivel',  instrutorId:null,  pegaEm:null, unidadeId:1005 },
+    { id:8026, codigo:'CH-026', salaId:5041, andar:'1º Andar', status:'pega',        instrutorId:3016,  pegaEm:new Date(Date.now()-2100000).toISOString(), unidadeId:1006 },
+    { id:8027, codigo:'CH-027', salaId:5043, andar:'1º Andar', status:'disponivel',  instrutorId:null,  pegaEm:null, unidadeId:1007 },
+    { id:8028, codigo:'CH-028', salaId:5045, andar:'2º Andar', status:'pega',        instrutorId:3018,  pegaEm:new Date(Date.now()-4200000).toISOString(), unidadeId:1008 },
+    { id:8029, codigo:'CH-029', salaId:5048, andar:'1º Andar', status:'disponivel',  instrutorId:null,  pegaEm:null, unidadeId:1009 },
+    { id:8030, codigo:'CH-030', salaId:5049, andar:'2º Andar', status:'disponivel',  instrutorId:null,  pegaEm:null, unidadeId:1010 },
   ];
 
   const notificacoes = [
@@ -444,7 +444,7 @@ async function loginUser(email, senha) {
 }
 
 
-// CRUD â€” Usuarios
+// CRUD — Usuarios
 async function addUser(dados) {
   const item = { ...dados, id: _nextId(CACHE.usuarios), perfil: lowerPerfil(dados.perfil) };
   CACHE.usuarios.push(item); _persist('usuarios'); return item;
@@ -467,7 +467,7 @@ async function delUser(id) {
 async function delUsuario(id) { return delUser(id); }
 
 
-// CRUD â€” Unidades
+// CRUD — Unidades
 function addUnidade(d) {
   const item = { ...d, id: _nextId(CACHE.unidades) };
   CACHE.unidades.push(item); _persist('unidades'); return item;
@@ -484,7 +484,7 @@ function delUnidade(id) {
 }
 
 
-// CRUD â€” Salas
+// CRUD — Salas
 function addSala(d) {
   const turnos = d.turnosDisponiveis || d.turnos || [];
   const item = { ...d, id: _nextId(CACHE.salas), turnosDisponiveis: turnos, turnos };
@@ -505,7 +505,7 @@ function delSala(id) {
 function deleteSala(id) { return delSala(id); }
 
 
-// CRUD â€” Turmas
+// CRUD — Turmas
 function addTurma(d) {
   const nome = d.codigo || d.nome || '';
   const item = { ...d, id: _nextId(CACHE.turmas), nome, codigo: nome };
@@ -527,12 +527,12 @@ function delTurma(id) {
 function deleteTurma(id) { return delTurma(id); }
 
 
-// CRUD â€” Reservas
+// CRUD — Reservas
 function addReserva(d) {
   const item = { ...d, id: _nextId(CACHE.reservas), status: d.status || 'ATIVA' };
   CACHE.reservas.push(item); _persist('reservas'); return item;
 }
-// CRUD â€” Reservas
+// CRUD — Reservas
 async function addReservaAsync(d) { return addReserva(d); }
 
 function updReserva(id, d) {
@@ -548,7 +548,7 @@ function delReserva(id) {
 function deleteReserva(id) { return delReserva(id); }
 
 
-// CRUD â€” Chaves
+// CRUD — Chaves
 function addChave(d) {
   const item = { ...d, id: _nextId(CACHE.chaves), status: d.status || 'disponivel' };
   CACHE.chaves.push(item); _persist('chaves'); return item;
@@ -574,7 +574,7 @@ function devolverChaveApi(id) {
 async function devolverChaveAsync(id) { return devolverChaveApi(id); }
 
 
-// CRUD â€” Solicitacoes
+// CRUD — Solicitacoes
 function addSolic(d) {
   const item = { ...d, id: _nextId(CACHE.solicitacoes), status: d.status || 'pendente' };
   CACHE.solicitacoes.push(item); _persist('solicitacoes'); return item;
@@ -588,7 +588,7 @@ function updSolic(id, d) {
 async function updSolicAsync(id, d) { return updSolic(id, d); }
 
 
-// CRUD â€” Notificacoes
+// CRUD — Notificacoes
 function addNotif(d) {
   const item = {
     id: _nextId(CACHE.notificacoes),
@@ -604,7 +604,7 @@ function addNotif(d) {
   };
   CACHE.notificacoes.push(item); _persist('notificacoes'); return item;
 }
-// CRUD â€” Notificacoes
+// CRUD — Notificacoes
 async function addNotifAsync(d) { return addNotif(d); }
 
 function countNaoLidas(perfil, unidadeId) {
@@ -654,13 +654,13 @@ function toggleTema() {
 // Utilitarios gerais
 function newId()         { return Date.now() + Math.floor(Math.random() * 9999); }
 function hojeISO()       { return new Date().toISOString().split('T')[0]; }
-function fmtData(iso)    { if (!iso) return 'â€”'; const p = String(iso).split('-'); return p.length === 3 ? `${p[2]}/${p[1]}/${p[0]}` : String(iso); }
+function fmtData(iso)    { if (!iso) return '—'; const p = String(iso).split('-'); return p.length === 3 ? `${p[2]}/${p[1]}/${p[0]}` : String(iso); }
 function formatDate(iso) { return fmtData(iso); }
 function esc(s)          { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function escapeHtml(s)   { return esc(s); }
 function iniciais(nome)  { return String(nome||'').trim().split(/\s+/).slice(0,2).map(p=>p.charAt(0).toUpperCase()).join('')||'SN'; }
 function fmtDateTime(v) {
-  if (!v) return 'â€”';
+  if (!v) return '—';
   const d = new Date(v); if (isNaN(d.getTime())) return String(v);
   return String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear()+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
 }
@@ -678,8 +678,8 @@ function calcStatus(turma) {
 function labelStatus(st) { return {ativa:'Ativa',iminente:'Iminente',posterior:'Posterior',encerrada:'Encerrada',ocupada:'Ocupada',livre:'Livre'}[st]||String(st||''); }
 function htmlStatus(turma) { const st=calcStatus(turma); return '<span class="st st-'+esc(st)+'">'+esc(labelStatus(st))+'</span>'; }
 
-// Ã¢â€â‚¬Ã¢â€â‚¬ UI helpers Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
-// Interface â€” feedback visual
+// ── UI helpers ────────────────────────────────────────────────────
+// Interface — feedback visual
 function toast(msg, tipo) {
   tipo = tipo || 'info';
   let box = document.getElementById('toasts');
@@ -771,7 +771,7 @@ function atualizarSecao(fnName, btn) {
   return false;
 }
 
-// Ã¢â€â‚¬Ã¢â€â‚¬ initDados e loadAllData (mantÃ©m assinatura async) Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+// ── initDados e loadAllData (mantém assinatura async) ────────────
 async function loadAllData(force = false) {
   if (!CACHE.loaded || force) {
     _seedDados();
@@ -783,14 +783,14 @@ async function loadAllData(force = false) {
 // Inicializacao do sistema
 async function initDados(force = false) {
   await loadAllData(force);
-  console.log('%c<i class="ph ph-check-circle"></i> storage.js â€” dados carregados do localStorage', 'color:#10b981;font-weight:bold');
+  console.log('%c<i class="ph ph-check-circle"></i> storage.js — dados carregados do localStorage', 'color:#10b981;font-weight:bold');
   return CACHE;
 }
 
-// Ã¢â€â‚¬Ã¢â€â‚¬ Expor tudo no window (igual ao api.js) Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+// ── Expor tudo no window (igual ao api.js) ────────────────────────
 // Exporta tudo para o escopo global (window)
 Object.assign(window, {
-  // UsuÃ¡rios
+  // Usuários
   getUsuarios, getUsuarioById, getUserById, getUsersByPerfil, getUsuariosByPerfil,
   addUser, addUsuario, updUser, updUsuario, delUser, delUsuario,
   // Unidades
@@ -803,25 +803,25 @@ Object.assign(window, {
   getReservas, getReservaById, addReserva, addReservaAsync, updReserva, delReserva, deleteReserva,
   // Chaves
   getChaves, getChaveById, addChave, updChave, delChave, deleteChave, retirarChave, retirarChaveAsync, devolverChaveApi, devolverChaveAsync,
-  // SolicitaÃ§Ãµes
+  // Solicitações
   getSolics, addSolic, updSolic, updSolicAsync,
-  // NotificaÃ§Ãµes
+  // Notificações
   getNotifs, getNotifsPara, addNotif, addNotifAsync, countNaoLidas, marcarTodasLidas,
   // Override
   getOverride, setOverride,
-  // SessÃ£o e tema
+  // Sessão e tema
   getSessao, setSessao, clearSessao, getTema, initTema, toggleTema,
   // Init
   initDados, loadAllData,
-  // UtilitÃ¡rios
+  // Utilitários
   newId, hojeISO, fmtData, formatDate, esc, escapeHtml, iniciais, fmtDateTime,
   calcStatus, labelStatus, htmlStatus,
   // UI
   toast, showToast, fmsg, fmsgHide, showMsg, hideMsg, modalAbrir, modalFechar,
   atualizarSecao,
-  // CACHE (para leitura de depuraÃ§Ã£o)
+  // CACHE (para leitura de depuração)
   CACHE
 });
 
-console.log('%c<i class="ph ph-check-circle"></i> storage.js carregado â€” modo localStorage ativo', 'color:#10b981;font-weight:bold');
+console.log('%c<i class="ph ph-check-circle"></i> storage.js carregado — modo localStorage ativo', 'color:#10b981;font-weight:bold');
 
